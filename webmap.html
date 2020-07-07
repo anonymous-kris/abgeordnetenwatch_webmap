@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>A minimal web page</title>
+	<meta charset="utf-8">
+	<meta name="description" content ="Is Kris really gay?">
+	<meta name="author" content="Kristian Kasinger">
+	<meta name="viewport" conten="width=device-width, initial-scale=1.0">
+	<style>
+
+
+	</style>
+	<link rel="stylesheet" href="css_basic.css" type="text/css">
+	<script>
+		function hello() {
+			document
+				.getElementById("demo")
+				.innerHTML = "Hello JavaScript!";
+
+		};
+		document
+			.getElementById("change_text")
+			.addEventListener("click", hello)
+
+	</script>	
+
+</head>
+<body>
+	<h1>This <b>is</b> <i>the</i> main heading</h1>
+
+	<p>This is a paragraph. With <img src="https://leafletjs.com/docs/images/logo.png"> a picture!</p>
+	<h2>This is level 2 heading!</h2>
+	<ol>How about <a href="https://www.google.com" target="_blank">bulletpoints</a>?
+		<li>with many list elements</li>
+		<li>and another one</li>
+	</ol>
+	<pre id="gayman">Text in a pre element
+	is displayed in a fixed-width
+	font, and it preserves
+	<hr>
+	both spaces and
+	line breaks</pre>
+
+
+	<input type="button"> 
+	<img src="test.jpg" width="600px" style="border-width: 10px;
+				border-color: rgba(150,150,150,0.3);
+				border-style: dashed";>
+	<div>
+		<table>
+			<tr>
+				<th>Library</th>
+				<th>Version</th>
+				<th>Released</th>
+			</tr>
+			<tr>
+				<td>jQuery</td>
+				<td>3.3.1</td>
+				<td>2018-01-20</td>
+			</tr>
+			<tr>
+				<td>Leaflet</td>
+				<td>1.3.3</td>
+				<td>2018-07-18</td>
+			</tr>
+			<tr>
+				<td>Turf.js</td>
+				<td>5.1.6</td>
+				<td>2017-12-10</td>
+			</tr>
+			<caption>a table caption</caption>
+		</table>
+		First name:<br>
+		<input type="text" name="firstname"><br>
+		Last name:<br>
+		<input type="text" name="lastname">
+
+
+		<input type="radio" name="gender" value="male" checked> Male<br>
+		<input type="radio" name="gender" value="female"> Female<br>
+	</div>
+	<div style="position: absolute; bottom: 90px; left: 50px;">bigboi</div>
+	<div style="position: fixed; top: 100px; left:100px;">horrendous</div>
+</body>
+</html>
