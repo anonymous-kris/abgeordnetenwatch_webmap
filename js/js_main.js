@@ -1,11 +1,22 @@
 var map = L.map("map", {center: [51.1657,8.9515], zoom: 6});
 
 
-
 L.tileLayer(
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", 
     {attribution: "&copy; OpenStreetMap"}
 ).addTo(map);
+
+
+//var constituencies = 
+$.getJSON("shapes/constituencies_29-07-2020_Mapshaper(50p).json", function(data) {
+	L.geoJSON(data).addTo(map);
+//	return data
+});
+
+//console.log(constituencies)
+
+
+
 
 
 var popup = L.popup();
@@ -18,6 +29,8 @@ function onMapClick(e) {
 			"You clickede the map at <br>" + "lon: " +  e.latlng.lng.toFixed(5) + "<br>" + 
 			"Lat: " + e.latlng.lat.toFixed(5))
 		.openOn(map);
+	var zoom = map.getZoom()
+	map.setView([e.latlng.lat,e.latlng.lng],zoom+1)
 }
 
 
