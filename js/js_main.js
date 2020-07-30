@@ -126,24 +126,6 @@ $.getJSON("shapes/Counties_29-07-2020_v2_5p.geojson", function(data) {
 
 
 
-/* // EVENT FORWARDER, CURRENTLY NOT WORKING
-var EventForwarder = new L.EventForwarder({
-	map: map,
-	events: {
-		click: true,
-		mousemove: false
-	},
-	throttleMs: 100,
-  	throttleOptions: {
-    	leading: true,
-    	trailing: false
-  }
-});
-
-EventForwarder.enable();
-*/
-
-
 
 var popup = L.popup();
 
