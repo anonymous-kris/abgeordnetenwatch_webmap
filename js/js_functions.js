@@ -1,3 +1,7 @@
+//defines the zoom level: 0-> state, 1 -> county, 2 -> constituency
+
+
+
 function party_color(p) {
 	if(p === 1) return rgb(223,11,37); else
 	if(p === 4) return rgb(254,235,52); else
@@ -24,19 +28,30 @@ function party_color(p) {
 
 function highlightFeatureHover(feature) {
 	var currentLayer = feature.target;
+	if(levelCounter == 0) {
 	currentLayer.setStyle(highlightStyle);
 	currentLayer.bringToFront();
-	return currentLayer
-}
+	}
+	else {
+		
+	}
+
+}	
 
 function resetHighlightHover(feature) {
+	if(levelCounter == 0) {
 	var currentLayer = feature.target;
 	counties.resetStyle(currentLayer);
+	}
+	else {
+
+	}
+
 }
 
 function highlightFeatureClick(feature) {
-	feature.setStyle(highlightStyle),
-	feature.bringToBack()
+	feature.setStyle(clickStyle)
+//	feature.bringToBack();
 }
 
 function zoomFit(feature) {
@@ -59,32 +74,39 @@ function zoomFit(feature) {
 
 function onRightClick () {
 	zoomFit(state)
+	levelCounter = 0
 	counties.bringToFront()
+	counties.resetStyle()
 }
+
+
 
 
 function focusCounty(feature) {
 	var currentLayer = feature.target;
-	zoomFit(currentLayer)
-	highlightFeatureClick(currentLayer)
-}
-/*
-function focusCounty(feature) {
-	var currentLayer = feature.target;
-	//gets outer boundaries
-	var corners = currentLayer.getBounds()
-	var coords = Object.values(corners)
-	var NE = Object.values(coords[0])
-	var SW = Object.values(coords[1])
-	console.log(NE + " + " + SW)
-	//zoom to best fit
-	map.fitBounds([ [NE[0],NE[1]],[SW[0],SW[1]] ])
-	highlightFeatureClick(currentLayer)
-}
-*/
+	if(levelCounter == 0) {
+		counties.resetStyle()
+		zoomFit(currentLayer)
+		highlightFeatureClick(currentLayer)
+		constituencies.bringToFront()
+		levelCounter = 1
+		console.log(levelCounter)
+	} else {
+		onRightClick()
+	}};
+
 
 var highlightStyle = {
 	color: "white",
 	fillOpacity: 0.2
 }
 
+var clickStyle = {
+	fillOpacity: 0
+}
+
+var lightHighlightStyle = {
+
+	fillColor: "rgb(200,200,200)",
+	fillOpacity: 1
+}

@@ -1,6 +1,7 @@
 var constituencies;
 var counties;
 var state;
+var levelCounter = 0;
 
 
 var map = L.map("map", {center: [51.1657,8.9515], zoom: 6, 
@@ -92,6 +93,7 @@ $.getJSON("shapes/Counties_29-07-2020_v2_5p.geojson", function(data) {
 	counties = L.geoJSON(data, {
 		onEachFeature: function(feature, layer){
 			layer.on("mouseover", highlightFeatureHover)
+			layer.on("mouseout", resetHighlightHover)
 			layer.on("click", focusCounty)
 		},    
 		style: {
