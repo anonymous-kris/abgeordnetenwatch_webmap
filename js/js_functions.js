@@ -1,5 +1,5 @@
 //defines the zoom level: 0-> state, 1 -> county, 2 -> constituency
-
+var previousCounty = null;
 
 
 function party_color(p) {
@@ -55,10 +55,11 @@ function zoomFit(feature) {
 
 //ON ANY RIGHT CLICK, RETURN TO STATE VIEW
 function onRightClick () {
-	zoomFit(state)
-	levelCounter = 0
-	counties.bringToFront()
-	counties.resetStyle()
+	zoomFit(state);
+	levelCounter = 0;
+	counties.bringToFront();
+	counties.resetStyle();
+	showLayer(previousCounty);
 }
 
 
@@ -74,7 +75,7 @@ function hideLayer(id) {
 	map.removeLayer(lg)
 }
 
-var previousCounty = null;
+
 //upon click, zoom on layer and hide it. store layer information in "previousCounty". next click will show previously hidden layer
 function focusCounty(feature) {
 	if (previousCounty !== null) {
