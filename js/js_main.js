@@ -3,8 +3,8 @@ var counties;
 var state;
 var levelCounter = 0;
 
-
-var map = L.map("map", {center: [51.1657,8.9515], zoom: 6, 
+//CREATE MAP 
+var map = L.map("map", {center: [51.1657,8.9515], zoom: 6.5, 
 	zoomControl: false, 
 	zoomSnap: 0, 
 	zoomDelta: 0.5, 
@@ -40,7 +40,7 @@ var state = $.getJSON("shapes/state_29-07-2020.geojson", function(data) {
 });  
 */
 
-
+var layersConstituency = {};
 
 //constituencies
 $.getJSON("shapes/constituencies_29-07-2020_v3_10p.geojson", function(data) {
@@ -48,13 +48,17 @@ $.getJSON("shapes/constituencies_29-07-2020_v3_10p.geojson", function(data) {
 		onEachFeature: 
 			function(feature, layer){
 //				layer.bindPopup(feature.properties.WKR_NAME);
-
+				
 				layer.bindPopup(
   					'<div class="popup">' + 
     				'WK:' + feature.properties.WKR_NAME + '<br>' + 
     				'WK Nummer:' + feature.properties.WKR_NR + '</b>' + 
     				'</div>'
+
 				);
+//				function ConstituencyByCounty(feature, layer) {
+//					layersConstituency[feature.properties.WKR_NR] = layer;
+//				};
 		
 		},    
 		style: {
@@ -86,15 +90,25 @@ $.getJSON("shapes/state_29-07-2020.geojson", function(data) {
 });  
 
 
-
-
+var mapLayerGroups = [];
 
 $.getJSON("shapes/Counties_29-07-2020_v2_5p.geojson", function(data) {
-	counties = L.geoJSON(data, {
+	 counties = L.geoJSON(data, {
 		onEachFeature: function(feature, layer){
 			layer.on("mouseover", highlightFeatureHover)
 			layer.on("mouseout", resetHighlightHover)
 			layer.on("click", focusCounty)
+
+
+			// inspired by
+			var lg = mapLayerGroups[feature.properties.GEN];
+			if(lg === undefined) {
+				lg = new L.layerGroup();
+				lg.addTo(map);
+				mapLayerGroups[feature.properties.GEN] = lg;
+			}
+			lg.addLayer(layer);
+
 		},    
 		style: {
 	        color: "black", 
@@ -103,7 +117,6 @@ $.getJSON("shapes/Counties_29-07-2020_v2_5p.geojson", function(data) {
 	        fillOpacity: 1
 	    }
 	    })
-	counties.addTo(map);
 
 });
 
@@ -111,6 +124,24 @@ $.getJSON("shapes/Counties_29-07-2020_v2_5p.geojson", function(data) {
 
 
 
+
+
+/* // EVENT FORWARDER, CURRENTLY NOT WORKING
+var EventForwarder = new L.EventForwarder({
+	map: map,
+	events: {
+		click: true,
+		mousemove: false
+	},
+	throttleMs: 100,
+  	throttleOptions: {
+    	leading: true,
+    	trailing: false
+  }
+});
+
+EventForwarder.enable();
+*/
 
 
 
