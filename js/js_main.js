@@ -4,6 +4,7 @@ var state;
 var levelCounter = 0;
 
 //CREATE MAP 
+
 var map = L.map("map", {center: [51.1657,8.9515], zoom: 6.5, 
 	zoomControl: false, 
 	zoomSnap: 0, 
@@ -78,6 +79,15 @@ $.getJSON("shapes/constituencies_29-07-2020_v3_10p.geojson", function(data) {
 //state layer import
 $.getJSON("shapes/state_29-07-2020.geojson", function(data) {
 	state = L.geoJSON(data, {    
+
+		onEachFeature: function(feature, layer){
+			layer.bindPopup( 			
+  				'<div class="labelstyle">' + 
+    			'<b>DEUTSCHLAND</b>' + 
+    			'</div>');
+		},
+
+
 		style: {
 	        color: "orange", 
 	        weight: 3, 
@@ -90,17 +100,31 @@ $.getJSON("shapes/state_29-07-2020.geojson", function(data) {
 });  
 
 
-var mapLayerGroups = [];
+var customOptions = {className: 'labelstyle','permanent': true, 'interactive': true, 'opacity': 1 , direction: 'center'} //, 
+//var customOptions = {permanent: true, className: 'labelstyle'}
 
+var mapLayerGroups = [];
+//var label = new L.Label();
+
+//constituencies data
 $.getJSON("shapes/Counties_29-07-2020_v2_5p.geojson", function(data) {
 	 counties = L.geoJSON(data, {
 		onEachFeature: function(feature, layer){
-			layer.on("mouseover", highlightFeatureHover)
-			layer.on("mouseout", resetHighlightHover)
-			layer.on("click", focusCounty)
 
 
-			// inspired by
+
+
+
+			layer.on("mouseover", highlightFeatureHover);
+			layer.on("mouseout", resetHighlightHover);
+			layer.on("click", focusCounty);
+
+			layer.bindTooltip(feature.properties.GEN, customOptions)
+
+			
+			//, {className: "CountyLabel", permanent: true, interactive: true, opcaity: 0}
+
+			// inspired by https://stackoverflow.com/questions/16148598/leaflet-update-geojson-filte
 			var lg = mapLayerGroups[feature.properties.GEN];
 			if(lg === undefined) {
 				lg = new L.layerGroup();
@@ -108,6 +132,11 @@ $.getJSON("shapes/Counties_29-07-2020_v2_5p.geojson", function(data) {
 				mapLayerGroups[feature.properties.GEN] = lg;
 			}
 			lg.addLayer(layer);
+
+			//labelling
+//			L.tooltip({className: "CountyLabel", permanent: true, interactive: true, opcaity: 0},feature).addTo(map)
+//	
+
 
 		},    
 		style: {
@@ -121,7 +150,8 @@ $.getJSON("shapes/Counties_29-07-2020_v2_5p.geojson", function(data) {
 });
 
 
-
+//labelling
+//map.showLabel(label);
 
 
 
@@ -159,7 +189,8 @@ circle.addTo(map);
 circle.bindPopup("First circle to be ever created!")
 */
 
-/*var legend = L.control({position: "bottomright"});
+/*
+var legend = L.control({position: "bottomright"});
 legend.onAdd = function(map) {
     var div = L.DomUtil.create("div", "legend");
     div.innerHTML = 
@@ -177,4 +208,5 @@ legend.onAdd = function(map) {
         'Created with the Leaflet library<br>'
     return div;
 };
-legend.addTo(map); */
+legend.addTo(map); 
+*/

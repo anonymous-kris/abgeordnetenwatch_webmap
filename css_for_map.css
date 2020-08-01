@@ -1,3 +1,15 @@
+#labelstyle {
+    color: pink;
+    font-size:10px;
+    font-weight: 700;
+    background-color: none;
+    border-color: none;
+    background: none;
+    border: none;
+    box-shadow: none;
+    margin: 0px;
+}
+
 h1 {
 	position: absolute;
 	top: 10px;
@@ -12,6 +24,11 @@ h1 {
 	font-size: 30px;
 	color: rgb(80,80,80);
 }
+
+.leaflet-popup-tip-container {
+    display: none;
+} 
+
 
 .legend {
     font-size: 16px;
@@ -58,6 +75,8 @@ h1 {
 	top: 300px;
 	left: 600px;
 }
+
+
 
 
 
