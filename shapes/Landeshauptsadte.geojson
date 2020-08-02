@@ -1,0 +1,23 @@
+{
+"type": "FeatureCollection",
+"name": "Landeshauptsadte",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "NAME": "Kiel", "EWZ": "247548", "BUNDESLAND": "Schleswig-Holstein", "RECHTS": 575038.88342771388, "HOCH": 6023460.7487531789 }, "geometry": { "type": "Point", "coordinates": [ 10.154593, 54.353436 ] } },
+{ "type": "Feature", "properties": { "NAME": "Bremen", "EWZ": "569352", "BUNDESLAND": "Bremen", "RECHTS": 469713.75740046537, "HOCH": 5935787.5026465375 }, "geometry": { "type": "Point", "coordinates": [ 8.542662, 53.57008 ] } },
+{ "type": "Feature", "properties": { "NAME": "Hamburg", "EWZ": "1841179", "BUNDESLAND": "Hamburg", "RECHTS": 562462.15402737446, "HOCH": 5935634.5766726574 }, "geometry": { "type": "Point", "coordinates": [ 9.943127, 53.565861 ] } },
+{ "type": "Feature", "properties": { "NAME": "Saarbrücken", "EWZ": "180741", "BUNDESLAND": "Saarland", "RECHTS": 353391.96621566842, "HOCH": 5456725.9878298827 }, "geometry": { "type": "Point", "coordinates": [ 6.985595, 49.245733 ] } },
+{ "type": "Feature", "properties": { "NAME": "Mainz", "EWZ": "217118", "BUNDESLAND": "Rheinland-Pfalz", "RECHTS": 446695.43119172408, "HOCH": 5535125.4871568233 }, "geometry": { "type": "Point", "coordinates": [ 8.256739, 49.966093 ] } },
+{ "type": "Feature", "properties": { "NAME": "Berlin", "EWZ": "3644826", "BUNDESLAND": "Berlin", "RECHTS": 797810.01655751141, "HOCH": 5826922.5069354912 }, "geometry": { "type": "Point", "coordinates": [ 13.3893, 52.510891 ] } },
+{ "type": "Feature", "properties": { "NAME": "Hannover", "EWZ": "538068", "BUNDESLAND": "Niedersachsen", "RECHTS": 552633.54493977351, "HOCH": 5803528.5877229171 }, "geometry": { "type": "Point", "coordinates": [ 9.773249, 52.379488 ] } },
+{ "type": "Feature", "properties": { "NAME": "München", "EWZ": "1471508", "BUNDESLAND": "Bayern", "RECHTS": 687848.16570541367, "HOCH": 5336574.3606058797 }, "geometry": { "type": "Point", "coordinates": [ 11.525871, 48.154647 ] } },
+{ "type": "Feature", "properties": { "NAME": "Stuttgart", "EWZ": "634830", "BUNDESLAND": "Baden-Württemberg", "RECHTS": 512984.90553062712, "HOCH": 5402418.4246600205 }, "geometry": { "type": "Point", "coordinates": [ 9.176733, 48.774634 ] } },
+{ "type": "Feature", "properties": { "NAME": "Wiesbaden", "EWZ": "278342", "BUNDESLAND": "Hessen", "RECHTS": 446875.40851985122, "HOCH": 5546952.6611841014 }, "geometry": { "type": "Point", "coordinates": [ 8.257611, 50.072474 ] } },
+{ "type": "Feature", "properties": { "NAME": "Düsseldorf", "EWZ": "619294", "BUNDESLAND": "Nordrhein-Westfalen", "RECHTS": 347595.12716043642, "HOCH": 5675932.9632721879 }, "geometry": { "type": "Point", "coordinates": [ 6.817864, 51.214425 ] } },
+{ "type": "Feature", "properties": { "NAME": "Schwerin", "EWZ": "95818", "BUNDESLAND": "Mecklenburg-Vorpommern", "RECHTS": 658775.1454522023, "HOCH": 5943014.6968013458 }, "geometry": { "type": "Point", "coordinates": [ 11.400153, 53.611846 ] } },
+{ "type": "Feature", "properties": { "NAME": "Potsdam", "EWZ": "178089", "BUNDESLAND": "Brandenburg", "RECHTS": 773800.37877094839, "HOCH": 5814730.5317592267 }, "geometry": { "type": "Point", "coordinates": [ 13.026422, 52.414137 ] } },
+{ "type": "Feature", "properties": { "NAME": "Magdeburg", "EWZ": "238697", "BUNDESLAND": "Sachsen-Anhalt", "RECHTS": 680940.17047543009, "HOCH": 5776967.725758261 }, "geometry": { "type": "Point", "coordinates": [ 11.642593, 52.113602 ] } },
+{ "type": "Feature", "properties": { "NAME": "Erfurt", "EWZ": "213699", "BUNDESLAND": "Thüringen", "RECHTS": 642208.25665315241, "HOCH": 5650117.8548691235 }, "geometry": { "type": "Point", "coordinates": [ 11.026073, 50.985063 ] } },
+{ "type": "Feature", "properties": { "NAME": "Dresden", "EWZ": "554649", "BUNDESLAND": "Sachsen", "RECHTS": 831934.15542868571, "HOCH": 5669145.9892496215 }, "geometry": { "type": "Point", "coordinates": [ 13.739502, 51.077597 ] } }
+]
+}

@@ -19,7 +19,24 @@ var map = L.map("map", {center: [51.1657,8.9515], zoom: 6.5,
 });
 
 
-var myRenderer = L.canvas({padding: 7});
+map.createPane('constituenciesPane');
+map.getPane('constituenciesPane').style.zIndex = 400;
+
+map.createPane('citiesPane');
+map.getPane('citiesPane').style.zIndex = 100;
+
+map.createPane('countryPane');
+map.getPane('countryPane').style.zIndex = 200;
+
+map.createPane('countiesPane');
+map.getPane('countiesPane').style.zIndex = 50;
+
+
+
+
+
+
+var myRenderer = L.canvas({padding: 5});
 
 map.on("contextmenu", onRightClick)
 
@@ -73,6 +90,8 @@ $.getJSON("shapes/constituencies_29-07-2020_v3_10p.geojson", function(data) {
 	        fillColor: "grey", 
 	        fillOpacity: 0
 	    },
+	    pane: 'constituenciesPane',
+
 	    renderer: myRenderer
 	    });
 	constituencies.addTo(map).bringToBack();
@@ -80,6 +99,26 @@ $.getJSON("shapes/constituencies_29-07-2020_v3_10p.geojson", function(data) {
 }); 
 
 
+//capital cities import
+$.getJSON("shapes/Landeshauptsadte.geojson", function(data) {
+	state = L.geoJSON(data, {
+
+
+
+		style: {
+	        color: "orange", 
+	        weight: 2, 
+	        fillOpacity: 1
+	    },
+	    pointToLayer: function(geoJsonPoint, latlng) {
+	    	return L.circle(latlng, {radius: 2000, color: "orange"})
+	    },
+	    pane: 'citiesPane',
+	    renderer: myRenderer,
+	    })
+	state.addTo(map).bringToBack();
+
+});  
 
 
 //state layer import
@@ -94,6 +133,7 @@ $.getJSON("shapes/state_29-07-2020.geojson", function(data) {
 	        fillColor: "", 
 	        fillOpacity: 0
 	    },
+	    pane: 'countryPane',
 	    renderer: myRenderer,
 	    })
 	state.addTo(map).bringToBack();
@@ -142,6 +182,7 @@ $.getJSON("shapes/Counties_29-07-2020_v2_5p.geojson", function(data) {
 	        fillColor: "grey", 
 	        fillOpacity: 1
 	    },
+	    pane: 'countiesPane',
 	    renderer: myRenderer,
 	    
 	    })
