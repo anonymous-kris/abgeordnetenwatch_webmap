@@ -25,6 +25,22 @@ function party_color(p) {
 */
 
 
+function highlightConstituencyHover(feature) {
+	var currentLayer = feature.target;
+	if(levelCounter == 1) {
+		currentLayer.setStyle(highlightStyle);
+		currentLayer.bringToFront();
+	}
+};
+
+function resetConstituencyHover(feature) {
+	if(levelCounter == 1) {
+		var currentLayer = feature.target;
+		constituencies.resetStyle(currentLayer);
+	}
+};
+
+
 //strong highlighting if on state view, light highlighting if in county view
 function highlightFeatureHover(feature) {
 	var currentLayer = feature.target;
@@ -50,7 +66,7 @@ function highlightFeatureClick(feature) {
 
 // fit to the zoom of feature
 function zoomFit(feature) {
-	map.fitBounds(feature.getBounds(),{padding: [50, 50]})
+	map.flyToBounds(feature.getBounds(),{padding: [50, 50], duration: 0.5, easeLinearity: .1})
 }
 
 //ON ANY RIGHT CLICK, RETURN TO STATE VIEW

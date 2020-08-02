@@ -13,8 +13,13 @@ var map = L.map("map", {center: [51.1657,8.9515], zoom: 6.5,
 	minZoom: 6, 
 	maxZoom: 15, 
 //	keyboard: false,
-	scrollWheelZoom: false
+	scrollWheelZoom: false,
+	zoomAnimationThreshold: 10,
+
 });
+
+
+var myRenderer = L.canvas({padding: 7});
 
 map.on("contextmenu", onRightClick)
 
@@ -42,6 +47,7 @@ var state = $.getJSON("shapes/state_29-07-2020.geojson", function(data) {
 */
 
 var layersConstituency = {};
+var constituencyLabelOptions = {className: 'constituencyLabel','permanent': false, 'interactive': false, 'opacity': 1 , direction: 'center'}
 
 //constituencies
 $.getJSON("shapes/constituencies_29-07-2020_v3_10p.geojson", function(data) {
@@ -50,16 +56,15 @@ $.getJSON("shapes/constituencies_29-07-2020_v3_10p.geojson", function(data) {
 			function(feature, layer){
 //				layer.bindPopup(feature.properties.WKR_NAME);
 				
-				layer.bindPopup(
+				layer.bindTooltip(
   					'<div class="popup">' + 
     				'WK:' + feature.properties.WKR_NAME + '<br>' + 
     				'WK Nummer:' + feature.properties.WKR_NR + '</b>' + 
-    				'</div>'
-
+    				'</div>', constituencyLabelOptions
 				);
-//				function ConstituencyByCounty(feature, layer) {
-//					layersConstituency[feature.properties.WKR_NR] = layer;
-//				};
+				layer.on("mouseover", highlightConstituencyHover);
+				layer.on("mouseout", resetConstituencyHover);
+
 		
 		},    
 		style: {
@@ -67,8 +72,9 @@ $.getJSON("shapes/constituencies_29-07-2020_v3_10p.geojson", function(data) {
 	        weight: 1, 
 	        fillColor: "grey", 
 	        fillOpacity: 0
-	    }
-	    })
+	    },
+	    renderer: myRenderer
+	    });
 	constituencies.addTo(map).bringToBack();
 
 }); 
@@ -80,12 +86,6 @@ $.getJSON("shapes/constituencies_29-07-2020_v3_10p.geojson", function(data) {
 $.getJSON("shapes/state_29-07-2020.geojson", function(data) {
 	state = L.geoJSON(data, {    
 
-		onEachFeature: function(feature, layer){
-			layer.bindPopup( 			
-  				'<div class="labelstyle">' + 
-    			'<b>DEUTSCHLAND</b>' + 
-    			'</div>');
-		},
 
 
 		style: {
@@ -93,15 +93,17 @@ $.getJSON("shapes/state_29-07-2020.geojson", function(data) {
 	        weight: 3, 
 	        fillColor: "", 
 	        fillOpacity: 0
-	    }
+	    },
+	    renderer: myRenderer,
 	    })
 	state.addTo(map).bringToBack();
 
 });  
 
 
-var customOptions = {className: 'labelstyle','permanent': true, 'interactive': true, 'opacity': 1 , direction: 'center'} //, 
-//var customOptions = {permanent: true, className: 'labelstyle'}
+var labelOptions = {className: 'labelstyle','permanent': true, 'interactive': true, 'opacity': 1 , direction: 'center'} //, 
+//prevent overlap between Berlin and Brandenburg counties
+var labelOptionsBrandenburg = {className: 'labelstyle','permanent': true, 'interactive': true, 'opacity': 1 , direction: 'center', offset: [25,45]}
 
 var mapLayerGroups = [];
 //var label = new L.Label();
@@ -111,20 +113,20 @@ $.getJSON("shapes/Counties_29-07-2020_v2_5p.geojson", function(data) {
 	 counties = L.geoJSON(data, {
 		onEachFeature: function(feature, layer){
 
-
-
-
-
 			layer.on("mouseover", highlightFeatureHover);
 			layer.on("mouseout", resetHighlightHover);
 			layer.on("click", focusCounty);
 
-			layer.bindTooltip(feature.properties.GEN, customOptions)
-
+			if(feature.properties.GEN === 'Brandenburg') {
+				layer.bindTooltip(feature.properties.GEN, labelOptionsBrandenburg);
+			}
+			else{
+				layer.bindTooltip(feature.properties.GEN, labelOptions);
+			};
 			
-			//, {className: "CountyLabel", permanent: true, interactive: true, opcaity: 0}
 
 			// inspired by https://stackoverflow.com/questions/16148598/leaflet-update-geojson-filte
+
 			var lg = mapLayerGroups[feature.properties.GEN];
 			if(lg === undefined) {
 				lg = new L.layerGroup();
@@ -133,18 +135,15 @@ $.getJSON("shapes/Counties_29-07-2020_v2_5p.geojson", function(data) {
 			}
 			lg.addLayer(layer);
 
-			//labelling
-//			L.tooltip({className: "CountyLabel", permanent: true, interactive: true, opcaity: 0},feature).addTo(map)
-//	
-
-
 		},    
 		style: {
 	        color: "black", 
 	        weight: 2, 
 	        fillColor: "grey", 
 	        fillOpacity: 1
-	    }
+	    },
+	    renderer: myRenderer,
+	    
 	    })
 
 });
