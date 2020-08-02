@@ -5,7 +5,9 @@ var levelCounter = 0;
 
 //CREATE MAP 
 
-var map = L.map("map", {center: [51.1657,8.9515], zoom: 6.5, 
+var map = L.map("map", {
+	center: [51.1657,8.9515], 
+	zoom: 6.5, 
 	zoomControl: false, 
 	zoomSnap: 0, 
 	zoomDelta: 0.5, 
@@ -19,17 +21,21 @@ var map = L.map("map", {center: [51.1657,8.9515], zoom: 6.5,
 });
 
 
-map.createPane('constituenciesPane');
-map.getPane('constituenciesPane').style.zIndex = 400;
 
-map.createPane('citiesPane');
-map.getPane('citiesPane').style.zIndex = 100;
 
-map.createPane('countryPane');
-map.getPane('countryPane').style.zIndex = 200;
 
-map.createPane('countiesPane');
-map.getPane('countiesPane').style.zIndex = 50;
+
+map.createPane('countryPane').style.zIndex = 1;
+
+
+map.createPane('constituenciesPane').style.zIndex = 2;
+
+
+map.createPane('citiesPane').style.zIndex = 3;
+
+
+map.createPane('countiesPane').style.zIndex = 4;
+
 
 
 
@@ -98,11 +104,15 @@ $.getJSON("shapes/constituencies_29-07-2020_v3_10p.geojson", function(data) {
 
 }); 
 
-
+/*
+var cityLabels = {'className': 'cityLablesStyle','permanent': true, 'interactive': true, 'opacity': 1 , direction: 'right', offset: [10,-10]};
 //capital cities import
 $.getJSON("shapes/Landeshauptsadte.geojson", function(data) {
-	state = L.geoJSON(data, {
+	cities = L.geoJSON(data, {
+		onEachFeature: function(feature,layer) {
 
+				layer.bindTooltip(feature.properties.NAME, cityLabels);
+			},
 
 
 		style: {
@@ -111,15 +121,13 @@ $.getJSON("shapes/Landeshauptsadte.geojson", function(data) {
 	        fillOpacity: 1
 	    },
 	    pointToLayer: function(geoJsonPoint, latlng) {
-	    	return L.circle(latlng, {radius: 2000, color: "orange"})
+	    	return L.circleMarker(latlng, {radius: 4})
 	    },
 	    pane: 'citiesPane',
 	    renderer: myRenderer,
-	    })
-	state.addTo(map).bringToBack();
-
+	    });
 });  
-
+*/
 
 //state layer import
 $.getJSON("shapes/state_29-07-2020.geojson", function(data) {
@@ -148,7 +156,7 @@ var labelOptionsBrandenburg = {className: 'labelstyle','permanent': true, 'inter
 var mapLayerGroups = [];
 //var label = new L.Label();
 
-//constituencies data
+//counties data
 $.getJSON("shapes/Counties_29-07-2020_v2_5p.geojson", function(data) {
 	 counties = L.geoJSON(data, {
 		onEachFeature: function(feature, layer){
@@ -189,6 +197,8 @@ $.getJSON("shapes/Counties_29-07-2020_v2_5p.geojson", function(data) {
 
 });
 
+zoomFit(state);
+
 
 //labelling
 //map.showLabel(label);
@@ -197,7 +207,7 @@ $.getJSON("shapes/Counties_29-07-2020_v2_5p.geojson", function(data) {
 
 
 
-var popup = L.popup();
+
 
 //on click zoom
 //function onMapClick(e) {

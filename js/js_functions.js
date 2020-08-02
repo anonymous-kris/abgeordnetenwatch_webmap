@@ -47,6 +47,7 @@ function highlightFeatureHover(feature) {
 	if(levelCounter == 0) {
 	currentLayer.setStyle(highlightStyle);
 	currentLayer.bringToFront();
+
 	}
 	else {
 		currentLayer.setStyle(lightHighlightStyle)
@@ -75,6 +76,7 @@ function onRightClick () {
 	levelCounter = 0;
 	counties.bringToFront();
 	counties.resetStyle();
+	constituencies.resetStyle();
 	showLayer(previousCounty);
 }
 
@@ -98,13 +100,14 @@ function focusCounty(feature) {
 		showLayer(previousCounty);
 		counties.resetStyle();
 
+
 	}
 	var currentLayer = feature.target;
 	var currentName = currentLayer.feature.properties.GEN;
 	hideLayer(currentName);
-	zoomFit(currentLayer)
-	levelCounter = 1
-	previousCounty = currentName
+	zoomFit(currentLayer);
+	levelCounter = 1;
+	previousCounty = currentName;
 
 };
 

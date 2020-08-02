@@ -1,5 +1,5 @@
 .labelstyle {
-    color: rgb(220,220,220);
+    color: rgb(220,0,0);
     font-size:14px;
     font-weight: 700;
     background-color: none;
@@ -15,8 +15,8 @@
 	background-color: rgba(255,255,255,.4);
 }
 
-.cityLabelsStyle {
-	color: grey;
+.cityLablesStyle {
+	color: rgb(70,70,70);
     font-size: 12px;
     font-weight: 700;
     background-color: none;
