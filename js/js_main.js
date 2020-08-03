@@ -87,6 +87,8 @@ $.getJSON("shapes/constituencies_29-07-2020_v3_10p.geojson", function(data) {
 				);
 				layer.on("mouseover", highlightConstituencyHover);
 				layer.on("mouseout", resetConstituencyHover);
+				layer.on("contextmenu", onRightClick);
+
 
 		
 		},    
@@ -103,6 +105,9 @@ $.getJSON("shapes/constituencies_29-07-2020_v3_10p.geojson", function(data) {
 	constituencies.addTo(map).bringToBack();
 
 }); 
+
+
+
 
 /*
 var cityLabels = {'className': 'cityLablesStyle','permanent': true, 'interactive': true, 'opacity': 1 , direction: 'right', offset: [10,-10]};
@@ -141,7 +146,6 @@ $.getJSON("shapes/state_29-07-2020.geojson", function(data) {
 	        fillColor: "", 
 	        fillOpacity: 0
 	    },
-	    pane: 'countryPane',
 	    renderer: myRenderer,
 	    })
 	state.addTo(map).bringToBack();
@@ -164,6 +168,7 @@ $.getJSON("shapes/Counties_29-07-2020_v2_5p.geojson", function(data) {
 			layer.on("mouseover", highlightFeatureHover);
 			layer.on("mouseout", resetHighlightHover);
 			layer.on("click", focusCounty);
+			layer.on("contextmenu", onRightClick);
 
 			if(feature.properties.GEN === 'Brandenburg') {
 				layer.bindTooltip(feature.properties.GEN, labelOptionsBrandenburg);
@@ -197,7 +202,7 @@ $.getJSON("shapes/Counties_29-07-2020_v2_5p.geojson", function(data) {
 
 });
 
-zoomFit(state);
+
 
 
 //labelling
