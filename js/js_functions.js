@@ -37,7 +37,7 @@ function highlightConstituencyHover(feature) {
 	var currentLayer = feature.target;
 	if(levelCounter == 1) {
 		currentLayer.setStyle(highlightStyle);
-		currentLayer.bringToFront();
+
 	}
 };
 
@@ -118,8 +118,8 @@ function focusCounty(feature) {
 
 //Style definitions
 var highlightStyle = {
-	color: "white",
-	fillOpacity: 0.2
+	color: "black",
+	fillOpacity: 0
 };
 
 var clickStyle = {

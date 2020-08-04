@@ -69,18 +69,37 @@ var state = $.getJSON("shapes/state_29-07-2020.geojson", function(data) {
 });  
 */
 
+$.getJSON("shapes/state_line_03-08-2020_ZhouJones500m_ArcGIS.geojson", function(data) {
+	state = L.geoJSON(data, {    
+
+
+
+		style: {
+	        color: "black", 
+	        weight: 3, 
+	        fillColor: "", 
+	        fillOpacity: 0
+	    },
+	    renderer: myRenderer,
+	    })
+	state.addTo(map);
+
+});  
+
+
+
 var layersConstituency = {};
 var constituencyLabelOptions = {className: 'constituencyLabel','permanent': false, 'interactive': false, 'opacity': 1 , direction: 'center'}
 
 //constituencies
-$.getJSON("shapes/constituencies_29-07-2020_v3_10p.geojson", function(data) {
+$.getJSON("shapes/constituencies_10weightedVivisogram.json", function(data) {
 	constituencies = L.geoJSON(data, {
 		onEachFeature: 
 			function(feature, layer){
 //				layer.bindPopup(feature.properties.WKR_NAME);
 				
 				layer.bindTooltip(
-  					'<div class="popup">' + 
+ 					'<div class="popup">' + 
     				'WK:' + feature.properties.WKR_NAME + '<br>' + 
     				'WK Nummer:' + feature.properties.WKR_NR + '</b>' + 
     				'</div>', constituencyLabelOptions
@@ -96,10 +115,8 @@ $.getJSON("shapes/constituencies_29-07-2020_v3_10p.geojson", function(data) {
 	        color: "grey", 
 	        weight: 1, 
 	        fillColor: "grey", 
-	        fillOpacity: 0
+	        fillOpacity: 0.1
 	    },
-	    pane: 'constituenciesPane',
-
 	    renderer: myRenderer
 	    });
 	constituencies.addTo(map).bringToBack();
@@ -134,23 +151,7 @@ $.getJSON("shapes/Landeshauptsadte.geojson", function(data) {
 });  
 */
 
-//state layer import
-$.getJSON("shapes/state_29-07-2020.geojson", function(data) {
-	state = L.geoJSON(data, {    
 
-
-
-		style: {
-	        color: "orange", 
-	        weight: 3, 
-	        fillColor: "", 
-	        fillOpacity: 0
-	    },
-	    renderer: myRenderer,
-	    })
-	state.addTo(map).bringToBack();
-
-});  
 
 
 var labelOptions = {className: 'labelstyle','permanent': true, 'interactive': true, 'opacity': 1 , direction: 'center'} //, 
@@ -161,7 +162,7 @@ var mapLayerGroups = [];
 //var label = new L.Label();
 
 //counties data
-$.getJSON("shapes/Counties_29-07-2020_v2_5p.geojson", function(data) {
+$.getJSON("shapes/counties_10weightedVivisogram.geojson", function(data) {
 	 counties = L.geoJSON(data, {
 		onEachFeature: function(feature, layer){
 
