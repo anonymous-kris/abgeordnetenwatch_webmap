@@ -125,7 +125,7 @@ $.getJSON("shapes/constituencies_10weightedVivisogram.json", function(data) {
 				layer.on("mouseover", highlightConstituencyHover);
 				layer.on("mouseout", resetConstituencyHover);
 				layer.on("contextmenu", onRightClick);
-				layer.on("click", politicianSidebar);
+				layer.on("click", clickConstituency);
 
 
 		

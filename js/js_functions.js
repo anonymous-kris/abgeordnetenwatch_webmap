@@ -29,15 +29,23 @@ var name_initials = function(name) {
 	return name.split(" ").map((n)=>n[0]).join("");
 };
 
+
+
+
+
+
+
 var previousPolitician = []
 var politicianSidebar = function(feature) {
 	//remove previous panels and empty array
-	sidebar.removePanel(previousPolitician);
+	for(var i in previousPolitician) {
+		//console.log(i);
+		sidebar.removePanel(previousPolitician[i]);
+	}
 	previousPolitician = []
 
-	var currentLayer = feature.target;
 	//request data for politicians in constituency
-	$.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?parliament_period=111&constituency_nr=" + currentLayer.feature.properties.WKR_NR, function(data) {
+	$.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?parliament_period=111&constituency_nr=" + feature.feature.properties.WKR_NR, function(data) {
 	 console.log(data)
 	 var data1 = data.data
 	 //itterate through each object
@@ -47,7 +55,7 @@ var politicianSidebar = function(feature) {
 	 	//create panel for each politician
 		var panelContent = {
 			id: 'politician' + key,       
-			tab: '<i class="sidebar_tab">'+ name_initials(data1[key].politician.label) +'</i>',
+			tab: '<i class='+ data1[key].fraction_membership[0].label +'>'+ name_initials(data1[key].politician.label) +'</i>',
 			title: data1[key].politician.label,
 			position: 'top'                
 		};
@@ -58,6 +66,24 @@ var politicianSidebar = function(feature) {
 
 };
 })};
+
+var previousConstituency = null;
+var clickConstituency = function(feature) {
+	constituencies.resetStyle();
+	var currentLayer = feature.target
+	politicianSidebar(currentLayer);
+	highlightConstituency(currentLayer)
+}
+
+var highlightConstituency = function(feature) {
+	feature.setStyle(highlightConstituencyStyle);
+	previousConstituency = feature;
+}
+
+
+
+
+
 
 
 // fit to the zoom of feature
@@ -167,3 +193,8 @@ var lightHighlightStyle = {
 	fillColor: "rgb(200,200,200)",
 	fillOpacity: 1
 };
+
+var highlightConstituencyStyle = {
+	fillColor: "rgb(243,111,60)",
+	fillOpacity: 0.5
+}
