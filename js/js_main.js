@@ -1,3 +1,5 @@
+
+
 var constituencies;
 var counties;
 var state;
@@ -20,10 +22,26 @@ var map = L.map("map", {
 
 });
 
+var sidebar = L.control.sidebar({
+	autopan: false,       // whether to maintain the centered map point when opening the sidebar
+    closeButton: true,    // whether t add a close button to the panes
+    container: 'sidebar', // the DOM container or #ID of a predefined sidebar container that should be used
+    position: 'right',     // left or right
+});
 
 
+/*
+var panelContent = {
+	id: 'userinfo',                     // UID, used to access the panel
+	tab: '<i class="fa fa-gear">What happens next?</i>',  // content can be passed as HTML string,
+//    pane: someDomNode.innerHTML,        // DOM elements can be passed, too
+	title: 'Your Profile',              // an optional pane header
+	position: 'top'                  // optional vertical alignment, defaults to 'top'
+};
 
-
+sidebar.addPanel(panelContent);
+*/
+/*
 
 map.createPane('countryPane').style.zIndex = 1;
 
@@ -36,7 +54,7 @@ map.createPane('citiesPane').style.zIndex = 3;
 
 map.createPane('countiesPane').style.zIndex = 4;
 
-
+*/
 
 
 
@@ -107,6 +125,7 @@ $.getJSON("shapes/constituencies_10weightedVivisogram.json", function(data) {
 				layer.on("mouseover", highlightConstituencyHover);
 				layer.on("mouseout", resetConstituencyHover);
 				layer.on("contextmenu", onRightClick);
+				layer.on("click", politicianSidebar);
 
 
 		
@@ -202,6 +221,47 @@ $.getJSON("shapes/counties_10weightedVivisogram.geojson", function(data) {
 	    })
 
 });
+
+
+
+
+
+
+//GET DATA
+/*
+var mandates
+$.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?parliament_period=111&constituency_nr=80", function(data) {
+	 console.log(data)
+	 var data1 = data.data
+	 for(var key in data1) {
+	 	console.log(key + "->" + data1[key].politician.label);
+
+		var panelContent = {
+			id: 'userinfo',       
+			tab: '<i class="sidebar_tab">'+ name_initials(data1[key].politician.label) +'</i>',
+			title: data1[key].politician.label,
+			position: 'top'                
+		};
+		sidebar.addPanel(panelContent);
+
+
+
+
+
+
+	 }
+})
+
+*/
+
+
+
+
+
+
+
+
+
 
 
 

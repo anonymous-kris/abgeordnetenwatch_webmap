@@ -24,6 +24,40 @@ function party_color(p) {
 9 - AfD
 */
 
+// source https://stackoverflow.com/questions/33076177/getting-name-initials-using-js
+var name_initials = function(name) {
+	return name.split(" ").map((n)=>n[0]).join("");
+};
+
+var previousPolitician = []
+var politicianSidebar = function(feature) {
+	//remove previous panels and empty array
+	sidebar.removePanel(previousPolitician);
+	previousPolitician = []
+
+	var currentLayer = feature.target;
+	//request data for politicians in constituency
+	$.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?parliament_period=111&constituency_nr=" + currentLayer.feature.properties.WKR_NR, function(data) {
+	 console.log(data)
+	 var data1 = data.data
+	 //itterate through each object
+	 for(var key in data1) {
+	 	console.log(key + "->" + data1[key].politician.label);
+
+	 	//create panel for each politician
+		var panelContent = {
+			id: 'politician' + key,       
+			tab: '<i class="sidebar_tab">'+ name_initials(data1[key].politician.label) +'</i>',
+			title: data1[key].politician.label,
+			position: 'top'                
+		};
+		//add panel to sidebar and remind to list of displayed politicans for later removal
+		sidebar.addPanel(panelContent);
+		previousPolitician.push(panelContent.id)
+
+
+};
+})};
 
 
 // fit to the zoom of feature
@@ -82,6 +116,7 @@ function onRightClick () {
 	counties.resetStyle();
 	constituencies.resetStyle();
 	showLayer(previousCounty);
+	sidebar.remove()
 }
 
 
@@ -112,6 +147,7 @@ function focusCounty(feature) {
 	zoomFit(currentLayer);
 	levelCounter = 1;
 	previousCounty = currentName;
+	sidebar.addTo(map)
 
 };
 
