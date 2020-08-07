@@ -19,6 +19,7 @@ var map = L.map("map", {
 //	keyboard: false,
 	scrollWheelZoom: false,
 	zoomAnimationThreshold: 10,
+	preferCanvas: true
 
 });
 

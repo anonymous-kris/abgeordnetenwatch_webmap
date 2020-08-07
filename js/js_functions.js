@@ -42,11 +42,11 @@ var politicianSidebar = function(feature) {
 
 	//request data for politicians in constituency
 	$.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?parliament_period=111&constituency_nr=" + feature.feature.properties.WKR_NR, function(data) {
-	 console.log(data)
+//	 console.log(data)
 	 var data1 = data.data
 	 //itterate through each object
 	 for(var key in data1) {
-	 	console.log(key + "->" + data1[key].politician.label);
+//	 	console.log(key + "->" + data1[key].politician.label);
 
 	 	//create panel for each politician
 		var panelContent = {
