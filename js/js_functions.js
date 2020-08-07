@@ -38,11 +38,7 @@ var name_initials = function(name) {
 var previousPolitician = []
 var politicianSidebar = function(feature) {
 	//remove previous panels and empty array
-	for(var i in previousPolitician) {
-		//console.log(i);
-		sidebar.removePanel(previousPolitician[i]);
-	}
-	previousPolitician = []
+	sidebarClear(previousPolitician);
 
 	//request data for politicians in constituency
 	$.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?parliament_period=111&constituency_nr=" + feature.feature.properties.WKR_NR, function(data) {
@@ -56,6 +52,7 @@ var politicianSidebar = function(feature) {
 		var panelContent = {
 			id: 'politician' + key,       
 			tab: '<i class='+ data1[key].fraction_membership[0].label +'>'+ name_initials(data1[key].politician.label) +'</i>',
+			pane: "<div></div>",
 			title: data1[key].politician.label,
 			position: 'top'                
 		};
@@ -67,12 +64,21 @@ var politicianSidebar = function(feature) {
 };
 })};
 
+var sidebarClear = function(list) {
+	for(var i in list) {
+		//console.log(i);
+		sidebar.removePanel(list[i]);
+	}
+	previousPolitician = [];
+}
+
 var previousConstituency = null;
 var clickConstituency = function(feature) {
 	constituencies.resetStyle();
 	var currentLayer = feature.target
 	politicianSidebar(currentLayer);
-	highlightConstituency(currentLayer)
+	highlightConstituency(currentLayer);
+	levelCounter = 2;
 }
 
 var highlightConstituency = function(feature) {
@@ -95,10 +101,10 @@ function zoomFit(feature) {
 
 function highlightConstituencyHover(feature) {
 	var currentLayer = feature.target;
-	if(levelCounter == 1) {
+		levelCounter = 1;
 		currentLayer.setStyle(highlightStyle);
 
-	}
+	
 };
 
 function resetConstituencyHover(feature) {
@@ -142,7 +148,9 @@ function onRightClick () {
 	counties.resetStyle();
 	constituencies.resetStyle();
 	showLayer(previousCounty);
-	sidebar.remove()
+	sidebarClear(previousPolitician);
+	sidebar.remove();
+
 }
 
 
@@ -164,6 +172,7 @@ function focusCounty(feature) {
 	if (previousCounty !== null) {
 		showLayer(previousCounty);
 		counties.resetStyle();
+		sidebarClear(previousPolitician);
 
 
 	}
@@ -196,5 +205,5 @@ var lightHighlightStyle = {
 
 var highlightConstituencyStyle = {
 	fillColor: "rgb(243,111,60)",
-	fillOpacity: 0.5
+	fillOpacity: 1
 }
