@@ -31,6 +31,15 @@ var sidebar = L.control.sidebar({
 });
 
 
+
+
+
+//geojson-vt
+
+
+
+
+
 /*
 var panelContent = {
 	id: 'userinfo',                     // UID, used to access the panel
@@ -101,17 +110,16 @@ $.getJSON("shapes/state_line_03-08-2020_ZhouJones500m_ArcGIS.geojson", function(
 	    },
 	    renderer: myRenderer,
 	    })
-	state.addTo(map);
+	state.addTo(map).bringToBack();
 
 });  
 
-
+var geosjonvt
 
 var layersConstituency = {};
 var constituencyLabelOptions = {className: 'constituencyLabel','permanent': false, 'interactive': false, 'opacity': 1 , direction: 'center'}
 
-//constituencies
-$.getJSON("shapes/constituencies_10weightedVivisogram.json", function(data) {
+$.getJSON("shapes/constituencies_10weightedVivisogram.geojson", function(data) {
 	constituencies = L.geoJSON(data, {
 		onEachFeature: 
 			function(feature, layer){
@@ -141,9 +149,7 @@ $.getJSON("shapes/constituencies_10weightedVivisogram.json", function(data) {
 	    });
 	constituencies.addTo(map).bringToBack();
 
-}); 
-
-
+});
 
 
 /*

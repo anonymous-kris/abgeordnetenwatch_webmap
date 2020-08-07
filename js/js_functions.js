@@ -51,8 +51,8 @@ var politicianSidebar = function(feature) {
 	 	//create panel for each politician
 		var panelContent = {
 			id: 'politician' + key,       
-			tab: '<i class='+ data1[key].fraction_membership[0].label +'>'+ name_initials(data1[key].politician.label) +'</i>',
-			pane: "<div></div>",
+			tab: '<b class='+ data1[key].fraction_membership[0].label +'>'+ name_initials(data1[key].politician.label) +'</b>',
+			pane: "<div class = 'polInformation'><p>interesting content!</p></div>",
 			title: data1[key].politician.label,
 			position: 'top'                
 		};
