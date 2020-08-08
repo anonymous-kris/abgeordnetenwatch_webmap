@@ -19,7 +19,6 @@ var map = L.map("map", {
 //	keyboard: false,
 	scrollWheelZoom: false,
 	zoomAnimationThreshold: 10,
-	preferCanvas: true
 
 });
 
@@ -34,43 +33,7 @@ var sidebar = L.control.sidebar({
 
 
 
-//geojson-vt
-
-
-
-
-
-/*
-var panelContent = {
-	id: 'userinfo',                     // UID, used to access the panel
-	tab: '<i class="fa fa-gear">What happens next?</i>',  // content can be passed as HTML string,
-//    pane: someDomNode.innerHTML,        // DOM elements can be passed, too
-	title: 'Your Profile',              // an optional pane header
-	position: 'top'                  // optional vertical alignment, defaults to 'top'
-};
-
-sidebar.addPanel(panelContent);
-*/
-/*
-
-map.createPane('countryPane').style.zIndex = 1;
-
-
-map.createPane('constituenciesPane').style.zIndex = 2;
-
-
-map.createPane('citiesPane').style.zIndex = 3;
-
-
-map.createPane('countiesPane').style.zIndex = 4;
-
-*/
-
-
-
-
-
-var myRenderer = L.canvas({padding: 5});
+var myRenderer = L.canvas({padding: 1.5});
 
 map.on("contextmenu", onRightClick)
 
@@ -229,107 +192,3 @@ $.getJSON("shapes/counties_10weightedVivisogram.geojson", function(data) {
 
 });
 
-
-
-
-
-
-//GET DATA
-/*
-var mandates
-$.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?parliament_period=111&constituency_nr=80", function(data) {
-	 console.log(data)
-	 var data1 = data.data
-	 for(var key in data1) {
-	 	console.log(key + "->" + data1[key].politician.label);
-
-		var panelContent = {
-			id: 'userinfo',       
-			tab: '<i class="sidebar_tab">'+ name_initials(data1[key].politician.label) +'</i>',
-			title: data1[key].politician.label,
-			position: 'top'                
-		};
-		sidebar.addPanel(panelContent);
-
-
-
-
-
-
-	 }
-})
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-//labelling
-//map.showLabel(label);
-
-
-
-
-
-
-
-//on click zoom
-//function onMapClick(e) {
-//	popup
-//		.setLatLng(e.latlng)
-//		.setContent(
-//			"You clickede the map at <br>" + "lon: " +  e.latlng.lng.toFixed(5) + "<br>" + 
-//			"Lat: " + e.latlng.lat.toFixed(5))
-//		.openOn(map);
-//	var zoom = map.getZoom()
-//	map.setView([e.latlng.lat,e.latlng.lng],zoom+1)
-//}
-
-
-//map.on("click",onMapClick);
-
-
-
-/*
- Create a marker with latlong object
-L.marker(L.latLng(31.264, 34.802)).addTo(map);
-/*
-
-/*var circle = L.circle(
-  [51.262218, 8.801472 - 0.001], 
-  {radius: 10000, color: "black", fillColor: "red"}
-)
-circle.addTo(map);
-circle.bindPopup("First circle to be ever created!")
-*/
-
-/*
-var legend = L.control({position: "bottomright"});
-legend.onAdd = function(map) {
-    var div = L.DomUtil.create("div", "legend");
-    div.innerHTML = 
-        '<p><b>Simple shapes in Leaflet</b></p><hr>' +
-        '<p>This map shows an example of adding shapes ' + 
-        'on a Leaflet map</p>' +
-        'The following shapes were added:<br>' +
-        '<p><ul>' +
-        '<li>A marker</li>' +
-        '<li>A line</li>' +
-        '<li>A polygon</li>' +
-        '</ul></p>' +
-        'The line layer has a <b>popup</b>. ' + 
-        'Click on the line to see it!<hr>' +
-        'Created with the Leaflet library<br>'
-    return div;
-};
-legend.addTo(map); 
-*/
