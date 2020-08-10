@@ -33,6 +33,34 @@ var county_initials = function(name) {
 	return name.split(/-| /).map((n)=>n[0]).join("");
 };
 
+var party_nospace = function(name) {
+	return name.split(" ").join("");
+}
+
+//from https://stackoverflow.com/questions/11652681/replacing-umlauts-in-js/11653019
+const umlautMap = {
+  '\u00dc': 'UE',
+  '\u00c4': 'AE',
+  '\u00d6': 'OE',
+  '\u00fc': 'ue',
+  '\u00e4': 'ae',
+  '\u00f6': 'oe',
+  '\u00df': 'ss',
+}
+
+function replaceUmlaute(str) {
+  return str
+    .replace(/[\u00dc|\u00c4|\u00d6][a-z]/g, (a) => {
+      const big = umlautMap[a.slice(0, 1)];
+      return big.charAt(0) + big.charAt(1).toLowerCase() + a.slice(1);
+    })
+    .replace(new RegExp('['+Object.keys(umlautMap).join('|')+']',"g"),
+      (a) => umlautMap[a]
+    );
+}
+
+
+
 
 
 //replace null with 0
@@ -80,8 +108,8 @@ var politicianSidebar = function(feature) {
 
 		 		//create panel for each politician
 				panelContent = {
-						id: 'politician' + key,       
-						tab: '<b class='+ value.fraction_membership[0].label +'>'+ name_initials(value.politician.label) +'</b>',
+						id: replaceUmlaute(party_nospace(politicianData.party.label)),       
+						tab: '<div class='+ replaceUmlaute(party_nospace(politicianData.party.label)) + '><b class="tab_text">'+ name_initials(value.politician.label) +'</b></div>',
 						pane: "<div class='polInformation'>" +
 							"<p><b>Fraktion: </b>"+ value.fraction_membership[0].label +"</p>" +
 							"<p><b>Geburtsjahr: </b>"+ politicianData.year_of_birth +"</p>" +
@@ -115,17 +143,18 @@ var sidebarClear = function(list) {
 	previousPolitician = [];
 }
 
-
+//store information on recent info panel to easily remove it before a new one is added
+var recentTopPanel;
 
 var countySidebar = function(feature) {
 	var countyContent = feature.feature.properties
 	try {
-	sidebar.removePanel('countySidebarId')
+	sidebar.removePanel(recentTopPanel)
 	}
 	finally {
 		panelContent = {
 				id: 'countySidebarId',       
-				tab: "<b class= 'countyTab'>"+ county_initials(countyContent.GEN) +'</b>',
+				tab: "<div class= 'countyTab'><b>"+ county_initials(countyContent.GEN) +'</b></div>',
 				pane: "<div>EMpty Space</div>",
 				title: countyContent.GEN,
 				position: 'top'
@@ -133,11 +162,32 @@ var countySidebar = function(feature) {
 	}
 	console.log(panelContent);
 	sidebar.addPanel(panelContent);
-
+	recentTopPanel = panelContent.id
 }
 
 
+var constituencySidebar = function(feature) {
+	var constituencyContent = feature.feature.properties
+	console.log (constituencyContent)
 
+	try {
+		sidebar.removePanel(recentTopPanel)
+		}
+	finally {
+
+
+		panelContent = {
+			id: 'constituencySidebarId',
+			tab: "<div class= 'constituencyTab'><b>"+ 'Wahlkreis' +'</b></div>',
+			pane: "<div>EMpty Space</div>",
+			title: constituencyContent.WKR_NAME,
+			position: 'top'
+		}
+	sidebar.addPanel(panelContent)
+	sidebar.open('constituencySidebarId')
+	recentTopPanel = panelContent.id
+	}
+}
 
 
 
@@ -153,6 +203,7 @@ var previousConstituency = null;
 var clickConstituency = function(feature) {
 	constituencies.resetStyle();
 	var currentLayer = feature.target
+	constituencySidebar(currentLayer);
 	politicianSidebar(currentLayer);
 	highlightConstituency(currentLayer);
 	levelCounter = 2;
@@ -263,7 +314,7 @@ function focusCounty(feature) {
 	hideLayer(currentName);
 	zoomFit(currentLayer);
 	//fire open sidebar once zoom is finished
-	//map.on("zoomend", 
+	//map.on("zoomend", sidebar.open('countySidebarId')
 	sidebar.open('countySidebarId')
 	
 	levelCounter = 1;
