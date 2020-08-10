@@ -60,7 +60,7 @@
   left: 0;
   border: none;
   width: 100%;
-  font-size: 14.4pt;
+  font-size: 1.5vw;
   color: #fff;
   background-color: rgba(241,114,64,1); }
 
@@ -90,14 +90,14 @@
       .leaflet-sidebar-tabs > li:hover, .leaflet-sidebar-tabs > ul > li:hover {
         color: rgb(0,0,0);;
     	opacity: 0.9;}
-      .leaflet-sidebar-tabs > li.active, .leaflet-sidebar-tabs > ul > li.active {
+      .leaflet-sidebar-tabs > li.active, .leaflet-sidebar-tabs > ul > li.active > a{
         color: #fff;
 /*       background-color: rgb(255,255,255) */
         opacity: 1;
 /*    	border: 1px solid rgb(255,255,255);} */
 		}
       .leaflet-sidebar-tabs > li.disabled, .leaflet-sidebar-tabs > ul > li.disabled {
-        color: rgba(51, 51, 51, 0.4); }
+      	opacity: 0.9;}
         .leaflet-sidebar-tabs > li.disabled:hover, .leaflet-sidebar-tabs > ul > li.disabled:hover {
           background: transparent; }
         .leaflet-sidebar-tabs > li.disabled > a, .leaflet-sidebar-tabs > ul > li.disabled > a {
@@ -142,33 +142,31 @@
 	margin-top: 60px;
 	padding: 10px;
 	padding-left: 20px;
-	background-color: white;
 
 }
 
-
-.SPD {
+div#SPD > .leaflet-sidebar-header, .SPD {
 	background-color: rgba(223,11,37,1)
 }
 
-.CDU {
-	background-color: rgba(0,0,0,1)
+div#CDU > .leaflet-sidebar-header, .CDU {
+	background-color: rgba(50,50,50,1)
 }
-.CSU {
-	background-color: rgba(0,0,0,1)
+div#CSU > .leaflet-sidebar-header, .CSU {
+	background-color: rgba(50,50,50,1)
 }
-.FDP {
-	background-color: rgba(254,235,52,1)
+div#FDP > .leaflet-sidebar-header, .FDP {
+	background-color: rgba(245,215,45,1)
 }
-.DIEGRUENEN {
+div#DIEGRUENEN > .leaflet-sidebar-header, .DIEGRUENEN {
 	background-color: rgba(74,147,43,1)
 }
-
-.DIELINKE {
+div#DIELINKE > .leaflet-sidebar-header, .DIELINKE {
 	background-color: rgba(188,52,117,1)
 }
-.AfD {
+div#AfD > .leaflet-sidebar-header, .AfD {
 	background-color: rgba(26,159,221,1)
+
 }
 .leaflet-sidebar-tabs > ul > li > a > .countyTab {
 	background-color: #F17240;
