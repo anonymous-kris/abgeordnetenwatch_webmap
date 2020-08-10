@@ -33,9 +33,10 @@ var sidebar = L.control.sidebar({
 
 
 
+
 var myRenderer = L.canvas({padding: 1.5});
 
-map.on("contextmenu", onRightClick)
+
 
 
 /*
@@ -185,10 +186,11 @@ $.getJSON("shapes/counties_10weightedVivisogram.geojson", function(data) {
 	        fillColor: "grey", 
 	        fillOpacity: 1
 	    },
-	    pane: 'countiesPane',
 	    renderer: myRenderer,
 	    
 	    })
 
 });
+
+map.on("contextmenu", onRightClick)
 

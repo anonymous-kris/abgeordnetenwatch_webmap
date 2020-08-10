@@ -86,7 +86,8 @@
       color: rgb(0,0,0);
       font-size: 12pt;
       overflow: hidden;
-      transition: all 80ms; }
+      transition: all 80ms; 
+ 	  animation: fadein 0.5s;}
       .leaflet-sidebar-tabs > li:hover, .leaflet-sidebar-tabs > ul > li:hover {
         color: rgb(0,0,0);;
     	opacity: 0.9;}
@@ -127,7 +128,8 @@
   bottom: 0;
   background-color: rgba(255, 255, 255, 0.95);
   overflow-x: hidden;
-  overflow-y: auto; }
+  overflow-y: auto;
+}
   .leaflet-sidebar-left .leaflet-sidebar-content {
     left: 40px;
     right: 0; }
@@ -137,12 +139,17 @@
   .leaflet-sidebar.collapsed > .leaflet-sidebar-content {
     overflow-y: hidden; }
 
-.polInformation {
-	top: 60px;
+.polInformation, .countyInformation, .constituencyInformation {
+	top: 40px;
 	margin-top: 60px;
 	padding: 10px;
 	padding-left: 20px;
+}
 
+#polTitle > a{
+	color: white;
+	font-family: Yu Gothic;
+	font-weight: bold;
 }
 
 div#SPD > .leaflet-sidebar-header, .SPD {
@@ -172,12 +179,21 @@ div#AfD > .leaflet-sidebar-header, .AfD {
 	background-color: #F17240;
 	opacity: 1;
 }
-.constituencyTab {
+.constituencyTab, .countyTab {
 	background-color: #F17240;
 	font-size: 10px;
 	opacity: 1;
-
+	animation: none;
 }
+
+
+
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
 
 
 
@@ -269,11 +285,10 @@ html, body, #map {
 
 
 a:link {
-	text-decoration: none;
-	color: darkblue;
+text-decoration: none;
 }
 a:visited {
-	color: black;
+
 }
 
 a:hover {

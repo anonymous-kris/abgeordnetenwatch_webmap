@@ -1,28 +1,9 @@
 //defines the zoom level: 0-> state, 1 -> county, 2 -> constituency
 var previousCounty = null;
+var recentConstituencyPanel
+var recentTopPanel;
 
 
-function party_color(p) {
-	if(p === 1) return rgb(223,11,37); else
-	if(p === 4) return rgb(254,235,52); else
-	if(p === 2) return rgb(0,0,0); else
-	if(p === 5) return rgb(74,147,43); else
-	if(p === 3) return rgb(0,0,0); else
-	if(p === 8) return rgb(188,52,117); else
-	if(p === 9) return rgb(26,159,221);
-};
-
-/*
-1 - SPD
-2 - CDU
-3 - CSU
-4 - FDP
-5 - DIE GRÜNEN
-6 - Piraten
-7 - FREIE WÄHLER
-8 - DIE LINKE
-9 - AfD
-*/
 
 // source https://stackoverflow.com/questions/33076177/getting-name-initials-using-js
 var name_initials = function(name) {
@@ -71,13 +52,13 @@ function getNum(val) {
 
 
 
-var panelContent;
+
 var politicianData;
 var committeeData;
 var previousPolitician = [];
 
 
-
+var panelContent
 
 
 
@@ -94,6 +75,15 @@ var politicianSidebar = function(feature) {
 	 	var data1 = data.data
 	 //itterate through each object
 	 	$.each(data1, function(key, value){
+
+
+	 		//electionResult column translation
+	 		var electionResult = function(result) {
+	 			if(result == "constituency") {
+	 				return "1. Stimme"}
+	 			else { return "Landesliste"
+	 			}}
+	 			
 
 //				//committee memberships
 //				$.getJSON("https://www.abgeordnetenwatch.de/api/v2/committee-memberships?candidacy_mandate[entity.id]=" + value.id, function(data) {
@@ -116,8 +106,11 @@ var politicianSidebar = function(feature) {
 							"<p><b>Ausbildung: </b>" + politicianData.education + "</p>" +
 							"<p><b>Beruf: </b>"+ politicianData.occupation +"</p>" +
 							"<p><b>Beantwortete Fragen: </b>"+ getNum(politicianData.statistic_questions_answered) +"<b> / </b>"+ getNum(politicianData.statistic_questions) + "   (" + Math.round((politicianData.statistic_questions_answered / politicianData.statistic_questions)*100) +"%)</b></p>" +
+							"<p><b>Mandat gewonnen über: </b>" + electionResult(value.electoral_data.mandate_won) + "</p>" +
+							"<p><b>Wahlergebnis: </b>" + getNum(value.electoral_data.constituency_result) +"%</p>"+
+							"<p><b>Listenposition: </b>" + value.electoral_data.list_position + "</p>" +
 						"</div>",
-						title: value.politician.label,
+						title: '<div id="polTitle"><a href="'+ politicianData.abgeordnetenwatch_url +'">' +  value.politician.label + "</a></div>",
 						position: 'top'
 						}
 			console.log(panelContent);
@@ -144,48 +137,71 @@ var sidebarClear = function(list) {
 }
 
 //store information on recent info panel to easily remove it before a new one is added
-var recentTopPanel;
 
 var countySidebar = function(feature) {
 	var countyContent = feature.feature.properties
 	try {
 	sidebar.removePanel(recentTopPanel)
+	sidebar.removePanel(recentConstituencyPanel)
 	}
 	finally {
 		panelContent = {
 				id: 'countySidebarId',       
-				tab: "<div class= 'countyTab'><b>"+ county_initials(countyContent.GEN) +'</b></div>',
-				pane: "<div>EMpty Space</div>",
+				tab: "<div class= 'countyTab'><b>"+ "Bundesland" +'</b></div>', //countyContent.GEN
+				pane: "<div class=countyInformation>Here will be information on all MPs that dont won a mandate without having run in a constituency</div>",
 				title: countyContent.GEN,
 				position: 'top'
 				}
 	}
-	console.log(panelContent);
+//	console.log(panelContent);
 	sidebar.addPanel(panelContent);
+	sidebar.open(panelContent.id)
 	recentTopPanel = panelContent.id
 }
+
+
 
 
 var constituencySidebar = function(feature) {
 	var constituencyContent = feature.feature.properties
 	console.log (constituencyContent)
-
+	panelContent = null;
 	try {
-		sidebar.removePanel(recentTopPanel)
+		sidebar.removePanel(recentConstituencyPanel)
 		}
 	finally {
 
+		$.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?parliament_period=111&constituency_nr=" + feature.feature.properties.WKR_NR, function(data) {
 
-		panelContent = {
-			id: 'constituencySidebarId',
-			tab: "<div class= 'constituencyTab'><b>"+ 'Wahlkreis' +'</b></div>',
-			pane: "<div>EMpty Space</div>",
-			title: constituencyContent.WKR_NAME,
-			position: 'top'
+			var metaData = data.meta
+			var data1 = data.data
+
+			var listString = []
+				for(var i in data1) {
+					listString.push("<li>" + data1[i].politician.label +" (" + data1[i].fraction_membership[0].label + ")</li>")
+					}
+				listString = listString.join("")
+
+
+			panelContent = {
+				id: 'constituencySidebarId',
+				tab: "<div class= 'constituencyTab'><b>"+ 'Wahlkreis' +'</b></div>',
+				pane: "<div class='constituencyInformation'>" +
+					"<p><b>Wahlkreisnummer: </b>"+ constituencyContent.WKR_NR +"</p>" +
+					"<p><b>Anzahl Abgeordnete: </b>"+ metaData.result.total +"</p>" +
+					"<p><ul>" +
+ 					listString +
+					"</ul></p>" +
+				"</div>",
+				title: constituencyContent.WKR_NAME,
+				position: 'top'
 		}
-	sidebar.addPanel(panelContent)
-	sidebar.open('constituencySidebarId')
-	recentTopPanel = panelContent.id
+			sidebar.addPanel(panelContent)
+			sidebar.open('constituencySidebarId')
+			console.log(panelContent)
+			recentConstituencyPanel = panelContent.id
+	})
+
 	}
 }
 
@@ -222,7 +238,7 @@ var highlightConstituency = function(feature) {
 
 // fit to the zoom of feature
 function zoomFit(feature) {
-	map.flyToBounds(feature.getBounds(),{padding: [50, 50], duration: 0.5, easeLinearity: .1})
+	map.flyToBounds(feature.getBounds(),{padding: [50, 50], duration: 0.9, easeLinearity: .1})
 }
 
 
@@ -271,16 +287,22 @@ function highlightFeatureClick(feature) {
 //ON ANY RIGHT CLICK, RETURN TO STATE VIEW
 function onRightClick () {
 
-	levelCounter = 0;
-	counties.bringToFront();
-	counties.resetStyle();
-	constituencies.resetStyle();
-	showLayer(previousCounty);
-	sidebarClear(previousPolitician);
-	sidebar.close()
-	sidebar.remove();
-	zoomFit(state);
+	if(levelCounter !== 0) {
+		counties.bringToFront();
+		counties.resetStyle();
+		constituencies.resetStyle();
+		showLayer(previousCounty);
+		sidebarClear(previousPolitician);
+		sidebar.removePanel(recentTopPanel)
+		sidebar.removePanel(recentConstituencyPanel)
+		sidebar.close()
+		sidebar.remove();
+		zoomFit(state);
+		previousCounty = null
+		levelCounter = 0;
+	}
 
+	else{}
 }
 
 
@@ -297,32 +319,39 @@ function hideLayer(id) {
 }
 
 
+var openSidebar = function() {
+	setTimeout(sidebar.open('countySidebarId'), 3000)
+};
+
+
 //upon click, zoom on layer and hide it. store layer information in "previousCounty". next click will show previously hidden layer
 function focusCounty(feature) {
 	if (previousCounty !== null) {
 		showLayer(previousCounty);
 		counties.resetStyle();
 		sidebarClear(previousPolitician);
-
-
 	}
+	else {}
+//		map.once("zoomend", openSidebar)
+	
 	var currentLayer = feature.target;
 	var currentName = currentLayer.feature.properties.GEN;
-
+	
 	sidebar.addTo(map)
 	countySidebar(currentLayer)
+
 	hideLayer(currentName);
 	zoomFit(currentLayer);
 	//fire open sidebar once zoom is finished
-	//map.on("zoomend", sidebar.open('countySidebarId')
-	sidebar.open('countySidebarId')
+
+//	sidebar.open('countySidebarId')
 	
 	levelCounter = 1;
 	previousCounty = currentName;
 
 
-
 };
+
 
 
 //Style definitions
