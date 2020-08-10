@@ -120,7 +120,7 @@ var politicianSidebar = function(feature) {
 							"<p><b>Beruf: </b>"+ politicianData.occupation +"</p>" +
 
 						"</div>",
-						title: '<div id="polTitle"><a href="'+ politicianData.abgeordnetenwatch_url +'">' +  value.politician.label + "</a></div>",
+						title: '<div id="polTitle"><a href="'+ politicianData.abgeordnetenwatch_url +'" target="_blank">' +  value.politician.label + "</a></div>",
 						position: 'top'
 						}
 			console.log(panelContent);
