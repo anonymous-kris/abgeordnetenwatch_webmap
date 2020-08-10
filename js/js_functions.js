@@ -83,7 +83,14 @@ var politicianSidebar = function(feature) {
 	 				return "1. Stimme"}
 	 			else { return "Landesliste"
 	 			}}
-	 			
+	 		
+	 		var education = function(result) {
+	 			if (result == null) {
+	 				return "keine"}
+	 			else {return result}
+	 			}
+	 		
+
 
 //				//committee memberships
 //				$.getJSON("https://www.abgeordnetenwatch.de/api/v2/committee-memberships?candidacy_mandate[entity.id]=" + value.id, function(data) {
@@ -101,14 +108,17 @@ var politicianSidebar = function(feature) {
 						id: replaceUmlaute(party_nospace(politicianData.party.label)),       
 						tab: '<div class='+ replaceUmlaute(party_nospace(politicianData.party.label)) + '><b class="tab_text">'+ name_initials(value.politician.label) +'</b></div>',
 						pane: "<div class='polInformation'>" +
+						
 							"<p><b>Fraktion: </b>"+ value.fraction_membership[0].label +"</p>" +
-							"<p><b>Geburtsjahr: </b>"+ politicianData.year_of_birth +"</p>" +
-							"<p><b>Ausbildung: </b>" + politicianData.education + "</p>" +
-							"<p><b>Beruf: </b>"+ politicianData.occupation +"</p>" +
-							"<p><b>Beantwortete Fragen: </b>"+ getNum(politicianData.statistic_questions_answered) +"<b> / </b>"+ getNum(politicianData.statistic_questions) + "   (" + Math.round((politicianData.statistic_questions_answered / politicianData.statistic_questions)*100) +"%)</b></p>" +
 							"<p><b>Mandat gewonnen über: </b>" + electionResult(value.electoral_data.mandate_won) + "</p>" +
 							"<p><b>Wahlergebnis: </b>" + getNum(value.electoral_data.constituency_result) +"%</p>"+
 							"<p><b>Listenposition: </b>" + value.electoral_data.list_position + "</p>" +
+							"<p><b>Beantwortete Fragen: </b>"+ getNum(politicianData.statistic_questions_answered) +"<b> / </b>"+ getNum(politicianData.statistic_questions) + "   (" + Math.round((politicianData.statistic_questions_answered / politicianData.statistic_questions)*100) +"%)</b></p>" +
+						"<div id='line'></div>" +
+							"<p><b>Geburtsjahr: </b>"+ politicianData.year_of_birth +"</p>" +
+							"<p><b>Ausbildung: </b>" + education(politicianData.education) + "</p>" +
+							"<p><b>Beruf: </b>"+ politicianData.occupation +"</p>" +
+
 						"</div>",
 						title: '<div id="polTitle"><a href="'+ politicianData.abgeordnetenwatch_url +'">' +  value.politician.label + "</a></div>",
 						position: 'top'
@@ -198,6 +208,7 @@ var constituencySidebar = function(feature) {
 		}
 			sidebar.addPanel(panelContent)
 			sidebar.open('constituencySidebarId')
+			fitty('h1.leaflet-sidebar-header')
 			console.log(panelContent)
 			recentConstituencyPanel = panelContent.id
 	})
@@ -236,9 +247,9 @@ var highlightConstituency = function(feature) {
 
 
 
-// fit to the zoom of feature
-function zoomFit(feature) {
-	map.flyToBounds(feature.getBounds(),{padding: [50, 50], duration: 0.9, easeLinearity: .1})
+// fit to the zoom of feature (leave space for sidebar)
+function zoomFit(feature, rightValue) {
+	map.flyToBounds(feature.getBounds(),{paddingBottomRight: [rightValue, 50], paddingTopLeft:[50,50], duration: 0.9, easeLinearity: .1})
 }
 
 
@@ -297,7 +308,7 @@ function onRightClick () {
 		sidebar.removePanel(recentConstituencyPanel)
 		sidebar.close()
 		sidebar.remove();
-		zoomFit(state);
+		zoomFit(state,50);
 		previousCounty = null
 		levelCounter = 0;
 	}
@@ -341,7 +352,7 @@ function focusCounty(feature) {
 	countySidebar(currentLayer)
 
 	hideLayer(currentName);
-	zoomFit(currentLayer);
+	zoomFit(currentLayer,450);
 	//fire open sidebar once zoom is finished
 
 //	sidebar.open('countySidebarId')
@@ -366,7 +377,7 @@ var clickStyle = {
 
 var lightHighlightStyle = {
 
-	fillColor: "rgb(200,200,200)",
+	fillColor: "rgb(180,180,180)",
 	fillOpacity: 1
 };
 

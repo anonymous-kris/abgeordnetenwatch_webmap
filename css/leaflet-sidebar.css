@@ -97,12 +97,13 @@
 .leaflet-sidebar-pane {
   display: none;
   left: 0;
-  right: 0;
+  right: 80px;
   box-sizing: border-box;
-  padding: 10px 20px; }
+}
   .leaflet-sidebar-pane.active {
     height: 100%;
-    display: block; }
+    display: block;
+    right: 60px; }
   @media (min-width: 768px) and (max-width: 991px) {
     .leaflet-sidebar-pane {
       min-width: 265px; } }

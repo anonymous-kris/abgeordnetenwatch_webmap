@@ -8,7 +8,7 @@ var levelCounter = 0;
 //CREATE MAP 
 
 var map = L.map("map", {
-	center: [51.1657,8.9515], 
+	center: [51.1657,10.515], 
 	zoom: 6.5, 
 	zoomControl: false, 
 	zoomSnap: 0, 
@@ -30,8 +30,19 @@ var sidebar = L.control.sidebar({
 });
 
 
+//remove instructions and blur (added to give map time to load)
+$('#description').on("click", function(){
+	$('#backdrop').remove()
+	$('#description').fadeOut(4000);
+	$('#map').css({"animation": "noBlur 1s ease 0s 1 normal forwards"})
+})
 
+$('#backdrop').on("click", function(){
+	$('#backdrop').remove()
+	$('#description').fadeOut(4000);
+	$('#map').css({"animation": "noBlur 1s ease 0s 1 normal forwards" })
 
+})
 
 
 var myRenderer = L.canvas({padding: 1.5});
@@ -106,8 +117,8 @@ $.getJSON("shapes/constituencies_10weightedVivisogram.geojson", function(data) {
 		style: {
 	        color: "grey", 
 	        weight: 1, 
-	        fillColor: "grey", 
-	        fillOpacity: 0.1
+	        fillColor: "rgb(200,200,200)", 
+	        fillOpacity: 1
 	    },
 	    renderer: myRenderer
 	    });
@@ -183,7 +194,7 @@ $.getJSON("shapes/counties_10weightedVivisogram.geojson", function(data) {
 		style: {
 	        color: "black", 
 	        weight: 2, 
-	        fillColor: "grey", 
+	        fillColor: "rgb(75,75,75)", 
 	        fillOpacity: 1
 	    },
 	    renderer: myRenderer,

@@ -14,7 +14,7 @@
 
 
 .constituencyLabel {
-	background-color: rgba(255,255,255,.4);
+	background-color: rgba(255,255,255,.6);
 }
 
 .cityLablesStyle {
@@ -34,7 +34,9 @@
 	border: blue;
 }
 
-
+#line {
+	height: 2px;
+}
 
 
 
@@ -51,16 +53,17 @@
     width: 40px; }
 
 .leaflet-sidebar-header {
-  margin: 0px 0px 0;
+  margin: 0px 60px 0px 0px;
   height: 40px;
   padding: 10px;
+  padding-right: 60px;
   line-height: 40px;
   border-radius: 0;
   top: 0;
   left: 0;
   border: none;
   width: 100%;
-  font-size: 1.5vw;
+  font-size: 20px;
   color: #fff;
   background-color: rgba(241,114,64,1); }
 
@@ -114,6 +117,12 @@
         text-decoration: none;
         text-align: center;
         cursor: pointer; }
+        	.leaflet-sidebar-tabs > li > a > b, .leaflet-sidebar-tabs > ul > li > a >b {
+        		  position: absolute;
+				  top: 50%;
+				  left: 50%;
+				  transform: translate(-50%, -50%);
+        	}
   .leaflet-sidebar-tabs > ul + ul {
     bottom: 0; }
 
@@ -141,9 +150,10 @@
 
 .polInformation, .countyInformation, .constituencyInformation {
 	top: 40px;
-	margin-top: 60px;
+
 	padding: 10px;
-	padding-left: 20px;
+	padding-left: 40px;
+	padding-right: 40px;
 }
 
 #polTitle > a{
@@ -152,26 +162,26 @@
 	font-weight: bold;
 }
 
-div#SPD > .leaflet-sidebar-header, .SPD {
+div#SPD > .leaflet-sidebar-header, .SPD , #SPD > .polInformation > #line {
 	background-color: rgba(223,11,37,1)
 }
 
-div#CDU > .leaflet-sidebar-header, .CDU {
+div#CDU > .leaflet-sidebar-header, .CDU , #CDU > .polInformation > #line {
 	background-color: rgba(50,50,50,1)
 }
-div#CSU > .leaflet-sidebar-header, .CSU {
+div#CSU > .leaflet-sidebar-header, .CSU , #CSU > .polInformation > #line {
 	background-color: rgba(50,50,50,1)
 }
-div#FDP > .leaflet-sidebar-header, .FDP {
+div#FDP > .leaflet-sidebar-header, .FDP , #FDP > .polInformation > #line {
 	background-color: rgba(245,215,45,1)
 }
-div#DIEGRUENEN > .leaflet-sidebar-header, .DIEGRUENEN {
+div#DIEGRUENEN > .leaflet-sidebar-header, .DIEGRUENEN , #DIEGRUENEN > .polInformation > #line {
 	background-color: rgba(74,147,43,1)
 }
-div#DIELINKE > .leaflet-sidebar-header, .DIELINKE {
+div#DIELINKE > .leaflet-sidebar-header, .DIELINKE , #DIELINKE > .polInformation > #line {
 	background-color: rgba(188,52,117,1)
 }
-div#AfD > .leaflet-sidebar-header, .AfD {
+div#AfD > .leaflet-sidebar-header, .AfD , #AfD > .polInformation > #line {
 	background-color: rgba(26,159,221,1)
 
 }
@@ -194,21 +204,28 @@ div#AfD > .leaflet-sidebar-header, .AfD {
     to   { opacity: 1; }
 }
 
+@keyframes fadeout {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
 
+@keyframes noBlur {
+	from {-webkit-filter: blur(8px); filter: blur(8px);}
+	to {-webkit-filter: none; filter:none}
+}
 
 
 p {
 	font-family: Yu Gothic;
 }
 
-
+/*
 h1 {
 	position: absolute;
 	top: 10px;
 	left: 55px;
 	margin-top: 0;
 	padding: 10px 15px;
-	background-color: rgba(250, 250, 250, .5);
 	border: 3px solid rgb(80,80,80);
 	border-radius: 5px;
 	z-index: 800;
@@ -216,6 +233,7 @@ h1 {
 	font-size: 30px;
 	color: rgb(80,80,80);
 }
+*/
 
 .leaflet-popup-tip-container {
     display: none;
@@ -246,30 +264,18 @@ h1 {
 
 
 #description {
-	position: absolute;
-	bottom: 0px;
-	left: 10px;
-	width: 280px;
-	margin-bottom: 20px;
-	padding: 0 15px;
-	background-color: rgba(250, 250, 250,.7);
-	border: 3px solid rgb(80,80,80);
-	border-radius: 5px;
-	z-index: 800;
-	font-family: Yu Gothic;
-	color: rgb(80,80,80);
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  font-weight: bold;
+  border: 3px solid white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  width: 80%;
+  text-align: center;
 }
-#test_area {
-	position: absolute;
-	padding: 15px;
-	background-color: rgba(150,230,255,.7);
-	border: 3px solid rgb(80,80,80);
-	top: 300px;
-	left: 600px;
-}
-
-
-
 
 
 
@@ -282,6 +288,24 @@ html, body, #map {
 	height: 100%;
 	width: 100%;
 }
+
+#map {
+	filter: blur(8px);
+    -webkit-filter: blur(8px);
+    animation: fadein 3s;
+}
+
+#backdrop {
+	width:100%;
+	height: 100%;
+	background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+    position: absolute;
+   z-index: 5;
+
+ 
+}
+
+
 
 
 a:link {
