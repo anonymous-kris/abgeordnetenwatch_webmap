@@ -163,28 +163,40 @@
 }
 
 div#SPD > .leaflet-sidebar-header, .SPD , #SPD > .polInformation > #line {
-	background-color: rgba(223,11,37,1)
+	background-color: rgba(223,11,37,1);
+	background-color: #DF0B25;
 }
 
 div#CDU > .leaflet-sidebar-header, .CDU , #CDU > .polInformation > #line {
-	background-color: rgba(50,50,50,1)
+	background-color: rgba(50,50,50,1);
+	background-color:
 }
 div#CSU > .leaflet-sidebar-header, .CSU , #CSU > .polInformation > #line {
-	background-color: rgba(50,50,50,1)
+	background-color: rgba(50,50,50,1);
+	background-color:
 }
 div#FDP > .leaflet-sidebar-header, .FDP , #FDP > .polInformation > #line {
-	background-color: rgba(245,215,45,1)
+	background-color: rgba(245,215,45,1);
+	background-color: #FEEB34;
 }
 div#DIEGRUENEN > .leaflet-sidebar-header, .DIEGRUENEN , #DIEGRUENEN > .polInformation > #line {
-	background-color: rgba(74,147,43,1)
+	background-color: rgba(74,147,43,1);
+	background-color: #4A932B;
 }
 div#DIELINKE > .leaflet-sidebar-header, .DIELINKE , #DIELINKE > .polInformation > #line {
-	background-color: rgba(188,52,117,1)
+	background-color: rgba(188,52,117,1);
+	background-color: #BC3475;
 }
 div#AfD > .leaflet-sidebar-header, .AfD , #AfD > .polInformation > #line {
-	background-color: rgba(26,159,221,1)
-
+	background-color: rgba(26,159,221,1);
+	background-color: #1A9FDD;
 }
+
+
+#FDP > h1 > #polTitle > a {
+	color: black;
+}
+
 .leaflet-sidebar-tabs > ul > li > a > .countyTab {
 	background-color: #F17240;
 	opacity: 1;
@@ -219,43 +231,9 @@ p {
 	font-family: Yu Gothic;
 }
 
-/*
-h1 {
-	position: absolute;
-	top: 10px;
-	left: 55px;
-	margin-top: 0;
-	padding: 10px 15px;
-	border: 3px solid rgb(80,80,80);
-	border-radius: 5px;
-	z-index: 800;
-	font-family: Yu Gothic;
-	font-size: 30px;
-	color: rgb(80,80,80);
-}
-*/
-
-.leaflet-popup-tip-container {
-    display: none;
-} 
 
 
-.legend {
-    font-size: 16px;
-    line-height: 24px;
-    color: #333333;
-    font-family: 'Open Sans', Helvetica, sans-serif;
-    padding: 10px 14px;
-    background-color: rgba(245,245,220,0.8) ;
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    border-radius: 5px;
-    max-width: 250px;
-    border: 1px solid grey;
-}
-.legend p {
-    font-size: 16px;
-    line-height: 24px;
-}
+
 
 .popup {
 	text-align: center;

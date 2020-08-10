@@ -86,7 +86,7 @@ var politicianSidebar = function(feature) {
 	 		
 	 		var education = function(result) {
 	 			if (result == null) {
-	 				return "keine"}
+	 				return "-"}
 	 			else {return result}
 	 			}
 	 		
