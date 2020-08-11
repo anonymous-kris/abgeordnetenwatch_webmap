@@ -158,7 +158,7 @@ var countySidebar = function(feature) {
 		panelContent = {
 				id: 'countySidebarId',       
 				tab: "<div class= 'countyTab'><b>"+ "Bundesland" +'</b></div>', //countyContent.GEN
-				pane: "<div class=countyInformation>Here will be information on all MPs that dont won a mandate without having run in a constituency</div>",
+				pane: "<div class=countyInformation>Here will be information on all MPs that won a mandate without having run in a constituency.</div>",
 				title: countyContent.GEN,
 				position: 'top'
 				}
