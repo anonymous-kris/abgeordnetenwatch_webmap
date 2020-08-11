@@ -70,7 +70,7 @@ var politicianSidebar = function(feature) {
 	sidebarClear(previousPolitician);
 
 	//request data for politicians in constituency
-	$.getJSON("https://cors-anywhere.herokuapp.com/https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?parliament_period=111&constituency_nr=" + feature.feature.properties.WKR_NR, function(data) {
+	$.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?parliament_period=111&constituency_nr=" + feature.feature.properties.WKR_NR, function(data) {
 	 	console.log(data)
 	 	var data1 = data.data
 	 //itterate through each object
@@ -97,8 +97,11 @@ var politicianSidebar = function(feature) {
 //					committeeData = data.data
 //					console.log(committeeData)
 				
+
+				//cors anywhere prefix: https://cors-anywhere.herokuapp.com/
+
 				//get information from politician entity
-				$.getJSON("https://cors-anywhere.herokuapp.com/https://www.abgeordnetenwatch.de/api/v2/politicians/" + value.politician.id, function(data) {
+				$.getJSON("https://www.abgeordnetenwatch.de/api/v2/politicians/" + value.politician.id, function(data) {
 					politicianData = data.data;
 
 
@@ -181,7 +184,7 @@ var constituencySidebar = function(feature) {
 		}
 	finally {
 
-		$.getJSON("https://cors-anywhere.herokuapp.com/https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?parliament_period=111&constituency_nr=" + feature.feature.properties.WKR_NR, function(data) {
+		$.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?parliament_period=111&constituency_nr=" + feature.feature.properties.WKR_NR, function(data) {
 
 			var metaData = data.meta
 			var data1 = data.data
