@@ -1,5 +1,5 @@
 
-
+var noConstituencyPolitician;
 var constituencies;
 var counties;
 var state;
@@ -204,4 +204,11 @@ $.getJSON("shapes/counties_10weightedVivisogram.geojson", function(data) {
 });
 
 map.on("contextmenu", onRightClick)
+
+
+$.getJSON("data/candidacies_mandates(no-constituency).json", function(data){
+	noConstituencyPolitician = data
+	console.log(data)
+})
+
 

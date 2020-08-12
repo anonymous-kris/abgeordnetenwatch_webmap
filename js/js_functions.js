@@ -157,15 +157,18 @@ var countySidebar = function(feature) {
 	sidebar.removePanel(recentTopPanel)
 	sidebar.removePanel(recentConstituencyPanel)
 	}
-	finally {
-		panelContent = {
-				id: 'countySidebarId',       
-				tab: "<div class= 'countyTab'><b>"+ "Bundesland" +'</b></div>', //countyContent.GEN
-				pane: "<div class=countyInformation>Here will be information on all MPs that won a mandate without having run in a constituency.</div>",
-				title: countyContent.GEN,
-				position: 'top'
-				}
-	}
+	finally {}
+		
+	
+
+	panelContent = {
+			id: 'countySidebarId',       
+			tab: "<div class= 'countyTab'><b>"+ "Bundesland" +'</b></div>', //countyContent.GEN
+			pane: "<div class=countyInformation>Here will be information on all MPs that won a mandate without having run in a constituency.</div>",
+			title: countyContent.GEN,
+			position: 'top'
+			}
+	
 //	console.log(panelContent);
 	sidebar.addPanel(panelContent);
 	sidebar.open(panelContent.id)
