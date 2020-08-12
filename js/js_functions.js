@@ -2,6 +2,9 @@
 var previousCounty = null;
 var recentConstituencyPanel
 var recentTopPanel;
+var noConstiuencyList = []
+var previousConstituency = null;
+
 
 
 
@@ -62,6 +65,21 @@ var panelContent
 
 
 
+//electionResult column translation
+var electionResult = function(result) {
+	if(result == "constituency") {
+		return "1. Stimme"}
+	else if(result =="list") { return "Landesliste"}
+	else if(result =="move_up") {return "Nachgerückt"}
+	else {return "unbekannt"}
+	}
+
+var education = function(result) {
+	if (result == null) {
+		return "-"}
+	else {return result}
+	}
+
 
 
 
@@ -77,18 +95,7 @@ var politicianSidebar = function(feature) {
 	 	$.each(data1, function(key, value){
 
 
-	 		//electionResult column translation
-	 		var electionResult = function(result) {
-	 			if(result == "constituency") {
-	 				return "1. Stimme"}
-	 			else { return "Landesliste"
-	 			}}
-	 		
-	 		var education = function(result) {
-	 			if (result == null) {
-	 				return "-"}
-	 			else {return result}
-	 			}
+
 	 		
 
 
@@ -117,7 +124,7 @@ var politicianSidebar = function(feature) {
 							"<p><b>Wahlergebnis: </b>" + getNum(value.electoral_data.constituency_result) +"%</p>"+
 							"<p><b>Listenposition: </b>" + value.electoral_data.list_position + "</p>" +
 							"<p><b>Beantwortete Fragen: </b>"+ getNum(politicianData.statistic_questions_answered) +"<b> / </b>"+ getNum(politicianData.statistic_questions) + "   (" + Math.round((politicianData.statistic_questions_answered / politicianData.statistic_questions)*100) +"%)</b></p>" +
-						"<div id='line'></div>" +
+						"<hr id='line'>" +
 							"<p><b>Geburtsjahr: </b>"+ politicianData.year_of_birth +"</p>" +
 							"<p><b>Ausbildung: </b>" + education(politicianData.education) + "</p>" +
 							"<p><b>Beruf: </b>"+ politicianData.occupation +"</p>" +
@@ -158,13 +165,33 @@ var countySidebar = function(feature) {
 	sidebar.removePanel(recentConstituencyPanel)
 	}
 	finally {}
-		
-	
+	//empty the list
+	noConstiuencyList = []
+	sidebarClear(previousPolitician)
+	var listString = []
 
+
+	$.each(noConstituencyPolitician, function(key,value) {
+		//ignore null values
+		if(value.electoral_data_electoral_list !== null) {
+			if(value.electoral_data_electoral_list.label == "Landesliste " + countyContent.GEN + " (Bundestag)") 
+			{
+				listString.push("<li>" + value.politician.label +" (" + value.fraction_membership[0].label + ")</li>")
+				noConstiuencyList.push(key)
+			}
+		}
+		})
+	listString = listString.join("")
+	console.log(listString)
 	panelContent = {
 			id: 'countySidebarId',       
 			tab: "<div class= 'countyTab'><b>"+ "Bundesland" +'</b></div>', //countyContent.GEN
-			pane: "<div class=countyInformation>Here will be information on all MPs that won a mandate without having run in a constituency.</div>",
+			pane: "<div class='countyInformation'>" +
+					"<p><b>Abgeordnete die in keinem Wahlkreis angetreten sind: </b></p>" +
+					"<p><ul>" +
+ 					listString +
+					"</ul></p>" +
+				"</div>",
 			title: countyContent.GEN,
 			position: 'top'
 			}
@@ -173,7 +200,40 @@ var countySidebar = function(feature) {
 	sidebar.addPanel(panelContent);
 	sidebar.open(panelContent.id)
 	recentTopPanel = panelContent.id
+
+	//create noConstituencyPanels
+
+	countyNoConstituency(noConstiuencyList)
+
 }
+
+var countyNoConstituency = function(list) {
+	$.each(list, function(key,value){
+		$.getJSON("https://www.abgeordnetenwatch.de/api/v2/politicians/" + noConstituencyPolitician[value].politician.id, function(data) {
+			politicianData = data.data;
+
+			panelContentNoConstituency = {
+				id: replaceUmlaute(party_nospace(politicianData.party.label)),       
+				tab: '<div class=' + replaceUmlaute(party_nospace(politicianData.party.label)) + '><b class="tab_text">'+ name_initials(noConstituencyPolitician[value].politician.label) +'</b></div>',
+				pane:"<div class='polInformation'>" +					
+						"<p><b>Fraktion: </b>"+ noConstituencyPolitician[value].fraction_membership[0].label +"</p>" +
+						"<p><b>Mandat gewonnen über: </b>" + electionResult(noConstituencyPolitician[value].electoral_data_mandate_won) + "</p>" +
+						"<p><b>Wahlergebnis: </b>" + getNum(noConstituencyPolitician[value].electoral_data_constituency_result) +"%</p>"+
+						"<p><b>Listenposition: </b>" + noConstituencyPolitician[value].electoral_data_list_position + "</p>" +
+						"<p><b>Beantwortete Fragen: </b>"+ getNum(politicianData.statistic_questions_answered) +"<b> / </b>"+ getNum(politicianData.statistic_questions) + "   (" + Math.round((politicianData.statistic_questions_answered / politicianData.statistic_questions)*100) +"%)</b></p>" +
+						"<hr id='line'>" +
+						"<p><b>Geburtsjahr: </b>"+ politicianData.year_of_birth +"</p>" +
+						"<p><b>Ausbildung: </b>" + education(politicianData.education) + "</p>" +
+						"<p><b>Beruf: </b>"+ politicianData.occupation +"</p>" +
+
+					"</div>",
+				title: '<div id="polTitle"><a href="'+ politicianData.abgeordnetenwatch_url +'" target="_blank">' +  noConstituencyPolitician[value].politician.label  +"</a></div>",
+				position: 'top'
+		}
+		sidebar.addPanel(panelContentNoConstituency)
+		previousPolitician.push(panelContentNoConstituency.id)
+	}) 
+})}
 
 
 
@@ -195,6 +255,7 @@ var constituencySidebar = function(feature) {
 			var listString = []
 				for(var i in data1) {
 					listString.push("<li>" + data1[i].politician.label +" (" + data1[i].fraction_membership[0].label + ")</li>")
+					console.log(data1[i].politician.label)
 					}
 				listString = listString.join("")
 
@@ -231,11 +292,12 @@ var constituencySidebar = function(feature) {
 
 
 
-var previousConstituency = null;
+
 
 var clickConstituency = function(feature) {
 	constituencies.resetStyle();
-	var currentLayer = feature.target
+	var currentLayer = feature.target;
+	sidebarClear(previousPolitician);
 	constituencySidebar(currentLayer);
 	politicianSidebar(currentLayer);
 	highlightConstituency(currentLayer);
@@ -346,11 +408,11 @@ function focusCounty(feature) {
 	if (previousCounty !== null) {
 		showLayer(previousCounty);
 		counties.resetStyle();
-		sidebarClear(previousPolitician);
+
 	}
 	else {}
-//		map.once("zoomend", openSidebar)
-	
+
+	sidebarClear(previousPolitician);
 	var currentLayer = feature.target;
 	var currentName = currentLayer.feature.properties.GEN;
 	

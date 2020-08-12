@@ -297,3 +297,7 @@ a:hover {
 	text-decoration: underline;
 	font-style: bold;
 }
+
+hr {
+	border: none;
+}
