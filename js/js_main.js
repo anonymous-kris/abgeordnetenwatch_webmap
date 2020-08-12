@@ -106,7 +106,7 @@ $.getJSON("shapes/constituencies_10weightedVivisogram.geojson", function(data) {
     				'WK Nummer:' + feature.properties.WKR_NR + '</b>' + 
     				'</div>', constituencyLabelOptions
 				);
-				layer.on("mouseover", highlightConstituencyHover);
+				layer.on('mouseover', highlightConstituencyHover);
 				layer.on("mouseout", resetConstituencyHover);
 				layer.on("contextmenu", onRightClick);
 				layer.on("click", clickConstituency);

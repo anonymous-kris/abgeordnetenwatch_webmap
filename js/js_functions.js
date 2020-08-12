@@ -371,7 +371,8 @@ function focusCounty(feature) {
 //Style definitions
 var highlightStyle = {
 	color: "black",
-	fillOpacity: 0
+	fillColor: "rgb(240,240,240)",
+	fillOpacity: 0.5
 };
 
 var clickStyle = {
