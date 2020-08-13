@@ -19,16 +19,21 @@ var map = L.map("map", {
 //	keyboard: false,
 	scrollWheelZoom: false,
 	zoomAnimationThreshold: 10,
-
+	condensedAttributionControl: false
 });
+
+
 
 var sidebar = L.control.sidebar({
 	autopan: true,       // whether to maintain the centered map point when opening the sidebar
-    closeButton: true,    // whether t add a close button to the panes
+    closeButton: false,    // whether t add a close button to the panes
     container: 'sidebar', // the DOM container or #ID of a predefined sidebar container that should be used
     position: 'right',     // left or right
 });
 
+sidebar.addTo(map)
+sidebar.addPanel(attributionSidebar)
+sidebar.remove()
 
 //remove instructions and blur (added to give map time to load)
 $('#description').on("click", function(){

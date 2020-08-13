@@ -82,6 +82,30 @@ var education = function(result) {
 
 
 
+var attributionSidebar = {
+	id: 'attribution',       
+	tab: "<div class= 'attributionTab'><i class='fas fa-info-circle fa-2x'></i></div>", //countyContent.GEN
+	pane: "<div class='attributionInformation'>" +
+			"<br>"+
+			"<p>Die Daten zu allen Abgeordneten werden über <a href='www.abgeordnetenwatch.de'>abgeordnetenwatch.de's</a> web API abgerufen. </p>"  +
+			"<p>Die Geodaten wurden vom <a href='http://www.bkg.bund.de'>© GeoBasis-DE / BKG (2020) </a> und dem <a href='https://www.bundeswahlleiter.de/bundestagswahlen/2017/wahlkreiseinteilung/downloads.html'> © Der Bundeswahlleiter, Statistisches Bundesamt, Wiesbaden 2016 </a> bereitgestellt. </p>"+
+			"<hr id ='line'>" +
+			"<p>Dies ist ein Projekt welches im Zusammenhang mit der Masterarbeit von Kristian Käsinger erstellt wurde. Bei Fragen und Anregungen melden Sie sich gerne per <a href='mailto:kristian.kaesinger@gmail.com'>Email</a> bei mir. </p>" +
+			
+			"<div id='symbolsBar'>" +
+				"<a href='https://github.com/anonymous-kris/abgeordnetenwatch_webmap' target='_blank'><i id='symbols' class='fab fa-github fa-5x'></i></a>"+
+				"<a href='https://abgeordnetenwatch.de' target='_blank'><img id='symbols' href='images/logo_RGB/aw_logo_2017_bildmarke_mittel.png'" +
+			"</div>" +
+ 
+
+		"</div>",
+	title: '<div id="sidebarTitle">Datenquellen</div>',
+	position: 'bottom'
+}
+
+
+
+
 
 var politicianSidebar = function(feature) {
 	//remove previous panels and empty array
@@ -93,10 +117,6 @@ var politicianSidebar = function(feature) {
 	 	var data1 = data.data
 	 //itterate through each object
 	 	$.each(data1, function(key, value){
-
-
-
-	 		
 
 
 //				//committee memberships
@@ -118,7 +138,7 @@ var politicianSidebar = function(feature) {
 						id: "politician" + key, //unique, responsible for opening content   
 						tab: '<div class='+ replaceUmlaute(party_nospace(politicianData.party.label)) + '><b class="tab_text">'+ name_initials(value.politician.label) +'</b></div>',
 						pane: "<div class='polInformation'>" +
-						
+							"<br>" +
 							"<p><b>Fraktion: </b>"+ value.fraction_membership[0].label +"</p>" +
 							"<p><b>Mandat gewonnen über: </b>" + electionResult(value.electoral_data.mandate_won) + "</p>" +
 							"<p><b>Wahlergebnis: </b>" + getNum(value.electoral_data.constituency_result) +"%</p>"+
@@ -129,10 +149,10 @@ var politicianSidebar = function(feature) {
 							"<p><b>Ausbildung: </b>" + education(politicianData.education) + "</p>" +
 							"<p><b>Beruf: </b>"+ politicianData.occupation +"</p>" +
 
-							"<div><a href='"+ politicianData.abgeordnetenwatch_url +"' target='_blank'><i class='fas fa-user'></i></a> <i class='fas fa-envelope''></i></div>"+
+//symbols							"<div><a href='"+ politicianData.abgeordnetenwatch_url +"' target='_blank'><i class='fas fa-user'></i></a> <i class='fas fa-envelope''></i></div>"+
 
 						"</div>",
-						title: '<div id="sidebarTitle" class="'+ replaceUmlaute(party_nospace(politicianData.party.label)) +'"><a href="'+ politicianData.abgeordnetenwatch_url +'" target="_blank">' +  value.politician.label + "</a></div>",
+						title: '<div id="sidebarTitle" class="'+ replaceUmlaute(party_nospace(politicianData.party.label)) +'"><a class="link" href="'+ politicianData.abgeordnetenwatch_url +'" target="_blank">' +  value.politician.label + "</a></div>",
 						position: 'top'
 						}
 			console.log(panelContent);
@@ -189,6 +209,7 @@ var countySidebar = function(feature) {
 			id: 'countySidebarId',       
 			tab: "<div class= 'countyTab'><b>"+ "Bundesland" +'</b></div>', //countyContent.GEN
 			pane: "<div class='countyInformation'>" +
+					"<br>" +
 					"<p><b>Abgeordnete die in keinem Wahlkreis angetreten sind: </b></p>" +
 					"<p><ul>" +
  					listString +
@@ -224,7 +245,8 @@ var countyNoConstituency = function(list) {
 			panelContentNoConstituency = {
 				id: "politician" + key,       
 				tab: '<div class=' + replaceUmlaute(party_nospace(politicianData.party.label)) + '><b class="tab_text">'+ name_initials(noConstituencyPolitician[value].politician.label) +'</b></div>',
-				pane:"<div class='polInformation'>" +					
+				pane:"<div class='polInformation'>" +		
+						"<br>" +
 						"<p><b>Fraktion: </b>"+ noConstituencyPolitician[value].fraction_membership[0].label +"</p>" +
 						"<p><b>Mandat gewonnen über: </b>" + electionResult(noConstituencyPolitician[value].electoral_data_mandate_won) + "</p>" +
 						"<p><b>Wahlergebnis: </b>" + getNum(noConstituencyPolitician[value].electoral_data_constituency_result) +"%</p>"+
@@ -236,13 +258,16 @@ var countyNoConstituency = function(list) {
 						"<p><b>Beruf: </b>"+ politicianData.occupation +"</p>" +
 
 					"</div>",
-				title: '<div id="sidebarTitle" class="'+ replaceUmlaute(party_nospace(politicianData.party.label)) +'"><a href="'+ politicianData.abgeordnetenwatch_url +'" target="_blank">' +  noConstituencyPolitician[value].politician.label  +"</a></div>",
+				title: '<div id="sidebarTitle" class="'+ replaceUmlaute(party_nospace(politicianData.party.label)) +'"><a class="link" href="'+ politicianData.abgeordnetenwatch_url +'" target="_blank">' +  noConstituencyPolitician[value].politician.label  +"</a></div>",
 				position: 'top'
 		}
 		sidebar.addPanel(panelContentNoConstituency)
 		previousPolitician.push(panelContentNoConstituency.id)
 	}) 
 })}
+
+
+
 
 
 
@@ -273,6 +298,7 @@ var constituencySidebar = function(feature) {
 				id: 'constituencySidebarId',
 				tab: "<div class= 'constituencyTab'><b>"+ 'Wahlkreis' +'</b></div>',
 				pane: "<div class='constituencyInformation'>" +
+					"<br>" +
 					"<p><b>Wahlkreisnummer: </b>"+ constituencyContent.WKR_NR +"</p>" +
 					"<p><b>Anzahl Abgeordnete: </b>"+ metaData.result.total +"</p>" +
 					"<p><ul>" +
@@ -383,6 +409,7 @@ function onRightClick () {
 		sidebarClear(previousPolitician);
 		sidebar.removePanel(recentTopPanel)
 		sidebar.removePanel(recentConstituencyPanel)
+		
 		sidebar.close()
 		sidebar.remove();
 		zoomFit(state,50);
@@ -417,7 +444,6 @@ function focusCounty(feature) {
 	if (previousCounty !== null) {
 		showLayer(previousCounty);
 		counties.resetStyle();
-
 	}
 	else {}
 
