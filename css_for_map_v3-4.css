@@ -54,10 +54,10 @@
 
 .leaflet-sidebar-header {
   margin: 0px 60px 0px 0px;
-  height: 40px;
-  padding: 10px;
+  height: 60px;
+  padding: 0px;
   padding-right: 60px;
-  line-height: 40px;
+  line-height: 60px;
   border-radius: 0;
   top: 0;
   left: 0;
@@ -139,61 +139,87 @@
   overflow-x: hidden;
   overflow-y: auto;
 }
-  .leaflet-sidebar-left .leaflet-sidebar-content {
-    left: 40px;
-    right: 0; }
+
   .leaflet-sidebar-right .leaflet-sidebar-content {
     left: 0;
     right: 60px; }
   .leaflet-sidebar.collapsed > .leaflet-sidebar-content {
     overflow-y: hidden; }
 
-.polInformation, .countyInformation, .constituencyInformation {
-	top: 40px;
 
-	padding: 10px;
-	padding-left: 40px;
-	padding-right: 40px;
+  @media (min-width: 768px) and (max-width: 991px) {
+    .leaflet-sidebar-header {
+      width: 205px; } }
+  @media (min-width: 992px) and (max-width: 1199px) {
+    .leaflet-sidebar-header {
+      width: 290px; } }
+  @media (min-width: 1200px) {
+    .leaflet-sidebar-header {
+      width: 360px; } }
+
+.polInformation, .countyInformation, .constituencyInformation {
+	top: 60px;
+	left: 40px;
+	right: 20px;
+	position: absolute;
 }
 
-#polTitle > a{
+#sidebarTitle > a{
 	color: white;
 	font-family: Yu Gothic;
 	font-weight: bold;
+
 }
 
-div#SPD > .leaflet-sidebar-header, .SPD , #SPD > .polInformation > #line {
-	background-color: rgba(223,11,37,1);
+#sidebarTitle {
+	margin: 0px 70px 0px 0px;
+    padding-left: 40px;
+    padding-right: 60px;
+    width: 100%;
+    height: 60px;
+    overflow: hidden;
+
+}
+
+div#SPD > .leaflet-sidebar-header, .SPD , #SPDLine {
 	background-color: #DF0B25;
 }
 
-div#CDU > .leaflet-sidebar-header, .CDU , #CDU > .polInformation > #line {
+div#CDU > .leaflet-sidebar-header, .CDU , #CDULine {
 	background-color: rgba(50,50,50,1);
-	background-color:
+	color: white
 }
-div#CSU > .leaflet-sidebar-header, .CSU , #CSU > .polInformation > #line {
+div#CSU > .leaflet-sidebar-header, .CSU , #CSULine {
 	background-color: rgba(50,50,50,1);
-	background-color:
+	color: white;
 }
-div#FDP > .leaflet-sidebar-header, .FDP , #FDP > .polInformation > #line {
-	background-color: rgba(245,215,45,1);
+div#FDP > .leaflet-sidebar-header, .FDP , #FDPLine {
 	background-color: #FEEB34;
 }
-div#DIEGRUENEN > .leaflet-sidebar-header, .DIEGRUENEN , #DIEGRUENEN > .polInformation > #line {
-	background-color: rgba(74,147,43,1);
+div#DIEGRUENEN > .leaflet-sidebar-header, .DIEGRUENEN , #DIEGRUENENLine {
 	background-color: #4A932B;
 }
-div#DIELINKE > .leaflet-sidebar-header, .DIELINKE , #DIELINKE > .polInformation > #line {
-	background-color: rgba(188,52,117,1);
+div#DIELINKE > .leaflet-sidebar-header, .DIELINKE , #DIELINKELine {
 	background-color: #BC3475;
 }
-div#AfD > .leaflet-sidebar-header, .AfD , #AfD > .polInformation > #line {
-	background-color: rgba(26,159,221,1);
+div#AfD > .leaflet-sidebar-header, .AfD , #AfDLine {
 	background-color: #1A9FDD;
+}
+div#Parteilos > .leaflet-sidebar-header, .Parteilos , #ParteilosLine {
+	background-color: #f0f0f0;
+}
+
+#Parteilos > h1 > #sidebarTitle > a {
+	color: black;
+}
+
+#sidebarTitle.FDP > a {
+	color: black;
 }
 
 
-#FDP > h1 > #polTitle > a {
+
+.leaflet-sidebar-tabs > li.active > .Parteilos, .leaflet-sidebar-tabs > ul > li.active > a > #Parteilos, #sidebarTitle.Parteilos > a, li.active >a > .Parteilos > .tab_text {
 	color: black;
 }
 
@@ -208,7 +234,9 @@ div#AfD > .leaflet-sidebar-header, .AfD , #AfD > .polInformation > #line {
 	animation: none;
 }
 
-
+h1 {
+	padding-left: 40px;
+}
 
 
 @keyframes fadein {
@@ -300,4 +328,5 @@ a:hover {
 
 hr {
 	border: none;
+	height: 2px;
 }
