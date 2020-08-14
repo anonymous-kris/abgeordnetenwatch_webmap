@@ -1,0 +1,414 @@
+.labelstyle {
+    color: rgb(220,220,220);
+    font-size:14px;
+    font-weight: 700;
+    background-color: none;
+    border-color: none;
+    background: none;
+    border: none;
+    box-shadow: none;
+    margin: 0px;
+    font-family: Yu Gothic;
+}
+
+
+
+.constituencyLabel {
+	background-color: rgba(255,255,255,.6);
+}
+
+.cityLablesStyle {
+	color: grey;
+    font-size: 12px;
+    font-weight: 700;
+    background-color: rgba(255,255,255,.2);;
+    border-color: none;
+    border: none;
+    box-shadow: none;
+    margin: 0px;
+    font-family: Yu Gothic;
+}
+
+
+#politician0 {
+	border: blue;
+}
+
+#line {
+	height: 2px;
+}
+
+
+
+
+.leaflet-sidebar {
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  width: 100%;
+  overflow: hidden;
+  z-index: 2000;
+  height: 500px; }
+  .leaflet-sidebar.collapsed {
+    width: 40px; }
+
+.leaflet-sidebar-header {
+  margin: 0px 60px 0px 0px;
+  height: 60px;
+  padding: 0px;
+  padding-right: 60px;
+  line-height: 60px;
+  border-radius: 0;
+  top: 0;
+  left: 0;
+  border: none;
+  width: 100%;
+  font-size: 20px;
+  color: #fff;
+  background-color: rgba(241,114,64,1); }
+
+  .leaflet-sidebar.collapsed {
+    width: 60px; }
+  .leaflet-sidebar.collapsed {
+    width: 60px; }
+
+.leaflet-sidebar-tabs {
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  background-color: #fff; }
+  .leaflet-sidebar-tabs, .leaflet-sidebar-tabs > ul {
+    position: absolute;
+    width: 60px;
+    margin: 0;
+    padding: 0;
+    list-style-type: none; }
+    .leaflet-sidebar-tabs > li, .leaflet-sidebar-tabs > ul > li {
+      width: 100%;
+      height:60px;
+      color: rgb(0,0,0);
+      font-size: 12pt;
+      overflow: hidden;
+      transition: all 80ms; 
+ 	  animation: fadein 0.5s;}
+      .leaflet-sidebar-tabs > li:hover, .leaflet-sidebar-tabs > ul > li:hover {
+        color: rgb(0,0,0);
+    	opacity: 0.9;
+    	font-size: 14pt}
+      .leaflet-sidebar-tabs > li.active, .leaflet-sidebar-tabs > ul > li.active > a{
+        color: #fff;
+/*       background-color: rgb(255,255,255) */
+        opacity: 1;
+        font-size: 14pt
+/*    	border: 1px solid rgb(255,255,255);} */
+		}
+      .leaflet-sidebar-tabs > li.disabled, .leaflet-sidebar-tabs > ul > li.disabled {
+      	opacity: 0.9;}
+        .leaflet-sidebar-tabs > li.disabled:hover, .leaflet-sidebar-tabs > ul > li.disabled:hover {
+          background: transparent; }
+        .leaflet-sidebar-tabs > li.disabled > a, .leaflet-sidebar-tabs > ul > li.disabled > a {
+          cursor: default; }
+      .leaflet-sidebar-tabs > li > a, .leaflet-sidebar-tabs > ul > li > a {
+        display: block;
+        width: 100%;
+        height: 100%;
+        line-height: 60px;
+        opacity: 0.8;
+
+        color: inherit;
+        text-decoration: none;
+        text-align: center;
+        cursor: pointer; }
+        	.leaflet-sidebar-tabs > li > a > b, .leaflet-sidebar-tabs > ul > li > a >b {
+        		  position: absolute;
+				  top: 50%;
+				  left: 50%;
+				  transform: translate(-50%, -50%);
+        	}
+  .leaflet-sidebar-tabs > ul + ul {
+    bottom: 0; }
+
+  .leaflet-sidebar-right .leaflet-sidebar-content {
+    left: 0;
+    right: 60px; }
+
+
+.leaflet-sidebar-content {
+  position: absolute;
+  top: 0px;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.95);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+  .leaflet-sidebar-right .leaflet-sidebar-content {
+    left: 0;
+    right: 60px; }
+  .leaflet-sidebar.collapsed > .leaflet-sidebar-content {
+    overflow-y: hidden; }
+
+
+  @media (min-width: 768px) and (max-width: 991px) {
+    .leaflet-sidebar-header {
+      width: 205px; } }
+  @media (min-width: 992px) and (max-width: 1199px) {
+    .leaflet-sidebar-header {
+      width: 290px; } }
+  @media (min-width: 1200px) {
+    .leaflet-sidebar-header {
+      width: 360px; } }
+
+.polInformation, .countyInformation, .constituencyInformation, .attributionInformation {
+	padding-left: 40px;
+	padding-right: 20px;
+	height: 440px;
+}
+
+#sidebarTitle > a{
+	color: white;
+	font-family: Yu Gothic;
+	font-weight: bold;
+
+}
+
+#sidebarTitle {
+	margin: 0px 70px 0px 0px;
+    padding-left: 40px;
+    padding-right: 60px;
+    width: 100%;
+    height: 60px;
+    overflow: hidden;
+
+}
+
+div#SPD > .leaflet-sidebar-header, .SPD , #SPDLine {
+	background-color: #DF0B25;
+}
+
+div#CDU > .leaflet-sidebar-header, .CDU , #CDULine {
+	background-color: rgba(50,50,50,1);
+	color: white
+}
+div#CSU > .leaflet-sidebar-header, .CSU , #CSULine {
+	background-color: rgba(50,50,50,1);
+	color: white;
+}
+div#FDP > .leaflet-sidebar-header, .FDP , #FDPLine {
+	background-color: #FEEB34;
+}
+div#DIEGRUENEN > .leaflet-sidebar-header, .DIEGRUENEN , #DIEGRUENENLine {
+	background-color: #4A932B;
+}
+div#DIELINKE > .leaflet-sidebar-header, .DIELINKE , #DIELINKELine {
+	background-color: #BC3475;
+}
+div#AfD > .leaflet-sidebar-header, .AfD , #AfDLine {
+	background-color: #1A9FDD;
+}
+div#Parteilos > .leaflet-sidebar-header, .Parteilos , #ParteilosLine {
+	background-color: #f0f0f0;
+}
+
+#Parteilos > h1 > #sidebarTitle > a {
+	color: black;
+}
+
+#sidebarTitle.FDP > a {
+	color: black;
+}
+
+.attributionTab {
+	color: #F17240;
+	position: absolute;
+  	top: 50%;
+  	left: 50%;
+  	transform: translate(-50%, -50%);
+}
+
+.attributionTab:hover {
+	font-size: 1.5em;
+}
+.attributionTab.active {
+	background-color: #F17240;
+}
+
+
+
+
+.leaflet-sidebar-tabs > li.active > .Parteilos, .leaflet-sidebar-tabs > ul > li.active > a > #Parteilos, #sidebarTitle.Parteilos > a, li.active >a > .Parteilos > .tab_text {
+	color: black;
+}
+
+.leaflet-sidebar-tabs > ul > li > a > .countyTab {
+	background-color: #F17240;
+	opacity: 1;
+}
+.constituencyTab, .countyTab {
+	background-color: #F17240;
+	font-size: 10px;
+	opacity: 1;
+	animation: none;
+}
+.countyTab {
+	font-size: 14px;
+}
+
+h1 {
+	padding-left: 40px;
+}
+
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes fadeout {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+@keyframes noBlur {
+	from {-webkit-filter: blur(8px); filter: blur(8px);}
+	to {-webkit-filter: none; filter:none}
+}
+
+
+p {
+	font-family: Yu Gothic;
+}
+
+
+
+
+
+.popup {
+	text-align: center;
+}
+
+#everyting {
+  width: 100%;
+  height: 100%;
+}
+
+#description {
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  font-weight: bold;
+  border: 3px solid white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  width: 600px;
+  text-align: center;
+}
+
+#backdrop {
+	width:100%;
+	height: 100%;
+  position: absolute;
+	background-color: rgba(0,0,0, 0.4);
+   position: absolute;
+  z-index: 5;
+  height: calc(100% - 50px);
+}
+
+#header {
+  height: 50px;
+  background-color: rgba(241,114,64,1);
+  z-index: 10;
+}
+#slogan {
+  color: white;
+  line-height: 50px;
+
+  height: 100%;
+  padding-left: 50px;
+  z-index: 11;
+}
+
+
+
+#gitHub, #aw {
+	color: rgba(241,114,64,1);
+}
+#gitHub:hover, #aw:hover , #twitter:hover{
+	transform: scale(1.1)
+}
+#twitter {
+  color: rgba(241,114,64,1);
+  position: absolute;
+  left: 80px;
+
+}
+
+
+#aw {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  height: 50px;
+  width: 50px;
+/*  background-color: rgba(255,255,255,0.8);*/
+  border-radius: 3;
+  z-index: 2000;
+}
+
+#logo {
+  position: absolute;
+  z-index: 210;
+  background-color: white
+  height:100%;
+  width: 100%;
+
+}
+
+#symbolsBar {
+	position: absolute;
+	bottom:20px;
+	left: 40px;
+}
+
+
+body {
+		padding: 0;
+		margin: 0;
+		font-family: Yu Gothic;
+	}
+html, body {
+	height: 100%;
+	width: 100%;
+}
+
+#map {
+  width: 100%;
+	filter: blur(8px);
+  -webkit-filter: blur(8px);
+  animation: fadein 3s;
+  height: calc(100% - 50px);
+}
+
+
+a:link {
+text-decoration: none;
+}
+a:visited {
+
+}
+
+a:hover {
+	text-decoration: underline;
+	font-style: bold;
+}
+
+a.link:hover {
+	transform: scale(1.1);
+}
+
+hr {
+	border: none;
+	height: 2px;
+}

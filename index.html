@@ -12,32 +12,64 @@
 		<!-- css (leaflet and custom) -->
 
 		<link rel="stylesheet" type="text/css" href="css/leaflet.css">
-		<link rel="stylesheet" href="css_for_map_v3-3.css" media="all" type="text/css" >
+		<link rel="stylesheet" type="text/css" href="css/leaflet-sidebar.css">
+		<link rel="stylesheet" href="css/leaflet-control-condended-attribution.css" />
 
+		<link rel="stylesheet" href="css_for_map_v3-4.css" media="all" type="text/css" >
 
-		<!-- JQUERY and Leaflet library -->
+		<!-- Font Awesome library -->
+		<script src="https://kit.fontawesome.com/a75b517855.js" crossorigin="anonymous"></script>
+		<!-- JQUERY (and fit text plugin) and Leaflet library -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="js/libraries/fitty.min.js"></script>
 		<script src="js/leaflet_library/leaflet.js"></script>
-		<script src="js/js_functions.js"></script>
 
-			
+
+
+
+
+		<!-- sidebar -->
+		<script src="js/libraries/leaflet-sidebar.js"></script>
+
+
+		<script src="js/js_functions.js" charset="utf-8"></script>
+
+
+	
 	</head>
 
 	<body>
-		<h1><a href="abgeordnetenwatch.de" style="color: rgb(80,80,80);">Abgeordnetenwatch.de <img src="images/logo_RGB/Bildmarke/aw_logo_2017_bildmarke_klein.png" height=30px></a></h1>
+		<!--
+		<h1><a href="abgeordnetenwatch.de" style="color: rgb(80,80,80);">Abgeordnetenwatch.de <img src="images/logo_RGB/Bildmarke/aw_logo_2017_bildmarke_klein.png" height=30px></a></h1> 
+	-->
 
-
-		<div id="description">
-			<h2>Instructions</h2>
-			<p><b>Left Click</b> to zoom closer.</p>
-			<p><b>Right Click</b> to zoom away.</p>
-			<p style="font-size: 12px">Map authored by Kristian Kaesinger</p>
+	<div id='everything'>
+<!-- 		<img id='logo' src="images/logo_RGB/Bildmarke/aw_logo_2017_bildmarke_klein.png"> -->
+		<div id='header'>
+			<div id='slogan'><b>Finde das abgeordnetenwatch.de Profil von deinem lokalen Bundestagsabgeordneten.</b></div>
 		</div>
 
-		<!-- Map section -->		
+		<div id="backdrop"> 
+			<div id="description">
+				<h2>Instructions</h2>
+				<p><b>Left Click</b> to zoom in.</p>
+				<p><b>Right Click</b> to zoom out.</p>
+<!-- 				<p style="font-size: 12px">Map authored by Kristian Kaesinger</p> -->
+			</div>
+		</div>
+		<div id='aw'>
+			<a href='https://abgeordnetenwatch.de' target='_blank'><img id='logo' src='images/logo_RGB/Bildmarke/aw_logo_2017_bildmarke_klein.png'></a>
+		</div> 
+	</div>
+		<!-- Map section  <a href='"+ politicianData.abgeordnetenwatch_url +"' target='_blank'></a>-->		
 		<div id="map">
 			
 		</div>
+
+
+
+
+
 		
 
 
