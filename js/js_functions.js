@@ -1,19 +1,36 @@
-//defines the zoom level: 0-> state, 1 -> county, 2 -> constituency
-var previousCounty = null;
-var recentConstituencyPanel
-var recentTopPanel;
-var noConstiuencyList = []
-var previousConstituency = null;
+var previousCounty = null; //tracks which county was clicked previously, to show it again after hiding
+var previousConstituency = null; //tracks which constituency was clicked before
+
+var panelContent //stores sidebar panel content
+var recentConstituencyPanel //tracks which constituency panel was created recently
+var recentTopPanel; //tracks which county panel was created (for easy removal)
+var previousPolitician = []; //tracks which sidebar panels were recently created for politicians (for easy removal)
+
+var politicianData; //stores data on a requested politician
+var committeeData; //stores data on a specific committee (not in use currently)
+var noConstiuencyList = []; // stores information on which politicians have no constituency in the selected county
 
 
+//-------------------
+//GENERAL FUNCTIONS
 
+//party color conversion, for future symbolising
+var party_color = function (party) {
+	var conversion = {
+		'CDU/CSU' : "rgb(50,50,50)" ,
+		'SPD' : "#DF0B25" ,
+		'DIELINKE' : "#BC3475" ,
+		'DIEGRUENEN': "#4A932B" ,
+		'FDP' :"#FEEB34",
+		'AfD' : "#1A9FDD" ,
+		'Parteilos': "#f0f0f0" , 
+	}
+	return conversion.party
+}
 
+//function to change name to get initials of names
 // source https://stackoverflow.com/questions/33076177/getting-name-initials-using-js
 var name_initials = function(name) {
-	return name.split(/-| /).map((n)=>n[0]).join("");
-};
-
-var county_initials = function(name) {
 	return name.split(/-| /).map((n)=>n[0]).join("");
 };
 
@@ -21,7 +38,8 @@ var party_nospace = function(name) {
 	return name.split(" ").join("");
 }
 
-//from https://stackoverflow.com/questions/11652681/replacing-umlauts-in-js/11653019
+//replaces Umalaute (ä-ö-ü-ß) for variables
+//source https://stackoverflow.com/questions/11652681/replacing-umlauts-in-js/11653019
 const umlautMap = {
   '\u00dc': 'UE',
   '\u00c4': 'AE',
@@ -31,7 +49,6 @@ const umlautMap = {
   '\u00f6': 'oe',
   '\u00df': 'ss',
 }
-
 function replaceUmlaute(str) {
   return str
     .replace(/[\u00dc|\u00c4|\u00d6][a-z]/g, (a) => {
@@ -44,28 +61,13 @@ function replaceUmlaute(str) {
 }
 
 
-
-
-
-//replace null with 0
+//replaces null with 0
 function getNum(val) {
    val = +val || 0
    return val;
 };
 
-
-
-
-var politicianData;
-var committeeData;
-var previousPolitician = [];
-
-
-var panelContent
-
-
-
-//electionResult column translation
+//electionResult column translation from database english to German
 var electionResult = function(result) {
 	if(result == "constituency") {
 		return "1. Stimme"}
@@ -74,6 +76,7 @@ var electionResult = function(result) {
 	else {return "k.A."}
 	}
 
+//replace null values for education
 var education = function(result) {
 	if (result == null) {
 		return "k.A."}
@@ -81,10 +84,14 @@ var education = function(result) {
 	}
 
 
+//-------------------------
 
+//SIDEBAR PANEL CREATION
+
+//content for attribution tab
 var attributionSidebar = {
 	id: 'attribution',       
-	tab: "<div class= 'attributionTab'><i class='fas fa-info-circle fa-2x'></i></div>", //countyContent.GEN
+	tab: "<div class= 'attributionTab'><i class='fas fa-info-circle fa-2x'></i></div>",
 	pane: "<div class='attributionInformation'>" +
 			"<br>"+
 			"<p>Die Daten zu allen Abgeordneten werden über <a href='www.abgeordnetenwatch.de'>abgeordnetenwatch.de's</a> web API abgerufen. </p>"  +
@@ -93,10 +100,10 @@ var attributionSidebar = {
 			"<p>Dies ist ein Projekt welches im Zusammenhang mit der Masterarbeit von Kristian Käsinger erstellt wurde. Bei Fragen und Anregungen melden Sie sich gerne per <a href='mailto:kristian.kaesinger@gmail.com'>Email</a> bei mir. </p>" +
 			
 			"<div id='symbolsBar'>" +
-				"<a href='https://github.com/anonymous-kris/abgeordnetenwatch_webmap' target='_blank'><i id='symbols' class='fab fa-github fa-5x'></i></a>"+
-				"<a href='https://abgeordnetenwatch.de' target='_blank'><img id='symbols' href='images/logo_RGB/aw_logo_2017_bildmarke_mittel.png'" +
+				"<a href='https://github.com/anonymous-kris/abgeordnetenwatch_webmap' target='_blank'><i id='gitHub' class='fab fa-github fa-5x'></i></a>"+
+				"<a href='https://twitter.com/kristiankaese' target='_blank'><i id='twitter' class='fab fa-twitter fa-5x'></i></a>"+
+				
 			"</div>" +
- 
 
 		"</div>",
 	title: '<div id="sidebarTitle">Datenquellen</div>',
@@ -112,8 +119,8 @@ var politicianSidebar = function(feature) {
 	sidebarClear(previousPolitician);
 
 	//request data for politicians in constituency
-	$.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?parliament_period=111&constituency_nr=" + feature.feature.properties.WKR_NR, function(data) {
-	 	console.log(data)
+	$.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?current_on=now&parliament_period=111&constituency_nr=" + feature.feature.properties.WKR_NR, function(data) {
+//	 	console.log(data)
 	 	var data1 = data.data
 	 //itterate through each object
 	 	$.each(data1, function(key, value){
@@ -207,10 +214,10 @@ var countySidebar = function(feature) {
 	console.log(listString)
 	panelContent = {
 			id: 'countySidebarId',       
-			tab: "<div class= 'countyTab'><b>"+ "Bundesland" +'</b></div>', //countyContent.GEN
+			tab: "<div class= 'countyTab'><b>"+ "Land" +'</b></div>', //countyContent.GEN
 			pane: "<div class='countyInformation'>" +
 					"<br>" +
-					"<p><b>Abgeordnete die in keinem Wahlkreis angetreten sind: </b></p>" +
+					"<p><b>Abgeordnete die über die Landesliste ins Parlament eingezogen sind, aber in keinem Wahlkreis angetreten sind: </b></p>" +
 					"<p><ul>" +
  					listString +
 					"</ul></p>" +
@@ -281,7 +288,7 @@ var constituencySidebar = function(feature) {
 		}
 	finally {
 
-		$.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?parliament_period=111&constituency_nr=" + feature.feature.properties.WKR_NR, function(data) {
+		$.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?current_on=now&parliament_period=111&constituency_nr=" + feature.feature.properties.WKR_NR, function(data) {
 
 			var metaData = data.meta
 			var data1 = data.data
