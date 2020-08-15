@@ -19,14 +19,12 @@ var map = L.map("map", {
 	minZoom: 6, 
 	maxZoom: 15, 
 //	keyboard: false,
-	scrollWheelZoom: false,
+//	scrollWheelZoom: false,
 	zoomAnimationThreshold: 10,
 });
 
 //define render settings with extended padding, to improve fluidity when panning and zooming
 var myRenderer = L.canvas({padding: 1.5});
-
-L.control.attribution({position: 'bottomleft'})
 
 
 //SIDEBAR SETUP
@@ -81,8 +79,8 @@ $.getJSON("shapes/constituencies_10weightedVivisogram.geojson", function(data) {
 		onEachFeature: 
 			function(feature, layer){
 				layer.bindTooltip(
- 					'<div class="popup">' + 
-    				'WK:' + feature.properties.WKR_NAME + '<br>' + 
+ 					'<div class="constituencyLabel">' + 
+    				feature.properties.WKR_NAME + '<br>' + 
     				'WK Nummer:' + feature.properties.WKR_NR + '</b>' + 
     				'</div>', constituencyLabelOptions
 				);
