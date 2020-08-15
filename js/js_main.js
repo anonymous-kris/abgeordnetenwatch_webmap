@@ -51,7 +51,7 @@ L.tileLayer(
 
 
 //ADDING COUNTRY BORDER TO MAP
-$.getJSON("shapes/state_line_03-08-2020_ZhouJones500m_ArcGIS.geojson", function(data) {
+$.getJSON("shapes/state_line_simplified_ZhouJones_500.geojson", function(data) {
 	state = L.geoJSON(data, {    
 
 
@@ -79,7 +79,7 @@ $.getJSON("shapes/constituencies_10weightedVivisogram.geojson", function(data) {
 		onEachFeature: 
 			function(feature, layer){
 				layer.bindTooltip(
- 					'<div class="constituencyLabel">' + 
+ 					'<div class="popup">' + 
     				feature.properties.WKR_NAME + '<br>' + 
     				'WK Nummer:' + feature.properties.WKR_NR + '</b>' + 
     				'</div>', constituencyLabelOptions
