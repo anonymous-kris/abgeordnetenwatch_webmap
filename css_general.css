@@ -1,7 +1,9 @@
+/*LABELSTYLES*/
+
 .labelstyle {
     color: rgb(220,220,220);
     font-size:14px;
-    font-weight: 700;
+    font-weight: bold;
     background-color: none;
     border-color: none;
     background: none;
@@ -11,10 +13,11 @@
     font-family: Yu Gothic;
 }
 
-
-
 .constituencyLabel {
-	background-color: rgba(255,255,255,.6);
+  text-align: center;
+  background-color: rgba(255,255,255,.9);
+  font-weight: bold;
+  border-width: 2px;
 }
 
 .cityLablesStyle {
@@ -28,18 +31,17 @@
     margin: 0px;
     font-family: Yu Gothic;
 }
+/*----------------*/
 
 
-#politician0 {
-	border: blue;
-}
+
 
 #line {
 	height: 2px;
 }
 
 
-
+/*LEAFLET-SIDEBAR ALTERATIONS*/
 
 .leaflet-sidebar {
   position: absolute;
@@ -159,6 +161,9 @@
     .leaflet-sidebar-header {
       width: 360px; } }
 
+
+/*SIDEBAR PANEL SETTINGS*/
+
 .polInformation, .countyInformation, .constituencyInformation, .attributionInformation {
 	padding-left: 40px;
 	padding-right: 20px;
@@ -179,9 +184,9 @@
     width: 100%;
     height: 60px;
     overflow: hidden;
-
 }
 
+/*PARTY COLOURS*/
 div#SPD > .leaflet-sidebar-header, .SPD , #SPDLine {
 	background-color: #DF0B25;
 }
@@ -210,8 +215,15 @@ div#Parteilos > .leaflet-sidebar-header, .Parteilos , #ParteilosLine {
 	background-color: #f0f0f0;
 }
 
+
+
+
+/*SPECIAL CHANGES FOR VISIBILLITY*/
 #Parteilos > h1 > #sidebarTitle > a {
 	color: black;
+}
+.leaflet-sidebar-tabs > li.active > .Parteilos, .leaflet-sidebar-tabs > ul > li.active > a > #Parteilos, #sidebarTitle.Parteilos > a, li.active >a > .Parteilos > .tab_text {
+  color: black;
 }
 
 #sidebarTitle.FDP > a {
@@ -220,26 +232,21 @@ div#Parteilos > .leaflet-sidebar-header, .Parteilos , #ParteilosLine {
 
 .attributionTab {
 	color: #F17240;
-	position: absolute;
-  	top: 50%;
-  	left: 50%;
-  	transform: translate(-50%, -50%);
+  height: 100%;
+  width: 100%;
+  line-height: 60px;
 }
 
-.attributionTab:hover {
-	font-size: 1.5em;
-}
-.attributionTab.active {
+li.active > a > .attributionTab {
 	background-color: #F17240;
+  color: white;
+  transform: scale(1.1);
+}
+.fas, .fa {
+  line-height: 60px;
 }
 
-
-
-
-.leaflet-sidebar-tabs > li.active > .Parteilos, .leaflet-sidebar-tabs > ul > li.active > a > #Parteilos, #sidebarTitle.Parteilos > a, li.active >a > .Parteilos > .tab_text {
-	color: black;
-}
-
+/*SPECIAL SETTINGS FOR COUNTY AND CONSTITUENCY TABS*/
 .leaflet-sidebar-tabs > ul > li > a > .countyTab {
 	background-color: #F17240;
 	opacity: 1;
@@ -254,10 +261,8 @@ div#Parteilos > .leaflet-sidebar-header, .Parteilos , #ParteilosLine {
 	font-size: 14px;
 }
 
-h1 {
-	padding-left: 40px;
-}
 
+/*ANIMATION SETTINGS*/
 
 @keyframes fadein {
     from { opacity: 0; }
@@ -276,16 +281,13 @@ h1 {
 
 
 p {
-	font-family: Yu Gothic;
+	font-family: Yu Gothic, sans-serif;
 }
 
 
 
 
-
-.popup {
-	text-align: center;
-}
+/*GENERAL ELEMENTS*/
 
 #everyting {
   width: 100%;
@@ -316,10 +318,54 @@ p {
   height: calc(100% - 50px);
 }
 
+body {
+    padding: 0;
+    margin: 0;
+    font-family: Yu Gothic;
+  }
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+#map {
+  width: 100%;
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+  animation: fadein 3s;
+  height: calc(100% - 50px);
+}
+
+
+a:link {
+text-decoration: none;
+}
+a:visited {
+
+}
+
+a:hover {
+  text-decoration: underline;
+  font-style: bold;
+}
+
+a.link:hover {
+  transform: scale(1.1);
+}
+
+hr {
+  border: none;
+  height: 2px;
+}
+
+
+
+/*HEADER*/
 #header {
   height: 50px;
   background-color: rgba(241,114,64,1);
-  z-index: 10;
+  z-index: 250;
+
 }
 #slogan {
   color: white;
@@ -327,11 +373,25 @@ p {
 
   height: 100%;
   padding-left: 50px;
-  z-index: 11;
+  z-index: ;
+}
+
+#language {
+  right: 50px;
+  line-height: 50px;
+  height: 100%;
+  z-index:11;
+  position: absolute;
+  color: white;
+  top: 0px;
+}
+#language > a {
+    color: white;
+
 }
 
 
-
+/*FONT AWESOME SYMBOLS*/
 #gitHub, #aw {
 	color: rgba(241,114,64,1);
 }
@@ -342,7 +402,6 @@ p {
   color: rgba(241,114,64,1);
   position: absolute;
   left: 80px;
-
 }
 
 
@@ -371,44 +430,31 @@ p {
 	bottom:20px;
 	left: 40px;
 }
-
-
-body {
-		padding: 0;
-		margin: 0;
-		font-family: Yu Gothic;
-	}
-html, body {
-	height: 100%;
-	width: 100%;
+i#AfD {
+  color:#1A9FDD;
+}
+i#Parteilos {
+  color: #f0f0f0;
+}
+i#DIELINKE {
+  color:#BC3475;
+}
+i#DIEGRUENEN {
+  color:#4A932B;
+}
+i#FDP {
+  color:#FEEB34;
+}
+i#CDU {
+  color:black;
+}
+i#CSU {
+  color:black;
+}
+i#SPD {
+  color:#DF0B25;
+}
+i:hover {
+  transform: scale(1.1);
 }
 
-#map {
-  width: 100%;
-	filter: blur(8px);
-  -webkit-filter: blur(8px);
-  animation: fadein 3s;
-  height: calc(100% - 50px);
-}
-
-
-a:link {
-text-decoration: none;
-}
-a:visited {
-
-}
-
-a:hover {
-	text-decoration: underline;
-	font-style: bold;
-}
-
-a.link:hover {
-	transform: scale(1.1);
-}
-
-hr {
-	border: none;
-	height: 2px;
-}

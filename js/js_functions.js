@@ -1,3 +1,13 @@
+//FUNCTION THAT THE SCRIPT CALLS UPON
+// 1. Global Variables
+// 2. General Functions
+// 3. Feature Event Listeners
+// 4. Sidebar Panel Creation
+// 5. Highlighting Style definitions
+
+
+//----------------------
+//GLOBAL VARIABLES
 var previousCounty = null; //tracks which county was clicked previously, to show it again after hiding
 var previousConstituency = null; //tracks which constituency was clicked before
 
@@ -9,6 +19,9 @@ var previousPolitician = []; //tracks which sidebar panels were recently created
 var politicianData; //stores data on a requested politician
 var committeeData; //stores data on a specific committee (not in use currently)
 var noConstiuencyList = []; // stores information on which politicians have no constituency in the selected county
+
+
+
 
 
 //-------------------
@@ -84,9 +97,156 @@ var education = function(result) {
 	}
 
 
-//-------------------------
 
+//functions for showing and hiding layer in countyLayerGrp
+function showLayer(id) {
+	var lg = mapLayerGroups[id];
+	map.addLayer(lg)
+}
+
+function hideLayer(id) {
+	var lg = mapLayerGroups[id];
+	map.removeLayer(lg)
+}
+
+//Function with timeout to ensure that zoom and sidebar open animation dont conflict (causes graphic bugs and map breaking)
+var openSidebar = function() {
+	setTimeout(sidebar.open('countySidebarId'), 3000)
+};
+
+
+// fly to target feature and fit boundaries (right value determines padding to the right)
+function zoomFit(feature, rightValue) {
+	map.flyToBounds(feature.getBounds(),{paddingBottomRight: [rightValue, 50], paddingTopLeft:[50,50], duration: 0.9, easeLinearity: .1})
+}
+
+
+
+
+
+
+
+
+//-------------------------
+//CLICK ON FEATURE EVENTS (Event listeners)
+
+//click on constituency
+//takes information on target feature
+var clickConstituency = function(feature) {
+	constituencies.resetStyle(); //reset old selection styles
+	var currentLayer = feature.target;
+	sidebarClear(previousPolitician); //clear sidebar of previous politicians
+	constituencySidebar(currentLayer); //clear sidebar of previous constituency
+	politicianSidebar(currentLayer); //add Sidebar for local politicians
+	highlightConstituency(currentLayer); //highlight the clicked constituency
+	levelCounter = 2; // logic level 3, stops mouseout to reset this constituency
+}
+
+//highlighting of constituency
+var highlightConstituency = function(feature) {
+	feature.setStyle(highlightConstituencyStyle);
+	previousConstituency = feature;
+}
+
+//light highlighting on hover
+function highlightConstituencyHover(feature) {
+	var currentLayer = feature.target;
+		levelCounter = 1; //sets back to one, so that mouseout resets style
+		currentLayer.setStyle(highlightStyle);
+};
+
+//resets style on mouseout
+function resetConstituencyHover(feature) {
+	if(levelCounter == 1) {
+		var currentLayer = feature.target;
+		constituencies.resetStyle(currentLayer);
+	}
+};
+
+
+
+
+//County event control
+//upon click, zoom on layer and hide it. store layer information in "previousCounty". next click will show previously hidden layer
+function focusCounty(feature) {
+	if (previousCounty !== null) {
+		showLayer(previousCounty);
+		counties.resetStyle();
+	}
+	else {}
+	//remove existing politician tabs
+	sidebarClear(previousPolitician);
+
+	var currentLayer = feature.target;
+	var currentName = currentLayer.feature.properties.GEN;
+	
+	sidebar.addTo(map) //show sidebar again
+	countySidebar(currentLayer)
+
+	hideLayer(currentName); //hide layer to show constituencies underneath
+	zoomFit(currentLayer,450); //zoom to layer, with space for sidebar
+	levelCounter = 1; //set logic counter to 1
+	previousCounty = currentName; //save information on clicked county
+};
+
+//Highlighting counties on hover
+//strong highlighting if on logic levle 0, light highlighting if already on lvl 1
+function highlightFeatureHover(feature) {
+	var currentLayer = feature.target;
+	if(levelCounter == 0) {
+	currentLayer.setStyle(highlightStyle);
+	currentLayer.bringToFront();
+
+	}
+	else {
+		currentLayer.setStyle(lightHighlightStyle)
+	}
+};
+
+//reset highlighting on mouseout
+function resetHighlightHover(feature) {
+	var currentLayer = feature.target;
+	counties.resetStyle(currentLayer);
+}
+
+
+
+//on rightclick anywhere, reset map to starting position
+function onRightClick () {
+//	if(levelCounter !== 0) {  //Since free zoom with mousewheel is allowed, right click has to function alyways as a reset
+		counties.bringToFront();
+		counties.resetStyle();
+		constituencies.resetStyle();
+		showLayer(previousCounty);
+		sidebarClear(previousPolitician);
+		sidebar.removePanel(recentTopPanel)
+		sidebar.removePanel(recentConstituencyPanel)		
+		sidebar.close()
+		sidebar.remove();
+		zoomFit(state,50);
+		previousCounty = null
+		levelCounter = 0; // reset logic counter back to 1
+//	}
+//	else{}
+}
+
+
+
+
+
+//-----------------------------
 //SIDEBAR PANEL CREATION
+
+
+//takes list of sidebar IDs and removes them, resets the list
+var sidebarClear = function(list) {
+	for(var i in list) {
+		//console.log(i);
+		sidebar.removePanel(list[i]);
+	}
+	list = [];
+}
+
 
 //content for attribution tab
 var attributionSidebar = {
@@ -98,7 +258,8 @@ var attributionSidebar = {
 			"<p>Die Geodaten wurden vom <a href='http://www.bkg.bund.de'>© GeoBasis-DE / BKG (2020) </a> und dem <a href='https://www.bundeswahlleiter.de/bundestagswahlen/2017/wahlkreiseinteilung/downloads.html'> © Der Bundeswahlleiter, Statistisches Bundesamt, Wiesbaden 2016 </a> bereitgestellt. </p>"+
 			"<hr id ='line'>" +
 			"<p>Dies ist ein Projekt welches im Zusammenhang mit der Masterarbeit von Kristian Käsinger erstellt wurde. Bei Fragen und Anregungen melden Sie sich gerne per <a href='mailto:kristian.kaesinger@gmail.com'>Email</a> bei mir. </p>" +
-			
+			"<p>Version 0.9</p>" +
+//			"<p>Diese Version ist eine Legacy Version, die nicht weiter entwickelt wird, damit sie mit der Dokumentation der dazugehörigen Masterarbeit übereinstimmt.<br>Eine neue Version können Sie später hier finden:<br>'_________________'</p>" +
 			"<div id='symbolsBar'>" +
 				"<a href='https://github.com/anonymous-kris/abgeordnetenwatch_webmap' target='_blank'><i id='gitHub' class='fab fa-github fa-5x'></i></a>"+
 				"<a href='https://twitter.com/kristiankaese' target='_blank'><i id='twitter' class='fab fa-twitter fa-5x'></i></a>"+
@@ -110,29 +271,23 @@ var attributionSidebar = {
 	position: 'bottom'
 }
 
-
-
-
-
+//create politicianSidebar
 var politicianSidebar = function(feature) {
 	//remove previous panels and empty array
 	sidebarClear(previousPolitician);
 
 	//request data for politicians in constituency
 	$.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?current_on=now&parliament_period=111&constituency_nr=" + feature.feature.properties.WKR_NR, function(data) {
-//	 	console.log(data)
 	 	var data1 = data.data
-	 //itterate through each object
+	  //itterate through each object
 	 	$.each(data1, function(key, value){
 
 
-//				//committee memberships
-//				$.getJSON("https://www.abgeordnetenwatch.de/api/v2/committee-memberships?candidacy_mandate[entity.id]=" + value.id, function(data) {
-//					committeeData = data.data
-//					console.log(committeeData)
-				
-
-				//cors anywhere prefix: https://cors-anywhere.herokuapp.com/
+				/* //committee memberships - currently not used due to issues with the AJAX requests
+				$.getJSON("https://www.abgeordnetenwatch.de/api/v2/committee-memberships?candidacy_mandate[entity.id]=" + value.id, function(data) {
+					committeeData = data.data
+					console.log(committeeData)
+				*/
 
 				//get information from politician entity
 				$.getJSON("https://www.abgeordnetenwatch.de/api/v2/politicians/" + value.politician.id, function(data) {
@@ -155,17 +310,16 @@ var politicianSidebar = function(feature) {
 							"<p><b>Geburtsjahr: </b>"+ politicianData.year_of_birth +"</p>" +
 							"<p><b>Ausbildung: </b>" + education(politicianData.education) + "</p>" +
 							"<p><b>Beruf: </b>"+ politicianData.occupation +"</p>" +
-
-//symbols							"<div><a href='"+ politicianData.abgeordnetenwatch_url +"' target='_blank'><i class='fas fa-user'></i></a> <i class='fas fa-envelope''></i></div>"+
+						//icon that links to their profile
+						"<div id='symbolsBar'><a href='"+ politicianData.abgeordnetenwatch_url +"' target='_blank'><i id='"+replaceUmlaute(party_nospace(politicianData.party.label))+"' class='fas fa-user fa-5x'></i></a></div>"+
 
 						"</div>",
 						title: '<div id="sidebarTitle" class="'+ replaceUmlaute(party_nospace(politicianData.party.label)) +'"><a class="link" href="'+ politicianData.abgeordnetenwatch_url +'" target="_blank">' +  value.politician.label + "</a></div>",
 						position: 'top'
 						}
-			console.log(panelContent);
 			sidebar.addPanel(panelContent);
-
-//	      	sidebar.addPanel(panelContent);        
+     
+     		//save the id of the added tab in the list
 			previousPolitician.push(panelContent.id) 
 			})})
 
@@ -173,58 +327,53 @@ var politicianSidebar = function(feature) {
 		}
 
  
-		//add panel to sidebar and remind to list of displayed politicans for later removal
-
-
-
-var sidebarClear = function(list) {
-	for(var i in list) {
-		//console.log(i);
-		sidebar.removePanel(list[i]);
-	}
-	previousPolitician = [];
-}
-
-//store information on recent info panel to easily remove it before a new one is added
-
+//Create sidebar with county information after click as well as politicians that belong to no constituency
 var countySidebar = function(feature) {
+	//gets information on the clicked feature
 	var countyContent = feature.feature.properties
-	try {
+
+	//remove old panels, only exist if levelCounter is 1
+	if(levelCounter == 1) {
 	sidebar.removePanel(recentTopPanel)
 	sidebar.removePanel(recentConstituencyPanel)
-	}
-	finally {}
-	//empty the list
-	noConstiuencyList = []
 	sidebarClear(previousPolitician)
+	}
+
+	//empty the list of politicians in the county that have no constituency
+	noConstiuencyList = []
+	//array used to create for pane content
 	var listString = []
+
 
 
 	$.each(noConstituencyPolitician, function(key,value) {
 		//ignore null values
 		if(value.electoral_data_electoral_list !== null) {
+			//check if they are of this sppecific counties electionList
 			if(value.electoral_data_electoral_list.label == "Landesliste " + countyContent.GEN + " (Bundestag)") 
-			{
+			{	//create a list item and push the politician for later sidebarTab creation
 				listString.push("<li>" + value.politician.label +" (" + value.fraction_membership[0].label + ")</li>")
 				noConstiuencyList.push(key)
 			}
 		}
 		})
+	//convert the array into a long string
 	listString = listString.join("")
-	console.log(listString)
+
+	//create panel content for county
 	panelContent = {
 			id: 'countySidebarId',       
-			tab: "<div class= 'countyTab'><b>"+ "Land" +'</b></div>', //countyContent.GEN
+			tab: "<div class= 'countyTab'><b>"+ "Land" +'</b></div>',
 			pane: "<div class='countyInformation'>" +
 					"<br>" +
-					"<p><b>Abgeordnete die über die Landesliste ins Parlament eingezogen sind, aber in keinem Wahlkreis angetreten sind: </b></p>" +
+					"<p><b>Abgeordnete aus "+ countyContent.GEN +" die über die Landesliste ins Parlament eingezogen sind, aber in keinem Wahlkreis angetreten sind: </b></p>" +
 					"<p><ul>" +
  					listString +
 					"</ul></p>" +
 				"</div>",
 			title: '<div id="sidebarTitle">'+countyContent.GEN +"</div>",
 			position: 'top',
-			button: function (event) { //opens county panel again
+			button: function (event) { //button that resets constituency and politician tabs
 				sidebar.open('countySidebarId')
 				sidebarClear(previousPolitician);
 				sidebar.removePanel(recentConstituencyPanel);
@@ -238,14 +387,15 @@ var countySidebar = function(feature) {
 	sidebar.open(panelContent.id)
 	recentTopPanel = panelContent.id
 
-	//create noConstituencyPanels
-
+	//create noConstituencyPanels by giving above created list
 	countyNoConstituency(noConstiuencyList)
 
 }
 
+//crate sidebar tabs for politicians that have no constituency
 var countyNoConstituency = function(list) {
 	$.each(list, function(key,value){
+		//get additional data from API
 		$.getJSON("https://www.abgeordnetenwatch.de/api/v2/politicians/" + noConstituencyPolitician[value].politician.id, function(data) {
 			politicianData = data.data;
 
@@ -264,6 +414,9 @@ var countyNoConstituency = function(list) {
 						"<p><b>Ausbildung: </b>" + education(politicianData.education) + "</p>" +
 						"<p><b>Beruf: </b>"+ politicianData.occupation +"</p>" +
 
+						"<div id='symbolsBar'><a href='"+ politicianData.abgeordnetenwatch_url +"' target='_blank'><i id='"+replaceUmlaute(party_nospace(politicianData.party.label))+"' class='fas fa-user fa-5x'></i></a></div>"+
+
+
 					"</div>",
 				title: '<div id="sidebarTitle" class="'+ replaceUmlaute(party_nospace(politicianData.party.label)) +'"><a class="link" href="'+ politicianData.abgeordnetenwatch_url +'" target="_blank">' +  noConstituencyPolitician[value].politician.label  +"</a></div>",
 				position: 'top'
@@ -275,30 +428,29 @@ var countyNoConstituency = function(list) {
 
 
 
-
-
-
-
+//crate sidebar for the clicked constituency
 var constituencySidebar = function(feature) {
+	//gets data from constituency
 	var constituencyContent = feature.feature.properties
-	console.log (constituencyContent)
+	//resets panelContent
 	panelContent = null;
-	try {
+
+	try { // remove old panels, if not the first one
 		sidebar.removePanel(recentConstituencyPanel)
 		}
 	finally {
-
+		//get data on MPs from constituency
 		$.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?current_on=now&parliament_period=111&constituency_nr=" + feature.feature.properties.WKR_NR, function(data) {
-
+			//get metadata for total amount of politicians
 			var metaData = data.meta
 			var data1 = data.data
 
+			//prepare string with List of politicians
 			var listString = []
 				for(var i in data1) {
-					listString.push("<li>" + data1[i].politician.label +" (" + data1[i].fraction_membership[0].label + ")</li>")
-					console.log(data1[i].politician.label)
+					listString.push("<li>" + data1[i].politician.label +" (" + data1[i].fraction_membership[0].label + ")</li>");
 					}
-				listString = listString.join("")
+				listString = listString.join("");
 
 
 			panelContent = {
@@ -317,8 +469,8 @@ var constituencySidebar = function(feature) {
 		}
 			sidebar.addPanel(panelContent)
 			sidebar.open('constituencySidebarId')
-			fitty('#sidebarTitle', {minSize: 4})
-			console.log(panelContent)
+			fitty('#sidebarTitle', {minSize: 4}) //fits text of constituency into sidebar
+			//safe name of recent constituency
 			recentConstituencyPanel = panelContent.id
 	})
 
@@ -326,156 +478,8 @@ var constituencySidebar = function(feature) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-var clickConstituency = function(feature) {
-	constituencies.resetStyle();
-	var currentLayer = feature.target;
-	sidebarClear(previousPolitician);
-	constituencySidebar(currentLayer);
-	politicianSidebar(currentLayer);
-	highlightConstituency(currentLayer);
-	levelCounter = 2;
-}
-
-var highlightConstituency = function(feature) {
-	feature.setStyle(highlightConstituencyStyle);
-	previousConstituency = feature;
-}
-
-
-
-
-
-
-
-// fit to the zoom of feature (leave space for sidebar)
-function zoomFit(feature, rightValue) {
-	map.flyToBounds(feature.getBounds(),{paddingBottomRight: [rightValue, 50], paddingTopLeft:[50,50], duration: 0.9, easeLinearity: .1})
-}
-
-
-
-function highlightConstituencyHover(feature) {
-	var currentLayer = feature.target;
-		levelCounter = 1;
-		currentLayer.setStyle(highlightStyle);
-
-	
-};
-
-function resetConstituencyHover(feature) {
-	if(levelCounter == 1) {
-		var currentLayer = feature.target;
-		constituencies.resetStyle(currentLayer);
-	}
-};
-
-
-//strong highlighting if on state view, light highlighting if in county view
-function highlightFeatureHover(feature) {
-	var currentLayer = feature.target;
-	if(levelCounter == 0) {
-	currentLayer.setStyle(highlightStyle);
-	currentLayer.bringToFront();
-
-	}
-	else {
-		currentLayer.setStyle(lightHighlightStyle)
-	}
-}	
-
-function resetHighlightHover(feature) {
-	var currentLayer = feature.target;
-	counties.resetStyle(currentLayer);
-}
-
-function highlightFeatureClick(feature) {
-	feature.setStyle(clickStyle)
-}
-
-
-
-
-//ON ANY RIGHT CLICK, RETURN TO STATE VIEW
-function onRightClick () {
-
-	if(levelCounter !== 0) {
-		counties.bringToFront();
-		counties.resetStyle();
-		constituencies.resetStyle();
-		showLayer(previousCounty);
-		sidebarClear(previousPolitician);
-		sidebar.removePanel(recentTopPanel)
-		sidebar.removePanel(recentConstituencyPanel)
-		
-		sidebar.close()
-		sidebar.remove();
-		zoomFit(state,50);
-		previousCounty = null
-		levelCounter = 0;
-	}
-
-	else{}
-}
-
-
-
-//FUNCTIONS TO TOGGLE COUNTY LAYERGRPS
-function showLayer(id) {
-	var lg = mapLayerGroups[id];
-	map.addLayer(lg)
-}
-
-function hideLayer(id) {
-	var lg = mapLayerGroups[id];
-	map.removeLayer(lg)
-}
-
-
-var openSidebar = function() {
-	setTimeout(sidebar.open('countySidebarId'), 3000)
-};
-
-
-//upon click, zoom on layer and hide it. store layer information in "previousCounty". next click will show previously hidden layer
-function focusCounty(feature) {
-	if (previousCounty !== null) {
-		showLayer(previousCounty);
-		counties.resetStyle();
-	}
-	else {}
-
-	sidebarClear(previousPolitician);
-	var currentLayer = feature.target;
-	var currentName = currentLayer.feature.properties.GEN;
-	
-	sidebar.addTo(map)
-	countySidebar(currentLayer)
-
-	hideLayer(currentName);
-	zoomFit(currentLayer,450);
-	//fire open sidebar once zoom is finished
-
-//	sidebar.open('countySidebarId')
-	
-	levelCounter = 1;
-	previousCounty = currentName;
-
-
-};
-
-
-
-//Style definitions
+//-------------------------------------
+//HIGHLIGHTING STYLE INFORMATION
 var highlightStyle = {
 	color: "black",
 	fillColor: "rgb(240,240,240)",
@@ -496,3 +500,4 @@ var highlightConstituencyStyle = {
 	fillColor: "rgb(243,111,60)",
 	fillOpacity: 1
 }
+
