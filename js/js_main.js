@@ -177,7 +177,7 @@ $.getJSON("shapes/counties_10weightedVivisogram.geojson", function(data) {
 
 });
 
-map.on("contextmenu", onRightClick) //clicking anywhere will reset map
+//map.on("contextmenu", onRightClick) //clicking anywhere will reset map
 
 
 //load data on politicians that cannot be queried from abgeordnetenwatch.de

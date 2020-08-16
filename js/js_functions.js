@@ -217,7 +217,8 @@ function onRightClick () {
 		counties.bringToFront();
 		counties.resetStyle();
 		constituencies.resetStyle();
-		showLayer(previousCounty);
+		if(previousCounty !== null){
+			showLayer(previousCounty);}
 		sidebarClear(previousPolitician);
 		sidebar.removePanel(recentTopPanel)
 		sidebar.removePanel(recentConstituencyPanel)		
