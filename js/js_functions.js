@@ -15,6 +15,9 @@ var panelContent //stores sidebar panel content
 var recentConstituencyPanel //tracks which constituency panel was created recently
 var recentTopPanel; //tracks which county panel was created (for easy removal)
 var previousPolitician = []; //tracks which sidebar panels were recently created for politicians (for easy removal)
+var previousCountyList = []; //prevent fast clicking bug
+var previousConstituencyList = []; //prevent fast cicking bug
+
 
 var politicianData; //stores data on a requested politician
 var committeeData; //stores data on a specific committee (not in use currently)
@@ -217,7 +220,8 @@ function onRightClick () {
 		counties.bringToFront();
 		counties.resetStyle();
 		constituencies.resetStyle();
-		showLayer(previousCounty);
+		if(previousCounty !== null){
+			showLayer(previousCounty);}
 		sidebarClear(previousPolitician);
 		sidebar.removePanel(recentTopPanel)
 		sidebar.removePanel(recentConstituencyPanel)		
@@ -248,6 +252,17 @@ var sidebarClear = function(list) {
 }
 
 
+
+
+//content for reset sidebar
+var resetSidebar = {
+	id: 'reset',       
+	tab: "<div class= 'attributionTab'><i class='fas fa-undo-alt fa-2x'></i></div>",
+	button: function (event) {onRightClick()},
+	position: 'bottom'
+}
+
+
 //content for attribution tab
 var attributionSidebar = {
 	id: 'attribution',       
@@ -258,7 +273,7 @@ var attributionSidebar = {
 			"<p>Die Geodaten wurden vom <a href='http://www.bkg.bund.de'>© GeoBasis-DE / BKG (2020) </a> und dem <a href='https://www.bundeswahlleiter.de/bundestagswahlen/2017/wahlkreiseinteilung/downloads.html'> © Der Bundeswahlleiter, Statistisches Bundesamt, Wiesbaden 2016 </a> bereitgestellt. </p>"+
 			"<hr id ='line'>" +
 			"<p>Dies ist ein Projekt welches im Zusammenhang mit der Masterarbeit von Kristian Käsinger erstellt wurde. Bei Fragen und Anregungen melden Sie sich gerne per <a href='mailto:kristian.kaesinger@gmail.com'>Email</a> bei mir. </p>" +
-			"<p>Version 0.9.1</p>" +
+			"<p>Version 0.9.2</p>" +
 //			"<p>Diese Version ist eine Legacy Version, die nicht weiter entwickelt wird, damit sie mit der Dokumentation der dazugehörigen Masterarbeit übereinstimmt.<br>Eine neue Version können Sie später hier finden:<br>'_________________'</p>" +
 			"<div id='symbolsBar'>" +
 				"<a href='https://github.com/anonymous-kris/abgeordnetenwatch_webmap' target='_blank'><i id='gitHub' class='fab fa-github fa-5x'></i></a>"+
@@ -334,8 +349,8 @@ var countySidebar = function(feature) {
 
 	//remove old panels, only exist if levelCounter is 1
 	if(levelCounter == 1) {
-	sidebar.removePanel(recentTopPanel)
-	sidebar.removePanel(recentConstituencyPanel)
+	sidebarClear(previousConstituencyList)
+	sidebarClear(previousCountyList)
 	sidebarClear(previousPolitician)
 	}
 
@@ -385,7 +400,7 @@ var countySidebar = function(feature) {
 //	console.log(panelContent);
 	sidebar.addPanel(panelContent);
 	sidebar.open(panelContent.id)
-	recentTopPanel = panelContent.id
+	previousCountyList.push(panelContent.id)
 
 	//create noConstituencyPanels by giving above created list
 	countyNoConstituency(noConstiuencyList)
@@ -432,13 +447,13 @@ var countyNoConstituency = function(list) {
 var constituencySidebar = function(feature) {
 	//gets data from constituency
 	var constituencyContent = feature.feature.properties
+	sidebarClear(previousConstituencyList)
 	//resets panelContent
 	panelContent = null;
 
-	try { // remove old panels, if not the first one
-		sidebar.removePanel(recentConstituencyPanel)
-		}
-	finally {
+
+	sidebar.removePanel(recentConstituencyPanel)
+
 		//get data on MPs from constituency
 		$.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?current_on=now&parliament_period=111&constituency_nr=" + feature.feature.properties.WKR_NR, function(data) {
 			//get metadata for total amount of politicians
@@ -471,11 +486,11 @@ var constituencySidebar = function(feature) {
 			sidebar.open('constituencySidebarId')
 			fitty('#sidebarTitle', {minSize: 4}) //fits text of constituency into sidebar
 			//safe name of recent constituency
-			recentConstituencyPanel = panelContent.id
+			previousConstituencyList.push(panelContent.id)
 	})
 
 	}
-}
+
 
 
 //-------------------------------------

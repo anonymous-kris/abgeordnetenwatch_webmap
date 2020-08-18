@@ -36,17 +36,9 @@ var sidebar = L.control.sidebar({
 });
 
 sidebar.addTo(map)
+sidebar.addPanel(resetSidebar) //added once and stays
 sidebar.addPanel(attributionSidebar) //added once, and stays
 sidebar.remove()
-
-
-
-/* //optional tile layer, curesy of openstreetmap
-L.tileLayer(
-    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", 
-    {attribution: "&copy; OpenStreetMap"}
-).addTo(map);
-*/
 
 
 
@@ -177,7 +169,7 @@ $.getJSON("shapes/counties_10weightedVivisogram.geojson", function(data) {
 
 });
 
-map.on("contextmenu", onRightClick) //clicking anywhere will reset map
+//map.on("contextmenu", onRightClick) //clicking anywhere will reset map
 
 
 //load data on politicians that cannot be queried from abgeordnetenwatch.de
