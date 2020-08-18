@@ -391,7 +391,7 @@ var countySidebar = function(feature) {
 			button: function (event) { //button that resets constituency and politician tabs
 				sidebar.open('countySidebarId')
 				sidebarClear(previousPolitician);
-				sidebar.removePanel(recentConstituencyPanel);
+				sidebarClear(previousConstituencyList);
 				constituencies.resetStyle();
 				countyNoConstituency(noConstiuencyList);
 			 }
