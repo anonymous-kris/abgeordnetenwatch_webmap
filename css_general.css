@@ -50,9 +50,9 @@
   width: 100%;
   overflow: hidden;
   z-index: 2000;
-  height: 500px; }
+  height: 540px; }
   .leaflet-sidebar.collapsed {
-    width: 40px; }
+    width: 60px; }
 
 .leaflet-sidebar-header {
   margin: 0px 60px 0px 0px;
