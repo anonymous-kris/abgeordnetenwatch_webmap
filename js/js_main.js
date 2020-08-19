@@ -182,7 +182,8 @@ $.getJSON("data/candidacies_mandates(no-constituency).json", function(data){
 
 //remove instructions and blur at the beginning (giving map time to load)
 $('#description').on("click", function(){
-	$('#backdrop').remove()
+	$('#backdrop').remove();
+	$('#header').remove();
 	$('#description').fadeOut(4000);
 	$('#map').css({"animation": "noBlur 1s ease 0s 1 normal forwards"})
 })
@@ -190,8 +191,11 @@ $('#description').on("click", function(){
 
 $('#backdrop').on("click", function(){
 	$('#backdrop').remove()
+	$('#header').remove();
 	$('#description').fadeOut(4000);
 	$('#map').css({"animation": "noBlur 1s ease 0s 1 normal forwards" })
 
 })
+
+fitty('#headline', {minSize: 12, maxSize: 20, multiLine: true}) //fits text of constituency into sidebar
 
