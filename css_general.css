@@ -55,16 +55,14 @@
     width: 60px; }
 
 .leaflet-sidebar-header {
-  margin: 0px 60px 0px 0px;
+  margin-top: 0;
   height: 60px;
   padding: 0px;
-  padding-right: 60px;
-  line-height: 60px;
+
   border-radius: 0;
   top: 0;
   left: 0;
   border: none;
-  width: 100%;
   font-size: 20px;
   color: #fff;
   background-color: rgba(241,114,64,1); }
@@ -151,15 +149,12 @@
     overflow-y: hidden; }
 
 
-  @media (min-width: 768px) and (max-width: 991px) {
+/*  @media (min-width: 600px) and (max-width: 991px) {
     .leaflet-sidebar-header {
-      width: 205px; } }
-  @media (min-width: 992px) and (max-width: 1199px) {
+      width: 245px; } }*/
+  @media (min-width: 600px){
     .leaflet-sidebar-header {
-      width: 290px; } }
-  @media (min-width: 1200px) {
-    .leaflet-sidebar-header {
-      width: 360px; } }
+      width: 330px; } }
 
 
 /*SIDEBAR PANEL SETTINGS*/
@@ -170,20 +165,37 @@
 	height: 440px;
 }
 
-#sidebarTitle > a{
+#sidebarTitleText > a{
 	color: white;
 	font-family: Yu Gothic;
 	font-weight: bold;
+}
 
+
+#sidebarTitleColor {
+	margin: 0px 70px 0px 0px;
+  width: 100%;
+  height: 60px;
+  box-sizing: border-box;
 }
 
 #sidebarTitle {
-	margin: 0px 70px 0px 0px;
-    padding-left: 40px;
-    padding-right: 60px;
-    width: 100%;
-    height: 60px;
-    overflow: hidden;
+  overflow: auto;
+  display : flex;
+  align-items : center;
+  box-sizing: border-box;
+  height: 60px;
+  position: absolute;
+  left: 40px;
+
+  width: calc(100% - 50px);
+}
+
+#sidebarTitleText {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1.5;
+  width: 100%;
 }
 
 /*PARTY COLOURS*/
@@ -219,14 +231,14 @@ div#Parteilos > .leaflet-sidebar-header, .Parteilos , #ParteilosLine {
 
 
 /*SPECIAL CHANGES FOR VISIBILLITY*/
-#Parteilos > h1 > #sidebarTitle > a {
+#sidebarTitleColor.Parteilos > #sidebarTitle > #sidebarTitleText > a {
 	color: black;
 }
-.leaflet-sidebar-tabs > li.active > .Parteilos, .leaflet-sidebar-tabs > ul > li.active > a > #Parteilos, #sidebarTitle.Parteilos > a, li.active >a > .Parteilos > .tab_text {
+.leaflet-sidebar-tabs > li.active > .Parteilos, .leaflet-sidebar-tabs > ul > li.active > a > #Parteilos, #sidebarTitleColor.Parteilos > a, li.active >a > .Parteilos > .tab_text {
   color: black;
 }
 
-#sidebarTitle.FDP > a {
+#sidebarTitleColor.FDP> #sidebarTitle > #sidebarTitleText > a  {
 	color: black;
 }
 
@@ -304,7 +316,7 @@ p {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 5;
-  width: 600px;
+  width: 60%;
   text-align: center;
 }
 
@@ -313,7 +325,7 @@ p {
 	height: 100%;
   position: absolute;
 	background-color: rgba(0,0,0, 0.4);
-   position: absolute;
+  position: absolute;
   z-index: 5;
   height: calc(100% - 50px);
 }
@@ -333,7 +345,9 @@ html, body {
   filter: blur(8px);
   -webkit-filter: blur(8px);
   animation: fadein 3s;
-  height: calc(100% - 50px);
+  height: 100%;
+  position: absolute;
+  top:0;
 }
 
 
@@ -364,16 +378,21 @@ hr {
 #header {
   height: 50px;
   background-color: rgba(241,114,64,1);
-  z-index: 250;
+  z-index: 6;
+  display : flex;
+  align-items : center;
+  width: 100%;
+  position: absolute;
+  top: 0;
 
 }
 #slogan {
   color: white;
-  line-height: 50px;
-
-  height: 100%;
-  padding-left: 50px;
-  z-index: ;
+  line-height: 1.5;
+  width: 100%;
+}
+#headline {
+    padding-left: 50px;
 }
 
 #language {

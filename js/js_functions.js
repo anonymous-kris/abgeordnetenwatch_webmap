@@ -23,6 +23,7 @@ var politicianData; //stores data on a requested politician
 var committeeData; //stores data on a specific committee (not in use currently)
 var noConstiuencyList = []; // stores information on which politicians have no constituency in the selected county
 
+var fitTitle
 
 
 
@@ -143,6 +144,7 @@ var clickConstituency = function(feature) {
 	politicianSidebar(currentLayer); //add Sidebar for local politicians
 	highlightConstituency(currentLayer); //highlight the clicked constituency
 	levelCounter = 2; // logic level 3, stops mouseout to reset this constituency
+
 }
 
 //highlighting of constituency
@@ -282,7 +284,7 @@ var attributionSidebar = {
 			"</div>" +
 
 		"</div>",
-	title: '<div id="sidebarTitle">Datenquellen</div>',
+	title: '<div id="sidebarTitleColor"><div id="sidebarTitle"><div id=sidebarTitleText>Datenquellen</div></div></div>',
 	position: 'bottom'
 }
 
@@ -329,7 +331,7 @@ var politicianSidebar = function(feature) {
 						"<div id='symbolsBar'><a href='"+ politicianData.abgeordnetenwatch_url +"' target='_blank'><i id='"+replaceUmlaute(party_nospace(politicianData.party.label))+"' class='fas fa-user fa-5x'></i></a></div>"+
 
 						"</div>",
-						title: '<div id="sidebarTitle" class="'+ replaceUmlaute(party_nospace(politicianData.party.label)) +'"><a class="link" href="'+ politicianData.abgeordnetenwatch_url +'" target="_blank">' +  value.politician.label + "</a></div>",
+						title: '<div id="sidebarTitleColor" class="'+ replaceUmlaute(party_nospace(politicianData.party.label)) +'"><div id="sidebarTitle"><div id=sidebarTitleText><a class="link" href="'+ politicianData.abgeordnetenwatch_url +'" target="_blank">' +  value.politician.label + "</a></div></div></div>",
 						position: 'top'
 						}
 			sidebar.addPanel(panelContent);
@@ -386,7 +388,7 @@ var countySidebar = function(feature) {
  					listString +
 					"</ul></p>" +
 				"</div>",
-			title: '<div id="sidebarTitle">'+countyContent.GEN +"</div>",
+			title: '<div id="sidebarTitleColor"><div id="sidebarTitle"><div id=sidebarTitleText>'+countyContent.GEN +"</div></div></div>",
 			position: 'top',
 			button: function (event) { //button that resets constituency and politician tabs
 				sidebar.open('countySidebarId')
@@ -433,7 +435,7 @@ var countyNoConstituency = function(list) {
 
 
 					"</div>",
-				title: '<div id="sidebarTitle" class="'+ replaceUmlaute(party_nospace(politicianData.party.label)) +'"><a class="link" href="'+ politicianData.abgeordnetenwatch_url +'" target="_blank">' +  noConstituencyPolitician[value].politician.label  +"</a></div>",
+				title: '<div id="sidebarTitleColor" class="'+ replaceUmlaute(party_nospace(politicianData.party.label)) +'"><div id="sidebarTitle"><div id=sidebarTitleText><a class="link" href="'+ politicianData.abgeordnetenwatch_url +'" target="_blank">' +  noConstituencyPolitician[value].politician.label  +"</a></div></div></div>",
 				position: 'top'
 		}
 		sidebar.addPanel(panelContentNoConstituency)
@@ -479,18 +481,19 @@ var constituencySidebar = function(feature) {
  					listString +
 					"</ul></p>" +
 				"</div>",
-				title: '<div id="sidebarTitle">' + constituencyContent.WKR_NAME + "</div>",
+				title: '<div id="sidebarTitleColor"><div id="sidebarTitle"><div id="sidebarTitleText">' + constituencyContent.WKR_NAME + "</div></div></div>",
 				position: 'top'
 		}
 			sidebar.addPanel(panelContent)
 			sidebar.open('constituencySidebarId')
-			fitty('#sidebarTitle', {minSize: 4}) //fits text of constituency into sidebar
+			fitty('#sidebarTitleText', {minSize: 12, maxSize: 20, multiLine: true}) //fits text of constituency into sidebar
+
+
 			//safe name of recent constituency
 			previousConstituencyList.push(panelContent.id)
 	})
 
 	}
-
 
 
 //-------------------------------------
