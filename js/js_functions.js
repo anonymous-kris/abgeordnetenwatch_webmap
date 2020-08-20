@@ -275,7 +275,7 @@ var attributionSidebar = {
 			"<p>Die Geodaten wurden vom <a href='http://www.bkg.bund.de'>© GeoBasis-DE / BKG (2020) </a> und dem <a href='https://www.bundeswahlleiter.de/bundestagswahlen/2017/wahlkreiseinteilung/downloads.html'> © Der Bundeswahlleiter, Statistisches Bundesamt, Wiesbaden 2016 </a> bereitgestellt. </p>"+
 			"<hr id ='line'>" +
 			"<p>Dies ist ein Projekt welches im Zusammenhang mit der Masterarbeit von Kristian Käsinger erstellt wurde. Bei Fragen und Anregungen melden Sie sich gerne per <a href='mailto:kristian.kaesinger@gmail.com'>Email</a> bei mir. </p>" +
-			"<p>Version 0.9.3</p>" +
+			"<p>Version 0.9.4</p>" +
 //			"<p>Diese Version ist eine Legacy Version, die nicht weiter entwickelt wird, damit sie mit der Dokumentation der dazugehörigen Masterarbeit übereinstimmt.<br>Eine neue Version können Sie später hier finden:<br>'_________________'</p>" +
 			"<div id='symbolsBar'>" +
 				"<a href='https://github.com/anonymous-kris/abgeordnetenwatch_webmap' target='_blank'><i id='gitHub' class='fab fa-github fa-5x'></i></a>"+
@@ -486,7 +486,7 @@ var constituencySidebar = function(feature) {
 		}
 			sidebar.addPanel(panelContent)
 			sidebar.open('constituencySidebarId')
-			fitty('#sidebarTitleText', {minSize: 12, maxSize: 20, multiLine: true}) //fits text of constituency into sidebar
+			fitty('#sidebarTitleText', {minSize: 12, maxSize: 16, multiLine: true}) //fits text of constituency into sidebar
 
 
 			//safe name of recent constituency
