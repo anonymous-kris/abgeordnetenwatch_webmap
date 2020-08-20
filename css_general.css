@@ -324,9 +324,17 @@ p {
 	width:100%;
 	height: 100%;
   position: absolute;
-	background-color: rgba(0,0,0, 0.4);
+  background-color: rgba(0,0,0,0.6);
   position: absolute;
-  z-index: 5;
+  z-index: 350;
+}
+
+.blocking {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: rgba(0,0,0,0.01);
+  z-index: 1000;
 }
 
 body {
@@ -429,8 +437,6 @@ hr {
   left: 10px;
   height: 50px;
   width: 50px;
-/*  background-color: rgba(255,255,255,0.8);*/
-  border-radius: 3;
   z-index: 2000;
 }
 
@@ -440,7 +446,6 @@ hr {
   background-color: white
   height:100%;
   width: 100%;
-
 }
 
 #symbolsBar {
@@ -448,6 +453,12 @@ hr {
 	bottom:20px;
 	left: 40px;
 }
+#ask {
+  position: absolute;
+  bottom:20px;
+  left: 40px;
+}
+
 i#AfD {
   color:#1A9FDD;
 }
@@ -475,4 +486,3 @@ i#SPD {
 i:hover {
   transform: scale(1.1);
 }
-

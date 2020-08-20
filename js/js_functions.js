@@ -121,7 +121,9 @@ var openSidebar = function() {
 
 // fly to target feature and fit boundaries (right value determines padding to the right)
 function zoomFit(feature, rightValue) {
+	createBlocking();
 	map.flyToBounds(feature.getBounds(),{paddingBottomRight: [rightValue, 50], paddingTopLeft:[50,50], duration: 0.9, easeLinearity: .1})
+
 }
 
 function abortAJAX() {
@@ -129,8 +131,12 @@ function abortAJAX() {
 	console.log("Aborted!")
 }
 
-
-
+function createBlocking() {
+	var div = document.createElement("div");
+	div.className = "blocking"
+//	div.innterHTML = "<div class='blocking'> 'a' </div>";
+	document.body.appendChild(div);	
+}
 
 
 
@@ -278,12 +284,11 @@ var attributionSidebar = {
 	id: 'attribution',       
 	tab: "<div class= 'attributionTab'><i class='fas fa-info-circle fa-2x'></i></div>",
 	pane: "<div class='attributionInformation'>" +
-			"<br>"+
 			"<p>Die Daten zu allen Abgeordneten werden über <a href='www.abgeordnetenwatch.de'>abgeordnetenwatch.de's</a> web API abgerufen. </p>"  +
 			"<p>Die Geodaten wurden vom <a href='http://www.bkg.bund.de'>© GeoBasis-DE / BKG (2020) </a> und dem <a href='https://www.bundeswahlleiter.de/bundestagswahlen/2017/wahlkreiseinteilung/downloads.html'> © Der Bundeswahlleiter, Statistisches Bundesamt, Wiesbaden 2016 </a> bereitgestellt. </p>"+
 			"<hr id ='line'>" +
 			"<p>Dies ist ein Projekt welches im Zusammenhang mit der Masterarbeit von Kristian Käsinger erstellt wurde. Bei Fragen und Anregungen melden Sie sich gerne per <a href='mailto:kristian.kaesinger@gmail.com'>Email</a> bei mir. </p>" +
-			"<p>Version 0.9.5</p>" +
+			"<p>Version 0.9.7</p>" +
 //			"<p>Diese Version ist eine Legacy Version, die nicht weiter entwickelt wird, damit sie mit der Dokumentation der dazugehörigen Masterarbeit übereinstimmt.<br>Eine neue Version können Sie später hier finden:<br>'_________________'</p>" +
 			"<div id='symbolsBar'>" +
 				"<a href='https://github.com/anonymous-kris/abgeordnetenwatch_webmap' target='_blank'><i id='gitHub' class='fab fa-github fa-5x'></i></a>"+
@@ -325,18 +330,18 @@ var politicianSidebar = function(feature) {
 						id: "politician" + key, //unique, responsible for opening content   
 						tab: '<div class='+ replaceUmlaute(party_nospace(politicianData.party.label)) + '><b class="tab_text">'+ name_initials(value.politician.label) +'</b></div>',
 						pane: "<div class='polInformation'>" +
-							"<br>" +
 							"<p><b>Fraktion: </b>"+ value.fraction_membership[0].label +"</p>" +
 							"<p><b>Mandat gewonnen über: </b>" + electionResult(value.electoral_data.mandate_won) + "</p>" +
 							"<p><b>Wahlergebnis: </b>" + getNum(value.electoral_data.constituency_result) +"%</p>"+
 							"<p><b>Listenposition: </b>" + value.electoral_data.list_position + "</p>" +
-							"<p><b>Beantwortete Fragen: </b>"+ getNum(politicianData.statistic_questions_answered) +"<b> / </b>"+ getNum(politicianData.statistic_questions) + "   (" + Math.round((politicianData.statistic_questions_answered / politicianData.statistic_questions)*100) +"%)</b></p>" +
 						"<hr id='"+replaceUmlaute(party_nospace(politicianData.party.label)) +"Line'>" +
 							"<p><b>Geburtsjahr: </b>"+ politicianData.year_of_birth +"</p>" +
 							"<p><b>Ausbildung: </b>" + education(politicianData.education) + "</p>" +
 							"<p><b>Beruf: </b>"+ politicianData.occupation +"</p>" +
+							"<p><b>Beantwortete Fragen: </b>"+ getNum(politicianData.statistic_questions_answered) +"<b> / </b>"+ getNum(politicianData.statistic_questions) + "   (" + Math.round((politicianData.statistic_questions_answered / politicianData.statistic_questions)*100) +"%)</b></p>" +
+
 						//icon that links to their profile
-						"<div id='symbolsBar'><a href='"+ politicianData.abgeordnetenwatch_url +"' target='_blank'><i id='"+replaceUmlaute(party_nospace(politicianData.party.label))+"' class='fas fa-user fa-5x'></i></a></div>"+
+						"<div id='symbolsBar'><a href='"+ politicianData.abgeordnetenwatch_url +"' target='_blank'><i id='"+replaceUmlaute(party_nospace(politicianData.party.label))+"' class='fas fa-user fa-5x'></i></a><img id='ask' src='images/askQuestion.svg'></a></div>"+
 
 						"</div>",
 						title: '<div id="sidebarTitleColor" class="'+ replaceUmlaute(party_nospace(politicianData.party.label)) +'"><div id="sidebarTitle"><div id=sidebarTitleText><a class="link" href="'+ politicianData.abgeordnetenwatch_url +'" target="_blank">' +  value.politician.label + "</a></div></div></div>",
@@ -390,7 +395,6 @@ var countySidebar = function(feature) {
 			id: 'countySidebarId',       
 			tab: "<div class= 'countyTab'><b>"+ "Land" +'</b></div>',
 			pane: "<div class='countyInformation'>" +
-					"<br>" +
 					"<p>Abgeordnete, die ihr Mandat über die Landesliste gewonnen haben, aber in keinem Wahlkreis angetreten sind: </b></p>" +
 					"<p><ul>" +
  					listString +
@@ -428,18 +432,18 @@ var countyNoConstituency = function(list) {
 				id: "politician" + key,       
 				tab: '<div class=' + replaceUmlaute(party_nospace(politicianData.party.label)) + '><b class="tab_text">'+ name_initials(noConstituencyPolitician[value].politician.label) +'</b></div>',
 				pane:"<div class='polInformation'>" +		
-						"<br>" +
 						"<p><b>Fraktion: </b>"+ noConstituencyPolitician[value].fraction_membership[0].label +"</p>" +
 						"<p><b>Mandat gewonnen über: </b>" + electionResult(noConstituencyPolitician[value].electoral_data_mandate_won) + "</p>" +
 						"<p><b>Wahlergebnis: </b>" + getNum(noConstituencyPolitician[value].electoral_data_constituency_result) +"%</p>"+
 						"<p><b>Listenposition: </b>" + noConstituencyPolitician[value].electoral_data_list_position + "</p>" +
-						"<p><b>Beantwortete Fragen: </b>"+ getNum(politicianData.statistic_questions_answered) +"<b> / </b>"+ getNum(politicianData.statistic_questions) + "   (" + Math.round((politicianData.statistic_questions_answered / politicianData.statistic_questions)*100) +"%)</b></p>" +
 					"<hr id='"+replaceUmlaute(party_nospace(politicianData.party.label)) +"Line'>" +
 						"<p><b>Geburtsjahr: </b>"+ politicianData.year_of_birth +"</p>" +
 						"<p><b>Ausbildung: </b>" + education(politicianData.education) + "</p>" +
 						"<p><b>Beruf: </b>"+ politicianData.occupation +"</p>" +
+						"<p><b>Beantwortete Fragen: </b>"+ getNum(politicianData.statistic_questions_answered) +"<b> / </b>"+ getNum(politicianData.statistic_questions) + "   (" + Math.round((politicianData.statistic_questions_answered / politicianData.statistic_questions)*100) +"%)</b></p>" +
 
-						"<div id='symbolsBar'><a href='"+ politicianData.abgeordnetenwatch_url +"' target='_blank'><i id='"+replaceUmlaute(party_nospace(politicianData.party.label))+"' class='fas fa-user fa-5x'></i></a></div>"+
+
+						"<div id='symbolsBar'><a href='"+ politicianData.abgeordnetenwatch_url +"' target='_blank'><i id='"+replaceUmlaute(party_nospace(politicianData.party.label))+"' class='fas fa-user fa-5x'></i><img id='ask' src='images/askQuestion.svg'></a></div>"+
 
 
 					"</div>",
@@ -482,7 +486,6 @@ var constituencySidebar = function(feature) {
 				id: 'constituencySidebarId',
 				tab: "<div class= 'constituencyTab'><b>"+ 'Wahlkreis' +'</b></div>',
 				pane: "<div class='constituencyInformation'>" +
-					"<br>" +
 					"<p><b>Wahlkreisnummer: </b>"+ constituencyContent.WKR_NR +"</p>" +
 					"<p><b>Anzahl Abgeordnete: </b>"+ metaData.result.total +"</p>" +
 					"<p><ul>" +
@@ -518,7 +521,7 @@ var clickStyle = {
 
 var lightHighlightStyle = {
 
-	fillColor: "rgb(180,180,180)",
+	fillColor: "rgb(90,90,90)",
 	fillOpacity: 1
 };
 
