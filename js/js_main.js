@@ -30,7 +30,7 @@ var myRenderer = L.canvas({padding: 1.5});
 //SIDEBAR SETUP
 var sidebar = L.control.sidebar({
 	autopan: true,       
-    closeButton: false,   
+    closeButton: true,   
     container: 'sidebar', 
     position: 'right',
 });
@@ -70,9 +70,10 @@ $.getJSON("shapes/constituencies_10weightedVivisogram.geojson", function(data) {
 	constituencies = L.geoJSON(data, { 
 		onEachFeature: 
 			function(feature, layer){
+				var name = feature.properties.WKR_NAME.replace(/["\u0096"]/g, "\u2012") //chrome does not show unicode character u0096 properly, replaces with supported dash like symbol
 				layer.bindTooltip(
  					'<div class="popup">' + 
-    				feature.properties.WKR_NAME + '<br>' + 
+    				name + '<br>' + 
     				'WK Nummer:' + feature.properties.WKR_NR + '</b>' + 
     				'</div>', constituencyLabelOptions
 				);
@@ -169,7 +170,7 @@ $.getJSON("shapes/counties_10weightedVivisogram.geojson", function(data) {
 
 });
 
-//map.on("contextmenu", onRightClick) //clicking anywhere will reset map
+map.on("contextmenu", onRightClick) //clicking anywhere will reset map
 
 
 //load data on politicians that cannot be queried from abgeordnetenwatch.de

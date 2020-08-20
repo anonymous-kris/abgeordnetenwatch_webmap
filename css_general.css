@@ -10,7 +10,7 @@
     border: none;
     box-shadow: none;
     margin: 0px;
-    font-family: Yu Gothic;
+    font-family: Yu Gothic, sans-serif;
 }
 
 .constituencyLabel {
@@ -29,7 +29,7 @@
     border: none;
     box-shadow: none;
     margin: 0px;
-    font-family: Yu Gothic;
+    font-family: Yu Gothic, sans-serif;
 }
 /*----------------*/
 
@@ -167,7 +167,7 @@
 
 #sidebarTitleText > a{
 	color: white;
-	font-family: Yu Gothic;
+	font-family: Yu Gothic, sans-serif;
 	font-weight: bold;
 }
 
@@ -327,13 +327,12 @@ p {
 	background-color: rgba(0,0,0, 0.4);
   position: absolute;
   z-index: 5;
-  height: calc(100% - 50px);
 }
 
 body {
     padding: 0;
     margin: 0;
-    font-family: Yu Gothic;
+    font-family: Yu Gothic, sans-serif;
   }
 html, body {
   height: 100%;
