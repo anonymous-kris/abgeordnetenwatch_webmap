@@ -23,7 +23,7 @@ var politicianData; //stores data on a requested politician
 var committeeData; //stores data on a specific committee (not in use currently)
 var noConstiuencyList = []; // stores information on which politicians have no constituency in the selected county
 
-var fitTitle
+var currentRequest
 
 
 
@@ -124,7 +124,10 @@ function zoomFit(feature, rightValue) {
 	map.flyToBounds(feature.getBounds(),{paddingBottomRight: [rightValue, 50], paddingTopLeft:[50,50], duration: 0.9, easeLinearity: .1})
 }
 
-
+function abortAJAX() {
+	currentRequest.abort();
+	console.log("Aborted!")
+}
 
 
 
@@ -137,6 +140,7 @@ function zoomFit(feature, rightValue) {
 //click on constituency
 //takes information on target feature
 var clickConstituency = function(feature) {
+	abortAJAX();
 	constituencies.resetStyle(); //reset old selection styles
 	var currentLayer = feature.target;
 	sidebarClear(previousPolitician); //clear sidebar of previous politicians
@@ -174,13 +178,17 @@ function resetConstituencyHover(feature) {
 //County event control
 //upon click, zoom on layer and hide it. store layer information in "previousCounty". next click will show previously hidden layer
 function focusCounty(feature) {
+	
 	if (previousCounty !== null) {
+		abortAJAX();
 		showLayer(previousCounty);
 		counties.resetStyle();
 	}
 	else {}
 	//remove existing politician tabs
 	sidebarClear(previousPolitician);
+	sidebarClear(previousCountyList);
+	sidebarClear(previousConstituencyList)
 
 	var currentLayer = feature.target;
 	var currentName = currentLayer.feature.properties.GEN;
@@ -294,7 +302,7 @@ var politicianSidebar = function(feature) {
 	sidebarClear(previousPolitician);
 
 	//request data for politicians in constituency
-	$.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?current_on=now&parliament_period=111&constituency_nr=" + feature.feature.properties.WKR_NR, function(data) {
+	currentRequest = $.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?current_on=now&parliament_period=111&constituency_nr=" + feature.feature.properties.WKR_NR, function(data) {
 	 	var data1 = data.data
 	  //itterate through each object
 	 	$.each(data1, function(key, value){
@@ -413,7 +421,7 @@ var countySidebar = function(feature) {
 var countyNoConstituency = function(list) {
 	$.each(list, function(key,value){
 		//get additional data from API
-		$.getJSON("https://www.abgeordnetenwatch.de/api/v2/politicians/" + noConstituencyPolitician[value].politician.id, function(data) {
+		currentRequest = $.getJSON("https://www.abgeordnetenwatch.de/api/v2/politicians/" + noConstituencyPolitician[value].politician.id, function(data) {
 			politicianData = data.data;
 
 			panelContentNoConstituency = {
@@ -457,7 +465,7 @@ var constituencySidebar = function(feature) {
 	sidebarClear(previousConstituencyList)
 
 		//get data on MPs from constituency
-		$.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?current_on=now&parliament_period=111&constituency_nr=" + feature.feature.properties.WKR_NR, function(data) {
+		currentRequest = $.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?current_on=now&parliament_period=111&constituency_nr=" + feature.feature.properties.WKR_NR, function(data) {
 			//get metadata for total amount of politicians
 			var metaData = data.meta
 			var data1 = data.data
