@@ -109,12 +109,11 @@
         .leaflet-sidebar-tabs > li.disabled > a, .leaflet-sidebar-tabs > ul > li.disabled > a {
           cursor: default; }
       .leaflet-sidebar-tabs > li > a, .leaflet-sidebar-tabs > ul > li > a {
-        display: block;
+        display: flex;
         width: 100%;
         height: 100%;
-        line-height: 60px;
         opacity: 0.8;
-
+        box-sizing: border-box;
         color: inherit;
         text-decoration: none;
         text-align: center;
@@ -198,6 +197,25 @@
   width: 100%;
 }
 
+.leaflet-sidebar-tabs > ul > li > a > div {
+  overflow: hidden;
+  display : flex;
+  align-items : center;
+  box-sizing: border-box;
+  height: 60px;
+  width: 100%;
+  position: absolute;
+}
+b.tab_text {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1.5;
+  width: 100%;
+  font-size: 12px;
+  overflow-wrap: break-word;
+}
+
+
 /*PARTY COLOURS*/
 div#SPD > .leaflet-sidebar-header, .SPD , #SPDLine {
 	background-color: #DF0B25;
@@ -205,11 +223,11 @@ div#SPD > .leaflet-sidebar-header, .SPD , #SPDLine {
 
 div#CDU > .leaflet-sidebar-header, .CDU , #CDULine {
 	background-color: rgba(50,50,50,1);
-	color: white
+	color: rgb(200,200,200);
 }
 div#CSU > .leaflet-sidebar-header, .CSU , #CSULine {
 	background-color: rgba(50,50,50,1);
-	color: white;
+	color: rgb(200,200,200);
 }
 div#FDP > .leaflet-sidebar-header, .FDP , #FDPLine {
 	background-color: #FEEB34;
@@ -234,9 +252,14 @@ div#Parteilos > .leaflet-sidebar-header, .Parteilos , #ParteilosLine {
 #sidebarTitleColor.Parteilos > #sidebarTitle > #sidebarTitleText > a {
 	color: black;
 }
-.leaflet-sidebar-tabs > li.active > .Parteilos, .leaflet-sidebar-tabs > ul > li.active > a > #Parteilos, #sidebarTitleColor.Parteilos > a, li.active >a > .Parteilos > .tab_text {
+.leaflet-sidebar-tabs > ul > li.active > .Parteilos, .leaflet-sidebar-tabs > ul > li.active > a > #Parteilos, #sidebarTitleColor.Parteilos > a, li.active >a > .Parteilos > .tab_text {
   color: black;
 }
+.leaflet-sidebar-tabs> ul > li.active > a > .CDU > b.tab_text, .leaflet-sidebar-tabs > ul > li.active > a > .CSU > b.tab_text{
+  color: white;
+}
+
+
 
 #sidebarTitleColor.FDP> #sidebarTitle > #sidebarTitleText > a  {
 	color: black;
@@ -247,6 +270,7 @@ div#Parteilos > .leaflet-sidebar-header, .Parteilos , #ParteilosLine {
   height: 100%;
   width: 100%;
   line-height: 60px;
+  align-items: center;
 }
 
 li.active > a > .attributionTab {
@@ -256,6 +280,7 @@ li.active > a > .attributionTab {
 }
 .fas, .fa {
   line-height: 60px;
+  width: 100%;
 }
 
 /*SPECIAL SETTINGS FOR COUNTY AND CONSTITUENCY TABS*/
@@ -269,8 +294,8 @@ li.active > a > .attributionTab {
 	opacity: 1;
 	animation: none;
 }
-.countyTab {
-	font-size: 14px;
+.countyTab > b.tab_text {
+	font-size: 16px;
 }
 
 
@@ -326,7 +351,7 @@ p {
   position: absolute;
   background-color: rgba(0,0,0,0.6);
   position: absolute;
-  z-index: 350;
+  z-index: 5;
 }
 
 .blocking {
@@ -397,6 +422,7 @@ hr {
   color: white;
   line-height: 1.5;
   width: 100%;
+  font-size: 20px
 }
 #headline {
     padding-left: 50px;
