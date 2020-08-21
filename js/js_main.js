@@ -7,6 +7,9 @@ var state;
 var levelCounter = 0; //tracks zoom level
 
 
+//adjust font size in header
+fitty('#headline', {minSize: 12, maxSize: 20, multiLine: true}) //fits text of constituency into sidebar
+
 
 //CREATE MAP 
 var map = L.map("map", {
@@ -198,7 +201,7 @@ $('#backdrop').on("click", function(){
 
 })
 
-fitty('#headline', {minSize: 12, maxSize: 20, multiLine: true}) //fits text of constituency into sidebar
+
 
 
 map.on("zoomend", function(event) {
