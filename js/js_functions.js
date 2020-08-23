@@ -184,6 +184,21 @@ function resetConstituencyHover(feature) {
 //COUNTIS
 //upon click, zoom on layer and hide it. store layer information in "previousCounty". next click will show previously hidden layer
 function focusCounty(feature) {
+
+
+	sideSpace = 50;
+	if(window.innerWidth < 1800) {sideSpace = 100};
+	if(window.innerWidth < 1500) {sideSpace = 200};
+	if(window.innerWidth < 1200) {sideSpace = 350};
+	if(window.innerWidth < 1050) {sideSpace = 400};
+	if(window.innerWidth < 900) {sideSpace = 450};
+	if(window.innerWidth < 600) {sideSpace = 50};
+	
+	console.log(sideSpace)
+
+
+
+
 	
 	if (previousCounty !== null) {
 		abortAJAX();
@@ -203,7 +218,7 @@ function focusCounty(feature) {
 	countySidebar(currentLayer)
 
 	hideLayer(currentName); //hide layer to show constituencies underneath
-	zoomFit(currentLayer,450); //zoom to layer, with space for sidebar
+	zoomFit(currentLayer, sideSpace); //zoom to layer, with space for sidebar
 	levelCounter = 1; //set logic counter to 1
 	previousCounty = currentName; //save information on clicked county
 };
