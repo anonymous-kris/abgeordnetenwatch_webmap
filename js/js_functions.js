@@ -150,8 +150,8 @@ var clickConstituency = function(feature) { //takes information on target featur
 	constituencies.resetStyle(); //reset old selection styles
 	var currentLayer = feature.target;
 	sidebarClear(previousPolitician); //clear sidebar of previous politicians
-	constituencySidebar(currentLayer); //clear sidebar of previous constituency
-	politicianSidebar(currentLayer); //add Sidebar for local politicians
+	constituencySidebar(currentLayer); //create sidebar for the constituency and its politicians
+
 	highlightConstituency(currentLayer); //highlight the clicked constituency
 }
 
@@ -322,7 +322,6 @@ var politicianSidebar = function(feature) {
 				//get information from politician entity
 				$.getJSON("https://www.abgeordnetenwatch.de/api/v2/politicians/" + value.politician.id, function(data) {
 					politicianData = data.data;
-					console.log(politicianData)
 
 
 
@@ -461,6 +460,11 @@ var countyNoConstituency = function(list) {
 
 //crate sidebar for the clicked constituency
 var constituencySidebar = function(feature) {
+
+
+	//create blocking element until the tab has been created to prevent user from breaking the website
+	createBlocking();
+
 	//gets data from constituency
 	var constituencyContent = feature.feature.properties
 	sidebarClear(previousConstituencyList)
@@ -471,7 +475,7 @@ var constituencySidebar = function(feature) {
 	sidebarClear(previousConstituencyList)
 
 		//get data on MPs from constituency
-		currentRequest = $.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?current_on=now&parliament_period=111&constituency_nr=" + feature.feature.properties.WKR_NR, function(data) {
+		$.getJSON("https://www.abgeordnetenwatch.de/api/v2/candidacies-mandates?current_on=now&parliament_period=111&constituency_nr=" + feature.feature.properties.WKR_NR, function(data) {
 			//get metadata for total amount of politicians
 			var metaData = data.meta
 			var data1 = data.data
@@ -504,6 +508,11 @@ var constituencySidebar = function(feature) {
 
 			//safe name of recent constituency
 			previousConstituencyList.push(panelContent.id)
+			$('.blocking').remove();
+
+			//crate the politician tabs that belong to the constituency
+			politicianSidebar(feature);
+
 	})
 
 	}
