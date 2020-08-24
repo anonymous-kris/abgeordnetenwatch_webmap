@@ -68,7 +68,7 @@ $.getJSON("shapes/state_line_simplified_ZhouJones_500.geojson", function(data) {
 //labeling options
 var constituencyLabelOptions = {className: 'constituencyLabel','permanent': false, 'interactive': false, 'opacity': 1 , direction: 'center'}
 
-$.getJSON("shapes/constituencies_10weightedVivisogram.geojson", function(data) {
+$.getJSON("shapes/constituencies-23-08-2020_improvedBoundaries_10weightedVivisogram.geojson", function(data) {
 	var party
 	constituencies = L.geoJSON(data, { 
 		onEachFeature: 
@@ -133,7 +133,7 @@ var labelOptionsBrandenburg = {className: 'labelstyle','permanent': true, 'inter
 //array, collecting the various layergroups. Needed to hide counties on click
 var mapLayerGroups = [];
 
-$.getJSON("shapes/counties_10weightedVivisogram.geojson", function(data) {
+$.getJSON("shapes/counties-23-08-2020_improvedBoundaries_10weightedVivisogram.geojson", function(data) {
 	 counties = L.geoJSON(data, {
 		onEachFeature: function(feature, layer){
 

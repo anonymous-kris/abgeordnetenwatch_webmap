@@ -43,14 +43,14 @@
 
 /*LEAFLET-SIDEBAR ALTERATIONS*/
 
-.leaflet-sidebar {
+/*.leaflet-sidebar {
   position: absolute;
-  top: 50px;
+  top: 10px;
   bottom: 0;
   width: 100%;
   overflow: hidden;
   z-index: 2000;
-  height: 540px; }
+  height: 540px; }*/
   .leaflet-sidebar.collapsed {
     width: 60px; }
 
