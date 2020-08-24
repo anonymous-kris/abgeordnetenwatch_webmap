@@ -120,11 +120,30 @@ var openSidebar = function() {
 
 
 // fly to target feature and fit boundaries (right value determines padding to the right)
-function zoomFit(feature, rightValue) {
+function zoomFit(feature) {
+	var sideSpace = sideSpacing();
 	createBlocking();
-	map.flyToBounds(feature.getBounds(),{paddingBottomRight: [rightValue, 50], paddingTopLeft:[50,50], duration: 0.9, easeLinearity: .1})
-
+	if(window.innerWidth < 600) {
+		map.flyToBounds(feature.getBounds(),{paddingBottomRight: [50, 10], paddingTopLeft:[50,400], duration: 0.9, easeLinearity: .1})
+	}
+	else {
+		map.flyToBounds(feature.getBounds(),{paddingBottomRight: [sideSpace, 50], paddingTopLeft:[50,50], duration: 0.9, easeLinearity: .1})
+	}
 }
+
+//function to determine padding value after zoom according to window size
+function sideSpacing() {
+	var sideSpace = 50;
+	if(window.innerWidth < 1900) {sideSpace = 150};
+	if(window.innerWidth < 1700) {sideSpace = 200};
+	if(window.innerWidth < 1550) {sideSpace = 300};
+	if(window.innerWidth < 1450) {sideSpace = 350};
+	if(window.innerWidth < 1200) {sideSpace = 400};
+	if(window.innerWidth < 900) {sideSpace = 450};
+	if(window.innerWidth < 600) {sideSpace = 50};
+	return sideSpace
+}
+
 
 function abortAJAX() {
 	currentRequest.abort();
@@ -185,21 +204,6 @@ function resetConstituencyHover(feature) {
 //upon click, zoom on layer and hide it. store layer information in "previousCounty". next click will show previously hidden layer
 function focusCounty(feature) {
 
-
-	sideSpace = 50;
-	if(window.innerWidth < 1800) {sideSpace = 100};
-	if(window.innerWidth < 1500) {sideSpace = 200};
-	if(window.innerWidth < 1200) {sideSpace = 350};
-	if(window.innerWidth < 1050) {sideSpace = 400};
-	if(window.innerWidth < 900) {sideSpace = 450};
-	if(window.innerWidth < 600) {sideSpace = 50};
-	
-	console.log(sideSpace)
-
-
-
-
-	
 	if (previousCounty !== null) {
 		abortAJAX();
 		showLayer(previousCounty);
@@ -218,10 +222,11 @@ function focusCounty(feature) {
 	countySidebar(currentLayer)
 
 	hideLayer(currentName); //hide layer to show constituencies underneath
-	zoomFit(currentLayer, sideSpace); //zoom to layer, with space for sidebar
+	zoomFit(currentLayer); //zoom to layer, with space for sidebar
 	levelCounter = 1; //set logic counter to 1
 	previousCounty = currentName; //save information on clicked county
 };
+
 
 //Highlighting counties on hover
 //strong highlighting if on logic levle 0, light highlighting if already on lvl 1
@@ -429,7 +434,10 @@ var countySidebar = function(feature) {
 	
 //	console.log(panelContent);
 	sidebar.addPanel(panelContent);
-	sidebar.open(panelContent.id)
+	//open unless screensize is too small
+	if(window.innerWidth > 600) {
+		sidebar.open(panelContent.id);
+	}
 	previousCountyList.push(panelContent.id)
 
 	//create noConstituencyPanels by giving above created list

@@ -1,25 +1,20 @@
 .leaflet-sidebar {
   position: absolute;
-  top: 0;
+  top: 0px;
   bottom: 0;
   width: 100%;
   overflow: hidden;
-  z-index: 2000; }
+  z-index: 2000;
+  height: 540px; }
   .leaflet-sidebar.collapsed {
     width: 60px; }
   @media (min-width: 600px) {
     .leaflet-sidebar {
       top: 10px;
-      bottom: 10px;
-      transition: width 500ms; } }
-  @media (min-width: 600px) and (max-width: 991px) {
-    .leaflet-sidebar {
-      width: 305px;
-      max-width: 305px; } }
-  @media (min-width: 600px) {
-    .leaflet-sidebar {
+      transition: width 500ms; 
       width: 390px;
-      max-width: 390px; } }
+      max-width: 390px;
+      height: 540px } }
 
 
 .leaflet-sidebar-left {
