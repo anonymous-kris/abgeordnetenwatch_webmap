@@ -113,15 +113,15 @@ function hideLayer(id) {
 	map.removeLayer(lg)
 }
 
+/* NOT NEEDED IN CURRENT VERSION
 //Function with timeout to ensure that zoom and sidebar open animation dont conflict (causes graphic bugs and map breaking)
 var openSidebar = function() {
 	setTimeout(sidebar.open('countySidebarId'), 3000)
-};
+};*/
 
 
 // fly to target feature and fit boundaries (right value determines padding to the right)
-function zoomFit(feature) {
-	var sideSpace = sideSpacing();
+function zoomFit(feature, sideSpace) {;
 	createBlocking();
 	if(window.innerWidth < 600) {
 		map.flyToBounds(feature.getBounds(),{paddingBottomRight: [50, 10], paddingTopLeft:[50,400], duration: 0.9, easeLinearity: .1})
@@ -200,7 +200,7 @@ function resetConstituencyHover(feature) {
 
 
 
-//COUNTIS
+//COUNTIES
 //upon click, zoom on layer and hide it. store layer information in "previousCounty". next click will show previously hidden layer
 function focusCounty(feature) {
 
@@ -208,8 +208,9 @@ function focusCounty(feature) {
 		abortAJAX();
 		showLayer(previousCounty);
 		counties.resetStyle();
+		constituencies.resetStyle();
 	}
-	else {}
+	else {sidebar.addTo(map)} //show sidebar again
 	//remove existing tabs
 	sidebarClear(previousPolitician);
 	sidebarClear(previousCountyList);
@@ -218,11 +219,11 @@ function focusCounty(feature) {
 	var currentLayer = feature.target;
 	var currentName = currentLayer.feature.properties.GEN;
 	
-	sidebar.addTo(map) //show sidebar again
-	countySidebar(currentLayer)
+
+	countySidebar(currentLayer) //create county sidebar
 
 	hideLayer(currentName); //hide layer to show constituencies underneath
-	zoomFit(currentLayer); //zoom to layer, with space for sidebar
+	zoomFit(currentLayer, sideSpacing()); //zoom to layer, with space for sidebar
 	levelCounter = 1; //set logic counter to 1
 	previousCounty = currentName; //save information on clicked county
 };
@@ -293,7 +294,7 @@ var sidebarClear = function(list) {
 //content for reset sidebar
 var resetSidebar = {
 	id: 'reset',       
-	tab: "<div class= 'attributionTab'><i class='fas fa-undo-alt fa-2x'></i></div>",
+	tab: "<div class= 'attributionTab'><i class='fas fa-home fa-2x'></i></div>",
 	button: function (event) {onRightClick()},
 	position: 'bottom'
 }
