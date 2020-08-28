@@ -1,4 +1,8 @@
-//FUNCTION THAT THE SCRIPT CALLS UPON
+//FUNCTION THAT THE SCRIPT CALLS UPON FOR ABGEORDNETENWATCH.DE | KARTENANSICHT
+//BY KRISTIAN KAESINGER
+
+
+//TABLE OF CONTENTS
 // 1. Global Variables
 // 2. General Functions
 // 3. Feature Event Listeners
@@ -310,7 +314,7 @@ var attributionSidebar = {
 			"<hr id ='line'>" +
 			"<p>Dies ist ein Projekt welches im Zusammenhang mit der Masterarbeit von Kristian Käsinger erstellt wurde. Bei Fragen und Anregungen melden Sie sich gerne per <a href='mailto:kristian.kaesinger@gmail.com'>Email</a> bei mir. </p>" +
 			"<p>Version 0.9.9</p>" +
-//			"<p>Diese Version ist eine Legacy Version, die nicht weiter entwickelt wird, damit sie mit der Dokumentation der dazugehörigen Masterarbeit übereinstimmt.<br>Eine neue Version können Sie später hier finden:<br>'_________________'</p>" +
+			"<p>Dies ist eine Legacy Version, welche zur Archivierung der dazugehörigen Masterarbeit existiert.<br>Die aktuelle Version finden <a href='http://maps-and-such.space'>www.maps-and-such.space</a>.</p>" +
 			"<div id='symbolsBar'>" +
 				"<a href='https://github.com/anonymous-kris/abgeordnetenwatch_webmap' target='_blank'><i id='gitHub' class='fab fa-github fa-5x'></i></a>"+
 				"<a href='https://twitter.com/kristiankaese' target='_blank'><i id='twitter' class='fab fa-twitter fa-5x'></i></a>"+
