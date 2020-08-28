@@ -31,7 +31,7 @@ var map = L.map("map", {
 	zoomSnap: 0, 
 	zoomDelta: 0.5, 
 	doubleClickZoom: false, 
-	minZoom: 6.5, 
+	minZoom: 5, 
 	maxZoom: 11, 
 //	keyboard: false,
 //	scrollWheelZoom: false,
