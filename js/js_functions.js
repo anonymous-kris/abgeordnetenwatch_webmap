@@ -309,19 +309,23 @@ var attributionSidebar = {
 	id: 'attribution',       
 	tab: "<div class= 'attributionTab' class=''><i class='fas fa-info-circle fa-2x'></i></div>",
 	pane: "<div class='attributionInformation'>" +
-			"<p>Die Daten zu allen Abgeordneten werden über <a href='www.abgeordnetenwatch.de'>abgeordnetenwatch.de's</a> web API abgerufen. </p>"  +
-			"<p>Die Geodaten wurden vom <a href='http://www.bkg.bund.de'>© GeoBasis-DE / BKG (2020) </a> und dem <a href='https://www.bundeswahlleiter.de/bundestagswahlen/2017/wahlkreiseinteilung/downloads.html'> © Der Bundeswahlleiter, Statistisches Bundesamt, Wiesbaden 2016 </a> bereitgestellt. </p>"+
+			"<p>Diese Karte ist im Zusammenhang mit der Masterarbeit von Kristian Käsinger erstellt worden. Bei Fragen und Anregungen melden Sie sich gerne per <a href='mailto:kristian.kaesinger@gmail.com'>Email</a> bei mir. </p>" +
+			"<p>Version 0.9.10</p>" +
+			"<p>Dies ist eine Legacy Version, welche nicht weiterentwickelt wird.<br>Die aktuelle Version finden Sie unter <a href='http://maps-and-such.space'>www.maps-and-such.space</a>.</p>" +
 			"<hr id ='line'>" +
-			"<p>Dies ist ein Projekt welches im Zusammenhang mit der Masterarbeit von Kristian Käsinger erstellt wurde. Bei Fragen und Anregungen melden Sie sich gerne per <a href='mailto:kristian.kaesinger@gmail.com'>Email</a> bei mir. </p>" +
-			"<p>Version 0.9.9</p>" +
-			"<p>Dies ist eine Legacy Version, welche zur Archivierung der dazugehörigen Masterarbeit existiert.<br>Die aktuelle Version finden <a href='http://maps-and-such.space'>www.maps-and-such.space</a>.</p>" +
-			"<div id='symbolsBar'>" +
-				"<a href='https://github.com/anonymous-kris/abgeordnetenwatch_webmap' target='_blank'><i id='gitHub' class='fab fa-github fa-5x'></i></a>"+
-				"<a href='https://twitter.com/kristiankaese' target='_blank'><i id='twitter' class='fab fa-twitter fa-5x'></i></a>"+
-				
+			"<p>Die Daten zu allen Abgeordneten werden über <a href='www.abgeordnetenwatch.de'>abgeordnetenwatch.de's</a> web API abgerufen. </p>"  +
+			"<p>Die Geodaten wurden vom <a href='http://www.bkg.bund.de'>© GeoBasis-DE / BKG (2020) </a> und dem" + 
+			"<a href='https://www.bundeswahlleiter.de/bundestagswahlen/2017/wahlkreiseinteilung/downloads.html'> © Bundeswahlleiter</a> bereitgestellt.<br>"+
+			"<i style='color:grey; font-size: 9px;'>(Statistisches Bundesamt, Wiesbaden 2016,<br>" +
+			"Wahlkreiskarte für die Wahl zum 19. Deutschen Bundestag Grundlage der Geoinformationen © Geobasis-DE / BKG (2016))</i></p>"+
 			"</div>" +
-
-		"</div>",
+		"<div id='symbolsBar'>" +
+			"<a href='https://github.com/anonymous-kris/abgeordnetenwatch_webmap' target='_blank'><i id='gitHub' class='fab fa-github fa-5x'></i></a>"+
+			"<a href='https://twitter.com/kristiankaese' target='_blank'><i id='twitter' class='fab fa-twitter fa-5x'></i></a>"+
+			"<a href='https://abgeordnetenwatch.de' target='_blank'><img id='logo' src='images/logo_RGB/Bildmarke/aw_logo_2017_bildmarke_klein.png'></a>" +
+			
+		"</div>"
+		,
 	title: '<div id="sidebarTitleColor"><div id="sidebarTitle"><div id=sidebarTitleText>Datenquellen</div></div></div>',
 	position: 'bottom'
 }
