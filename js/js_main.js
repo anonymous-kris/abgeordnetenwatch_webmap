@@ -71,21 +71,17 @@ sidebar.remove();
 //GEOGRAPHIC DATA
 
 //ADDING COUNTRY BORDER TO MAP
-$.getJSON("shapes/state_line_simplified_ZhouJones_500.geojson", function(data) {
+$.getJSON("shapes/countryLine-15-08-2020_15weightedVivisogram.geojson", function(data) {
 	state = L.geoJSON(data, {    
-
-
 
 		style: {
 	        color: "black", 
 	        weight: 3, 
-	        fillColor: "", 
-	        fillOpacity: 0
+
 	    },
 	    renderer: myRenderer,
 	    })
 	state.addTo(map).bringToBack();
-
 });  
 
 
@@ -94,7 +90,6 @@ $.getJSON("shapes/state_line_simplified_ZhouJones_500.geojson", function(data) {
 var constituencyLabelOptions = {className: 'constituencyLabel','permanent': false, 'interactive': false, 'opacity': 1 , direction: 'center'}
 
 $.getJSON("shapes/constituencies-23-08-2020_improvedBoundaries_15weightedVivisogram.geojson", function(data) {
-	var party
 	constituencies = L.geoJSON(data, { 
 		onEachFeature: 
 			function(feature, layer){
@@ -153,10 +148,12 @@ $.getJSON("shapes/Landeshauptsadte.geojson", function(data) {
 //ADDING COUNTIES TO THE MAP
 $.getJSON("shapes/counties-23-08-2020_improvedBoundaries_15weightedVivisogram.geojson", function(data) {
 
-	//Labeloptions for counties
-	var labelOptions = {className: 'labelstyle','permanent': true, 'interactive': true, 'opacity': 1 , direction: 'center'} //, 
-	//Brandenburg specific offset, prevent overlap between Berlin and Brandenburg counties
-	var labelOptionsBrandenburg = {className: 'labelstyle','permanent': true, 'interactive': true, 'opacity': 1 , direction: 'center', offset: [25,45]}
+//Labeloptions for counties
+	var labelOptions = {className: 'labelstyle','permanent': true, 
+		'interactive': true, 'opacity': 1 , direction: 'center'} //, 
+//Brandenburg specific offset, prevent overlap between Berlin and Brandenburg counties
+	var labelOptionsBrandenburg = {className: 'labelstyle','permanent': true, 
+		'interactive': true, 'opacity': 1 , direction: 'center', offset: [25,45]}
 
 	counties = L.geoJSON(data, {
 		onEachFeature: function(feature, layer){
