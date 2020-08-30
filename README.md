@@ -1,15 +1,10 @@
-# Masters_project
-Web Map to visualise abgeordnetenwatch.de data
+# Abgeordnetenwatch_webmap
+Abgeordnetenwatch_webmap is the repository that contains the work created in the context of Kristian Kaesinger's Master's project at the University of Glasgow. 
 
+This is a legacy version, that is not being actively developed to archive the work as it was at the time of submission.
+However, the map is still being developed further under https://github.com/anonymous-kris/abgeordnetenwatch_mapview.
 
-Known bugs:
+This legacy version is hosted under the following URL: https://anonymous-kris.github.io/abgeordnetenwatch_webmap/index.html
+The current version can be found on www.maps-and-such.space
 
--Fast clicking will cause MPs from multiple constituencies to show
-
-coming features:
-
--Filter for Parties
-
--show sidejobs
-
--Search function
+For more up-to-date information, please refer to the current version.
