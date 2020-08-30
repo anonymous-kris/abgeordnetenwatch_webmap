@@ -210,7 +210,6 @@ function focusCounty(feature) {
 	if (previousCounty !== null) {
 		abortAJAX();
 		showLayer(previousCounty);
-		counties.resetStyle();
 		constituencies.resetStyle();
 	}
 	else {sidebar.addTo(map)} //show sidebar again
@@ -218,6 +217,8 @@ function focusCounty(feature) {
 	sidebarClear(previousPolitician);
 	sidebarClear(previousCountyList);
 	sidebarClear(previousConstituencyList)
+
+	counties.resetStyle();
 
 	var currentLayer = feature.target;
 	var currentName = currentLayer.feature.properties.GEN;
@@ -305,7 +306,7 @@ var attributionSidebar = {
 	tab: "<div class= 'attributionTab' class=''><i class='fas fa-info-circle fa-2x'></i></div>",
 	pane: "<div class='attributionInformation'>" +
 			"<p>Diese Karte ist im Zusammenhang mit der Masterarbeit von Kristian Käsinger erstellt worden. Bei Fragen und Anregungen melden Sie sich gerne per <a href='mailto:kristian.kaesinger@gmail.com'>Email</a> bei mir. </p>" +
-			"<p>Version 1.0</p>" +
+			"<p>Version 0.1.0</p>" +
 			"<p>Dies ist eine Legacy Version, welche nicht weiterentwickelt wird.<br>Die aktuelle Version finden Sie unter <a href='http://maps-and-such.space'>www.maps-and-such.space</a>.</p>" +
 			"<hr id ='line'>" +
 			"<p>Die Daten zu allen Abgeordneten werden über <a href='www.abgeordnetenwatch.de'>abgeordnetenwatch.de's</a> web API abgerufen. </p>"  +
