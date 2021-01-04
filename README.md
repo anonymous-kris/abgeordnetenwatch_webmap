@@ -11,3 +11,6 @@ The current version can be found on www.maps-and-such.space
 For more up-to-date information, please refer to the current version.
 
 published under the MIT license.
+
+Demo:
+![](demo.gif)
